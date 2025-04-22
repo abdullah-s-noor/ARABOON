@@ -19,6 +19,6 @@ No pre-made templates, like BootStrap, were utilised.
 		email: darxx03eh@mail.ru
 		pass: Darawsheh
 The project can be run with xampp.
-To exchange information about the initiative on Facebook
-	Abdullah noor: https://www.facebook.com/profile.php?id=100012508817874
-	Mahmoud Darawsheh: https://www.facebook.com/Darxx03eh
+To exchange information about the initiative on LinkedIn
+	Abdullah noor: https://www.linkedin.com/in/abdullah-s-noor
+	Mahmoud Darawsheh: https://www.linkedin.com/in/mahmoud-darawsheh
