@@ -1,0 +1,199 @@
+:root {
+    --main-color1: #212529;
+    --main-colorv2: #0ef;
+    --main-colorv3: #E4334C;
+    --primary-color: #E4334C;
+    --bg-dark: #101010;
+    --text-light: #ffffff;
+
+}
+.glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--main-color1);
+    color: #fff;
+}
+.header1 {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header1 h1 {
+    margin: 0;
+    font-size: 24px;
+
+}
+.header1 .logo {
+    display: flex;
+    align-items: center;
+}
+.header1 .logo i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+nav {
+    background-color: var(--main-colorv3);
+    padding: 15px;
+    display: flex;
+    justify-content: end;
+}
+.header1 .LSU ul,
+nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.header1 .LSU ul li,
+nav ul li {
+    margin: 0 10px;
+}
+.header1 .LSU ul li a,
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+main {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    gap: 10px;
+    width: 70%;
+    animation: fadeIn 0.5s ease-in;
+}
+section {
+    width: 60%;
+    padding: 15px;
+    height: 100vh;
+
+}
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--primary-color);
+}
+h2 {
+    color: var(--text-light);
+    text-align: center;
+    font-size: 2rem;
+    margin: 0 0 2rem 0;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+.update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-input {
+    padding: 0.75rem 1rem;
+    border-radius: 25px;
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 200px;
+}
+.form-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #ff4757;
+    box-shadow: 0 0 0 2px rgba(228, 51, 76, 0.2);
+}
+.input-label {
+    display: inline-block;
+    margin-left: 8px;
+    color: var(--text-light);
+}
+.section-title {
+    font-size: 1.2rem;
+    margin: 20px 0 15px 0;
+    color: var(--text-light);
+}
+.file-input-container {
+    margin-top: 10px;
+}
+.file-input-button {
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-dark);
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+.file-input-button:hover {
+    background-color: var(--primary-color);
+}
+.add-button {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    width: 100px;
+}
+.add-button:hover {
+    background-color: #ff4757;
+    transform: translateY(-2px);
+}
+.file-name {
+    display: inline-block;
+    margin-left: 8px;
+    color: var(--text-light);
+}
+#submit-btn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+footer {
+    background-color: var(--main-color1);
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #101010;
+}
+.icon-footer a {
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+}

@@ -1,0 +1,186 @@
+:root {
+    --main-color: #1f293a;
+    --main-colorv2: #E4334C;
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "poppins";
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    min-height: 100vh;
+}
+.container {
+    position: relative;
+    width: 256px;
+    height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.signup-box {
+    position: absolute;
+    width: 400px;
+}
+.signup-box form {
+    position: relative;
+    width: 100%;
+    padding: 0 50px;
+}
+h2 {
+    font-size: 2em;
+    color: var(--main-colorv2);
+    text-align: center;
+}
+.input-box {
+    position: relative;
+    margin: 25px 0;
+}
+.input-box input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid var(--main-color);
+    outline: none;
+    border-radius: 40px;
+    font-size: 1em;
+    color: #fff;
+    padding: 0 20px;
+    transition: 0.5s;
+}
+.input-box input:focus,
+.input-box input:valid {
+    border-color: var(--main-colorv2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+}
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.5s ease;
+}
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: 1px;
+    font-size: 0.8em;
+    background-color: var(--main-color);
+    padding: 0 6px;
+    color: var(--main-colorv2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+.terms-privacy {
+    display: block;
+    margin: -15px auto 10px;
+    text-align: center;
+}
+.terms-privacy a {
+    font-size: 0.85em;
+    color: var(--main-colorv2);
+    text-decoration: none;
+}
+.terms-privacy a:hover {
+    text-decoration: underline;
+}
+.terms-privacy span {
+    font-size: 0.85em;
+    color: #fff;
+    text-decoration: none;
+}
+.btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 45px;
+    background: var(--main-colorv2);
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: var(--main-color);
+    font-weight: 600;
+}
+.login-link {
+    margin: 20px 0 10px;
+    text-align: center;
+}
+.login-link a {
+    font-size: 1em;
+    color: var(--main-colorv2);
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-link a:hover {
+    text-decoration: underline;
+}
+.glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+input[type="checkbox"] {
+    position: relative;
+    cursor: pointer;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 0.25rem;
+    border-color: transparent;
+}
+input[type="checkbox"]:checked {
+    border-color: var(--main-colorv2);
+}
+input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 0.5px;
+    left: 3.2px;
+    width: 5px;
+    height: 8px;
+    border: solid 2px transparent;
+    border-left: none;
+    border-top: none;
+    transform: rotate(45deg) scale(1.006);
+}
+input[type="checkbox"]:checked::before {
+    border-color: var(--main-colorv2);
+    transition: 0.2s ease;
+}
+.file-box input[type="file"] {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid var(--main-color);
+    outline: none;
+    border-radius: 40px;
+    font-size: 1em;
+    color: #fff;
+    padding: 10px 20px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.file-box input[type="file"]::file-selector-button {
+    background: var(--main-colorv2);
+    color: var(--main-color);
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.file-box input[type="file"]::file-selector-button:hover {
+    background: #0c9;
+}

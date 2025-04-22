@@ -1,0 +1,70 @@
+form {
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #ff3366;
+    max-width: 600px;
+    margin: 20px auto;
+}
+form::before {
+    content: "select Manga";
+    display: block;
+    background-color: #ff3366;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+label {
+    display: block;
+    color: white;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+.inpData {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: transparent;
+    border: 2px solid #ff3366;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+.inpData:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+#submit-btn {
+    background-color: #808080;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+#submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+#submit-btn:not(:disabled) {
+    background-color: #E4334C;
+}
+
+datalist {
+    background-color: #1a1a1a;
+    color: white;
+}
+.inpData::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    font-weight: bold;
+}
+.inpData:focus {
+    border-color: #ff4d7d;
+    box-shadow: 0 0 0 2px rgba(255, 51, 102, 0.2);
+}
