@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import AdminLayout from "./AdminLayout.jsx";
-import UserLayout from "./UserLayout.jsx";
-import UserHomePage from "../userDashboard/home/Home.jsx";
-import AdminHomePage from "../adminDashboard/home/Home.jsx";
-import MangaInformation from "../userDashboard/mangaInformation/MangaInformation.jsx";
+import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
+import UserLayout from "../components/layouts/user/UserLayout.jsx";
+import UserHomePage from "../pages/user/Home.jsx";
+import AdminHomePage from "../pages/admin/Home.jsx";
+import MangaInformation from "../pages/user/MangaInformation.jsx";
 export const router = createBrowserRouter([
     {
         path: "/",

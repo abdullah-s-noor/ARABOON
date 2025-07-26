@@ -1,0 +1,82 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+export default function useFavorites(userId) {
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // جلب المفضلات من السيرفر عند تحميل الـ hook
+  useEffect(() => {
+    if (!userId) return;
+
+    setLoading(true);
+    axios.get(`/api/users/${userId}/favorites`)
+      .then(res => {
+        setFavorites(res.data); // نفترض ال API يرجع مصفوفة IDs
+        setLoading(false);
+      })
+      .catch(() => {
+        setFavorites([]);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  // إضافة/إزالة من المفضلات على السيرفر
+  const toggleFavorite = async (propertyId) => {
+    try {
+      const isFav = favorites.includes(propertyId);
+
+      if (isFav) {
+        // حذف من المفضلة
+        await axios.delete(`/api/users/${userId}/favorites/${propertyId}`);
+        setFavorites(prev => prev.filter(id => id !== propertyId));
+      } else {
+        // إضافة للمفضلة
+        await axios.post(`/api/users/${userId}/favorites`, { propertyId });
+        setFavorites(prev => [...prev, propertyId]);
+      }
+    } catch (error) {
+      console.error('حدث خطأ أثناء تحديث المفضلات', error);
+    }
+  };
+
+  const isFavorite = (propertyId) => favorites.includes(propertyId);
+
+  return {
+    favorites,
+    toggleFavorite,
+    isFavorite,
+    loading,
+  };
+}
+
+
+
+
+
+
+
+
+
+function PropertyItem({ id, title, userId }) {
+  const { favorites, toggleFavorite, isFavorite, loading } = useFavorites(userId);
+
+  if (loading) return <p>جارٍ التحميل...</p>;
+
+  return (
+    <div>
+      <h3>{title}</h3>
+      <button onClick={() => toggleFavorite(id)}>
+        {isFavorite(id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
+      </button>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+

@@ -2,8 +2,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import PromoBannerSwiper from "../promoBannerSwiper/PromoBannerSwiper ";
-import MediaCardSwiper from "../mediaCardSwiper/MediaCardSwiper";
+import PromoBannerSwiper from "../../components/user/promoBannerSwiper/PromoBannerSwiper ";
+import MediaCardSwiper from "../../components/user/mediaCardSwiper/MediaCardSwiper";
 import { Visibility } from "@mui/icons-material";
 
 const Home = () => {

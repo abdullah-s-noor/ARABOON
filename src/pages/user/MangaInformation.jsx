@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import ChapterList from './chapterList/ChapterList'
-import MangaHeader from './mangaHeader/MangaHeader'
+import ChapterList from '../../components/user/mangaInformation/ChapterList'
+import MangaHeader from '../../components/user/mangaInformation/MangaHeader'
 function MangaInformation() {
     return (
         <Box

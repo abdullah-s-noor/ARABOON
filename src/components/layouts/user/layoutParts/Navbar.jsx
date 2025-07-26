@@ -10,7 +10,7 @@ import Sidebar from "./Sidebar";
 import { AccountCircle, Brightness7, PersonAdd } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import style from "./style";
-import SelectLanguage from "../../common/SelectLanguage";
+import SelectLanguage from "../../../common/SelectLanguage";
 export default function Navbar() {
 
   const { i18n, t } = useTranslation();
@@ -88,7 +88,7 @@ export default function Navbar() {
             ))}
           </Box>)
           :
-          (<Box sx={{ display: "flex", alignItems: "center" ,position: 'relative'}}>
+          (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
             <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
             <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
           </Box>)
