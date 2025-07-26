@@ -1,0 +1,70 @@
+.media-card-swiper {
+  width: 100%;
+  position: relative;
+  
+
+}
+.media-card-swiper .swiper-slide:hover {
+  background: #666;
+  cursor: pointer;
+}
+
+.media-card-swiper .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.media-card-swiper .swiper-button-prev,
+.media-card-swiper .swiper-button-next {
+  color: #fff;
+  width: 50px;
+  height: 100%;
+  position: absolute;
+  top: 22px;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+/* Positioning for prev and next */
+.media-card-swiper .swiper-button-prev {
+  left: 0;
+}
+.media-card-swiper .swiper-button-next {
+  right: 0;
+}
+
+html[dir='rtl'] .media-card-swiper .swiper-button-prev {
+  right: 0;
+  left: auto;
+}
+
+html[dir='rtl'] .media-card-swiper .swiper-button-next {
+  left: 0;
+  right: auto;
+}
+
+/* Show only on hover */
+.media-card-swiper:hover .swiper-button-prev,
+.media-card-swiper:hover .swiper-button-next {
+  opacity: 1;
+  visibility: visible;
+}
+
+.media-card-swiper .swiper-button-disabled {
+  opacity: 1 !important;
+  visibility: hidden !important;
+  pointer-events: auto !important;
+}
+
+.media-card-swiper .swiper-button-disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
