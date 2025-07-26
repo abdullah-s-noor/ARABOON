@@ -4,7 +4,7 @@ import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon,
 import { Menu, Home, Leaderboard, MenuBook, Favorite, Info, Login, PersonAdd, Logout, Brightness7 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import style from './style';
-import SelectLanguage from '../../common/SelectLanguage';
+import SelectLanguage from '../../../common/SelectLanguage';
 function Sidebar({ language, setLanguage }) {
     const [open, setOpen] = useState(false);
     const { i18n, t } = useTranslation();

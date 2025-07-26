@@ -59,8 +59,6 @@ function MangaHeader() {
 
                     }}
                 /> */}
-
-
                 {/* manga discreption */}
                 <Box
                     component={'div'}

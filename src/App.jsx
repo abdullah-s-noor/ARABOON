@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router-dom";
-import { router } from "./component/layouts/router.jsx";
+import { router } from "./routes/router.jsx";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
