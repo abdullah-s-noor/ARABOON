@@ -5,18 +5,10 @@ import 'swiper/css/pagination';
 import { Box } from '@mui/material';
 import './style.css';
 import { useTranslation } from 'react-i18next';
-import { isMobile, isTablet } from 'react-device-detect'
-import { useEffect, useState } from 'react';
+import useIsPhone from '../../../hooks/useIsPhone';
 
 const PromoBannerSwiper = () => {
-  const [isPhone, setIsphone] = useState(false);
-
-  useEffect(() => {
-    const handlePhoneLayout = () => {
-      setIsphone(isMobile || isTablet)
-    }
-    handlePhoneLayout()
-  }, [])
+  const isPhone=useIsPhone()
   const { i18n } = useTranslation();
   const banners = [1, 2, 3, 4, 5];
   const imageStyle = {

@@ -6,7 +6,7 @@ function SelectLanguage({ language, setLanguage }) {
     const { i18n } = useTranslation();
     const style = {
         language: {
-            backgroundColor: "#b71c1c",
+            backgroundColor: "primary.main",
             color: "#fff",
             fontWeight: 600,
             fontSize: 13,

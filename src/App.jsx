@@ -1,31 +1,15 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router.jsx";
 import { ToastContainer } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, CssBaseline } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+import Theme from "./services/theme.js";
+import { ThemeModeContext } from "./context/darkMode.jsx";
 function App() {
-  const [themeMode, setThemeMode] = useState(false);
-  const theme = createTheme({
-    palette: {
-      mode: themeMode ? "dark" : "light",
-      primary: {
-        main: themeMode ? "#ffffff" : "#000000",
-      },
-      secondary: {
-        main: "#ffffff",
-      },
-      background: {
-        default: themeMode ? "#000000" : "#ffffff",
-        paper: "#ffffff",
-      }
-    },
-  });
-  const handleThemeMode = () => {
-    setThemeMode(!themeMode);
-  };
+  const {darkMode,toggleDarkMode}=useContext(ThemeModeContext);
   const { i18n } = useTranslation();
   const lng = Cookies.get("i18next") || "en";
   useEffect(() => {
@@ -34,7 +18,7 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={Theme(darkMode)}>
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -45,13 +29,16 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme={themeMode ? "dark" : "light"}
+          theme={darkMode ? "dark" : "light"}
         />
         <CssBaseline />
         <RouterProvider router={router} />
-        {/* <Button onClick={handleThemeMode} color="primary" variant="contained">
-          {themeMode ? "change to Light Mode" : "change to Dark Mode"}
-        </Button> */}
+       <div style={{ padding: '2rem' }}>
+        <Button onClick={toggleDarkMode} color="primary" variant="contained">
+          {darkMode ? 'Change to Light Mode' : 'Change to Dark Mode'}
+        </Button>
+        {/* Rest of your app components */}
+      </div>
       </ThemeProvider>
     </>
   );

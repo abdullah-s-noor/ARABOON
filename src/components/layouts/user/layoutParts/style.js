@@ -1,13 +1,12 @@
-import { yellow } from "@mui/material/colors";
-
-const style = {
-    appBar: { 
+const style = (theme, isPhone) => ({
+    appBar: {
         //put background image here and make the navbar transparent
         backgroundImage: "url('/image/bgimage/4.gif')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#111", borderTop: "6px solid #b71c1c", boxShadow: "none", },
+        backgroundColor: "#111", borderTop: `6px solid ${theme.palette.primary.main}`, boxShadow: "none",
+    },
     toolbar: { justifyContent: "space-between", px: 3, position: "relative" },
     yellowBar: {
         position: "absolute",
@@ -26,24 +25,13 @@ const style = {
         color: "#eee",
         px: 1.5,
         transition: "color 0.4s",
-        "&:hover": { color: "#ffd600" },
+        ...(isPhone ? {
+            "&:active": { color: "#ffd600" },
+        } : {
+            "&:hover": { color: "#ffd600" },
+        }),
     },
-    language: {
-        backgroundColor: "#b71c1c",
-        color: "#fff",
-        fontWeight: 600,
-        fontSize: 13,
-        height: 33,
-        minWidth: 70,
-        borderRadius: "20px",
-        ".MuiSelect-icon": { color: "#fff" },
-        ".MuiOutlinedInput-notchedOutline": {
-            border: "none",
-        },
-        "&:hover .MuiOutlinedInput-notchedOutline": {
-            border: "none",
-        },
-    },
+
     menuIcons: {
         width: 33,
         height: 33,
@@ -53,13 +41,21 @@ const style = {
         borderRadius: "50%",
         backgroundColor: "#222",
         cursor: "pointer",
-        "&:hover": {
-            backgroundColor: "#333",
-        },
+        ...(isPhone ? {
+            "&:active": {
+                backgroundColor: "#333",
+            },
+        } : {
+            "&:hover": {
+                backgroundColor: "#333",
+            },
+        })
     },
     sidebar: {
         width: 240,
-        background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(183, 28, 28, 0.85))",
+        background: theme.palette.mode === 'dark' ? "linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(183, 28, 28, 0.85))"
+            : "linear-gradient(to bottom,rgba(12, 112, 222, 0.85), rgba(12, 112, 222, 0.85))"
+        ,
         height: "100vh",
     },
     sidebarP1: {
@@ -69,8 +65,8 @@ const style = {
         px: 2,
         py: 1,
     },
-    sidebarP2:{
-        
+    sidebarP2: {
+
     }
-};
+});
 export default style;
