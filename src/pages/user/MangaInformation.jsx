@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import ChapterList from '../../components/user/mangaInformation/ChapterList'
 import MangaHeader from '../../components/user/mangaInformation/MangaHeader'
+import MangaActionSidebar from '../../components/user/mangaInformation/MangaActionSidebar'
 function MangaInformation() {
     return (
         <Box
@@ -9,8 +10,7 @@ function MangaInformation() {
                 width: '100%',
                 height: '2000px',
                 pt: { xs: 5, sm: 10 },
-                bgcolor: '#191919',
-                color: 'white'
+                bgcolor: 'secondary.main',
             }}>
             <Box
                 component={'div'}
@@ -20,7 +20,20 @@ function MangaInformation() {
                 {/* manga info */}
                 <MangaHeader />
                 {/* chapters list */}
-                <ChapterList />
+                <Box
+                    sx={{
+                        marginTop:'40px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                     '@media (max-width:750px)': {
+                            flexDirection:'column-reverse',
+                            flexWrap:'wrap',
+                            gap:3
+                        },
+                    }}>
+                    <ChapterList />
+                    <MangaActionSidebar />
+                </Box>
 
             </Box>
         </Box >

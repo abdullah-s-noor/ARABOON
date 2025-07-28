@@ -1,148 +1,78 @@
-import { Star } from '@mui/icons-material';
-import { Box, Divider, Rating, Typography } from '@mui/material'
+import { Brightness1, Star } from '@mui/icons-material';
+import { Box, Button, Divider, Rating, Typography, useTheme } from '@mui/material'
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next'
-
+import styles from './style'
 function MangaHeader() {
     const { i18n } = useTranslation();
+    const theme = useTheme()
     const [value, setValue] = useState(2)
+    const style = styles(theme, i18n)
+    const InfoItem = ({ text }) => (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: .1 }}>
+            <Brightness1 sx={{ color: 'primary.main', fontSize: 18 }} />
+            <Typography variant="body2">{text}</Typography>
+        </Box>
+    );
     return (
         <>
-            <Box
-                sx={{
-                    mb: 2,
-                    display: 'flex',
-                    '@media (max-width:750px)': {//the tablet upper than 750px that mean this for phone
-                        flexDirection: 'column'
-                    },
-                    gap: 5,
-                    position: 'relative'
-                }}
-            >
+            <Box sx={style.container}>
                 {/* Manga image */}
                 <Box
                     component={'img'}
                     src='/image/mediaCard/1.jpg'
                     alt='mediaCard'
-                    sx={{
-                        display: 'block',
-                        maxWidth: { xs: 290, sm: 300 },
-                        margin: 'auto'
-                    }}
+                    sx={style.mangaImage}
                 />
-                {/* <Box
-                    sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 230,
-                        width: 0,
-                        height: 0,
-                        borderRight: '70px solid white',
-                        borderBottom: '70px solid transparent',
-
-                    }}
-                />
-                
-                <Rating
-                    name="read-only"
-                    value={value}
-                    readOnly
-                    size="large"
-                    emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
-
-                    sx={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        p: '4px 8px',
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // خلفية سوداء شفافة
-
-                    }}
-                /> */}
-                {/* manga discreption */}
+                {/* info section */}
                 <Box
                     component={'div'}
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: { xs: 2, md: 4 }
-                    }}
+                    sx={style.infoSection}
                 >
-                    {/* Name of Manga and Author */}
+                    {/* Name of Manga and Author and rating and favorite */}
                     <Box component={'div'}
-                        sx={{
-                            background: i18n.language === "en" ? 'linear-gradient(90deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(270deg, rgba(0,0,0,0.5), rgba(220,9,20,0))',
-                            padding: '20px 20px'
-                        }}
+                        sx={style.headerBar}
                     >
-                        <Typography
-                            sx={{
-                                fontFamily: '"Open Sans",sans-serif,Cairo',
-                                color: '#eee',
-                                fontSize: { xs: '25px', md: '28px' },
-                                fontWeight: 'bold',
-
-                            }}
-                        >
-                            The Creepy and Freaky
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontSize: '14px',
-                                color: '#bebebe',
-                                fontFamily: '"Roboto", sans-serif',
-                                fontOpticalSizing: 'auto',
-                                fontWeight: 400,
-                                textTransform: 'uppercase',
-
-                            }}
-                        >
-                            Masashi Kishimoto / Mikio Ikemoto
-                        </Typography>
+                        <Box sx={{ p: 0, m: 0 }}>
+                            <Typography sx={style.title}>
+                                The Creepy and Freaky
+                            </Typography>
+                            <Typography sx={style.subtitle}>
+                                Masashi Kishimoto / Mikio Ikemoto
+                            </Typography>
+                        </Box>
+                        <Rating
+                            name="read-only"
+                            value={value}
+                            readOnly
+                            size="large"
+                            emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
+                        />
                     </Box>
                     {/* info list about manga */}
                     <Box
                         component={'div'}
-                        sx={{
-                            display: 'flex',
-                            gap: 5,
-                            color: '#bebebe'
-                        }}
+                        sx={style.infoGrid}
                     >
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <Typography>🔴Category: Drama, Fantasy, Action</Typography>
-                            <Typography>🔴Status: Ongoing</Typography>
-                            <Typography>🔴Type: Manga</Typography>
+
+                            <InfoItem text="Category: Drama, Fantasy, Action" />
+                            <InfoItem text="Status: Ongoing" />
+                            <InfoItem text="Type: Manga" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <Typography>🔴Published on: July 16, 2025</Typography>
-                            <Typography>🔴Updated on: July 16, 2025</Typography>
+                            <InfoItem text="Published on: July 16, 2025" />
+                            <InfoItem text="Updated on: July 16, 2025" />
                         </Box>
                     </Box>
                     {/* Summary of Manga */}
-                    <Box component={'div'}
-                        sx={{
-                            color: '#eee',
-                        }}
+                    <Box component={'div'} sx={{ color: 'text.primary', }}
                     >
-                        <Typography
-                            sx={{
-                                fontFamily: '"Roboto", sans-serif',
-                                fontSize: '20px',
-                                fontWeight: 'bold',
-
-                            }}
-                        >
+                        <Typography sx={style.descriptionTitle}>
                             DESCRIPTION
                         </Typography>
-                        <Divider sx={{ textAlign: 'center', my: { xs: 1, md: 2 }, borderColor: '#bebebe', width: '100%' }} />
-                        <Typography
-                            sx={{
-                                fontFamily: '"Roboto", sans-serif',
-                                fontSize: { xs: '14', md: '18px' }
-                            }}
-                        >
+                        <Divider sx={{ textAlign: 'center', my: { xs: 1, md: 2 }, borderColor: 'text.secondary', width: '100%' }} />
+                        <Typography sx={style.descriptionText}>
                             Denji harbors a chainsaw devil within him. The world is introduced to Chainsaw Man, but...?!
                         </Typography>
 

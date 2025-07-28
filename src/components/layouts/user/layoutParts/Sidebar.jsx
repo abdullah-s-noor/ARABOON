@@ -1,13 +1,19 @@
-import{ useState } from 'react'
+import { useContext, useState } from 'react'
 import Drawer from '@mui/material/Drawer';
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
-import { Menu, Home, Leaderboard, MenuBook, Favorite, Info, Login, PersonAdd, Logout, Brightness7 } from '@mui/icons-material';
+import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { Menu, Home, Leaderboard, MenuBook, Favorite, Info, Login, PersonAdd, Logout, Brightness7, Brightness4 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import style from './style';
+import styles from './style';
 import SelectLanguage from '../../../common/SelectLanguage';
+import { ThemeModeContext } from '../../../../context/darkMode';
+import useIsPhone from '../../../../hooks/useIsPhone';
 function Sidebar({ language, setLanguage }) {
+    const theme = useTheme()
+    const style = styles(theme)
     const [open, setOpen] = useState(false);
     const { i18n, t } = useTranslation();
+    const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
+    const isPhone = useIsPhone()
     const menuItems = [
         { text: t("home"), icon: <Home /> },
         { text: t("ranking"), icon: <Leaderboard /> },
@@ -20,7 +26,7 @@ function Sidebar({ language, setLanguage }) {
     ]
     return (
         <>
-        {/* menu icon */}
+            {/* menu icon */}
             <IconButton onClick={() => { setOpen(true) }}
                 sx={style.menuIcons}
             >
@@ -38,9 +44,26 @@ function Sidebar({ language, setLanguage }) {
                     >
                         {/* Theme Toggle */}
                         <IconButton sx={{
-                            color: "#fff", "&:hover": {backgroundColor: "#333",},
-                        }} >
-                            <Brightness7 />
+                            color: "#fff",
+                            ...(
+                                isPhone ? {
+                                    "&:active": {
+                                        backgroundColor: "#333"
+                                    }
+                                } : {
+                                    "&:hover": { backgroundColor: "#333" },
+                                }
+                            )
+                        }}
+                            onClick={() => {
+                                toggleDarkMode()
+                            }}
+                        >
+                            {darkMode ?
+                                <Brightness7 sx={{ color: 'orange' }} fontSize="medium" />
+                                :
+                                <Brightness4 sx={{ color: 'white' }} fontSize="medium" />
+                            }
                         </IconButton>
 
                         {/* Language Select */}
@@ -54,9 +77,17 @@ function Sidebar({ language, setLanguage }) {
                         {menuItems.map((item, index) => (
                             <ListItem key={index} disablePadding >
                                 <ListItemButton sx={{
-                                    "&:hover .MuiListItemIcon-root, &:hover .MuiTypography-root": {
-                                        color: "#ffd600",
-                                    },
+                                    ...(
+                                        isPhone ? {
+                                            "&:active .MuiListItemIcon-root, &:hover .MuiTypography-root": {
+                                                color: "#ffd600",
+                                            },
+                                        } : {
+                                            "&:hover .MuiListItemIcon-root, &:hover .MuiTypography-root": {
+                                                color: "#ffd600",
+                                            },
+                                        }
+                                    )
                                 }}>
                                     <ListItemIcon sx={{ color: '#eee' }}>
                                         {item.icon}

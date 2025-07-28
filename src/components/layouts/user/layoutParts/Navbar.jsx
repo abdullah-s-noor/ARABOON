@@ -1,25 +1,30 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
+  useTheme,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Sidebar from "./Sidebar";
-import { AccountCircle, Brightness7, PersonAdd } from "@mui/icons-material";
+import { AccountCircle, Brightness4, Brightness7, PersonAdd } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
-import style from "./style";
+import styles from "./style";
 import SelectLanguage from "../../../common/SelectLanguage";
+import { ThemeModeContext } from "../../../../context/darkMode";
+import useIsPhone from "../../../../hooks/useIsPhone";
 export default function Navbar() {
-
+  const theme = useTheme()
+  const isPhone=useIsPhone()
+  const style = styles(theme,isPhone)
   const { i18n, t } = useTranslation();
   const [language, setLanguage] = useState(i18n.language?.toUpperCase() || "EN");
   const [hoveredIdx, setHoveredIdx] = useState(null);
   const [barStyle, setBarStyle] = useState({ left: 0, width: 0 });
   const menuRefs = useRef([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+  const {toggleDarkMode,darkMode}=useContext(ThemeModeContext)
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -105,8 +110,14 @@ export default function Navbar() {
               {/* Light&Dark Mode */}
               <Box
                 sx={style.menuIcons}
+                onClick={()=>{
+                  toggleDarkMode()
+                }}
               >
-                <Brightness7 sx={{ color: "#ccc" }} fontSize="medium" />
+               { darkMode?
+                <Brightness7  sx={{ color: 'orange' }} fontSize="medium" />
+                :
+                <Brightness4 sx={{ color: 'white' }} fontSize="medium" />}
               </Box>
               {/* Login Icon */}
               <Box

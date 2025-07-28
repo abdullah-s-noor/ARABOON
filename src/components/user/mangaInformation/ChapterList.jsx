@@ -1,26 +1,23 @@
-import { Box, Divider, Typography } from '@mui/material'
+import { Box, Divider, Typography, useTheme } from '@mui/material'
+import useIsPhone from '../../../hooks/useIsPhone';
 import { useEffect, useState } from 'react'
-import { isMobile, isTablet } from 'react-device-detect'
 import { useTranslation } from 'react-i18next';
 
 function ChapterList() {
     const arr = [1, 2, 3, 4]
-    const [isPhone, setIsphone] = useState(false);
+    const isPhone = useIsPhone()
     const [selectedIndex, setSelectedIndex] = useState(null)
+    const theme = useTheme()
     const { i18n } = useTranslation();
-    useEffect(() => {
-        const handlePhoneLayout = () => {
-            setIsphone(isMobile || isTablet)
-            console.log(isTablet)
-        }
-        handlePhoneLayout()
-    }, [])
+
     const hoverStyle = {
         '&:hover': {
-            background: i18n.language === "en" ? 'linear-gradient(90deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(270deg, rgba(0,0,0,0.5), rgba(220,9,20,0))',
+            background: i18n.language === "en" ?
+                (theme.palette.mode === 'dark' ? 'linear-gradient(90deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(90deg, rgba(255,255,255,0.5), rgba(220,9,20,0))') :
+                (theme.palette.mode === 'dark' ? 'linear-gradient(270deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(270deg, rgba(255,255,255,0.5), rgba(220,9,20,0))'),
         },
         '&:hover .episode-num': {
-            color: '#ffd600',
+            color: 'primary.main',
         },
         '&:hover .episode-name': {
             color: 'inherit',
@@ -28,7 +25,7 @@ function ChapterList() {
     }
     const activeStyle = {
         '&:active .episode-num': {
-            color: '#ffd600',
+            color: 'primary.main',
         },
         '&:active .episode-name': {
             color: 'inherit',
@@ -41,18 +38,22 @@ function ChapterList() {
             {/* chapters list */}
             <Box
                 sx={{
+                    width: '70%',
+                    '@media (max-width:750px)': {
+                        width: '100% !important'
+                    },
                 }}
             >
                 <Typography
                     sx={{
                         fontFamily: '"Roboto", sans-serif',
                         fontSize: 16,
-                        color: '#bebebe',
+                        color: 'text.secondary',
                     }}
                 >
                     CHAPTER LIST
                 </Typography>
-                <Divider sx={{ textAlign: 'center', my: { xs: 1, md: 2 }, borderColor: '#bebebe', width: '100%' }} />
+                <Divider sx={{ textAlign: 'center', my: { xs: 1, md: 2 }, borderColor: 'text.secondary', width: '100%' }} />
                 {arr.map((item, index) => (
 
                     <Box
@@ -74,6 +75,7 @@ function ChapterList() {
                                     )
                                 }
                             ),
+                            cursor: 'pointer',
                             mb: 2,
                             gap: 5
 
@@ -109,7 +111,7 @@ function ChapterList() {
                                 className="episode-name"
                                 sx={{
                                     fontSize: { xs: 10, sm: 14 },
-                                    color: '#bebebe',
+                                    color: 'text.secondary',
                                 }}
                             >
                                 Episode 3: Femme Fatale

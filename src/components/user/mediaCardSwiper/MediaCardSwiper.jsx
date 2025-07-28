@@ -15,18 +15,12 @@ import { Box, Divider, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Scale, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import useIsPhone from '../../../hooks/useIsPhone';
 
-import { isMobile, isTablet } from 'react-device-detect'
 
 export default function MediaCardSwiper() {
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const [isPhone, setIsphone] = useState(false);
-    useEffect(() => {
-        const handlePhoneLayout = () => {
-            setIsphone(isMobile || isTablet)
-        }
-        handlePhoneLayout()
-    }, [])
+   const isPhone=useIsPhone()
     const { i18n } = useTranslation();
     const imageStyle = {
         width: '100%',
