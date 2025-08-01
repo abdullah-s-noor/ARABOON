@@ -33,12 +33,6 @@ function App() {
         />
         <CssBaseline />
         <RouterProvider router={router} />
-       <div style={{ padding: '2rem' }}>
-        <Button onClick={toggleDarkMode} color="primary" variant="contained">
-          {darkMode ? 'Change to Light Mode' : 'Change to Dark Mode'}
-        </Button>
-        {/* Rest of your app components */}
-      </div>
       </ThemeProvider>
     </>
   );
