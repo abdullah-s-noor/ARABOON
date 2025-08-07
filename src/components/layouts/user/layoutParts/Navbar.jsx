@@ -14,6 +14,7 @@ import styles from "./style";
 import SelectLanguage from "../../../common/SelectLanguage";
 import { ThemeModeContext } from "../../../../context/darkMode";
 import useIsPhone from "../../../../hooks/useIsPhone";
+import { Link } from "react-router-dom";
 export default function Navbar() {
   const theme = useTheme()
   const isPhone=useIsPhone()
@@ -87,8 +88,10 @@ export default function Navbar() {
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 sx={style.menuItems}
-              >
+                >
+                  <Link to={idx===2?"/manga-list":"/"} style={{textDecoration:"none",color:'inherit'}}>
                 {item}
+                </Link>
               </Typography>
             ))}
           </Box>)

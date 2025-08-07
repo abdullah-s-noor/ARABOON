@@ -22,13 +22,13 @@ function MangaInformation() {
                 {/* chapters list */}
                 <Box
                     sx={{
-                        marginTop:'40px',
+                        marginTop: '40px',
                         display: 'flex',
                         justifyContent: 'space-between',
-                     '@media (max-width:750px)': {
-                            flexDirection:'column-reverse',
-                            flexWrap:'wrap',
-                            gap:3
+                        '@media (max-width:750px)': {
+                            flexDirection: 'column-reverse',
+                            flexWrap: 'wrap',
+                            gap: 3
                         },
                     }}>
                     <ChapterList />

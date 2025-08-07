@@ -4,6 +4,7 @@ import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import UserHomePage from "../pages/user/Home.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
 import MangaInformation from "../pages/user/MangaInformation.jsx";
+import MangaList from "../pages/user/MangaList.jsx"
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -17,7 +18,11 @@ export const router = createBrowserRouter([
             {
                 path:'/manga-information',
                 element:<MangaInformation/>
-            }
+            },
+            // {
+            //     path :'/manga-list',
+            //     element:<MangaList/>
+            // }
         ],
     },
     {
