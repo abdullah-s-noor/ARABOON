@@ -1,13 +1,19 @@
 import { Pagination, PaginationItem } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
-function MyPagination() {
+function MyPagination({page,setPage,count}) {
+
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
     return (
         <Pagination
-            count={10}
+            count={count}
             variant="outlined"
             color="primary"
             shape="rounded"
+            page={page}
+            onChange={handleChange}
             renderItem={(item) => (
                 <PaginationItem
 

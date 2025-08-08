@@ -1,0 +1,127 @@
+{
+    "statusCode": 200,
+    "meta": null,
+    "succeeded": true,
+    "message": "Manga found",
+    "errors": null,
+    "data": {
+        "data": [
+            {
+                "mangaID": 6,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/1.jpg",
+                "lastChapter": {
+                    "chapterID": 18,
+                    "chapterNo": 3,
+                    "views": 3210
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 35,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/2.jpg",
+                "lastChapter": {
+                    "chapterID": 74,
+                    "chapterNo": 1,
+                    "views": 2189
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 84,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/3.jpg",
+                "lastChapter": {
+                    "chapterID": 151,
+                    "chapterNo": 1,
+                    "views": 2190
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 82,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/4.jpg",
+                "lastChapter": {
+                    "chapterID": 148,
+                    "chapterNo": 1,
+                    "views": 2018
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 96,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/5.jpg",
+                "lastChapter": {
+                    "chapterID": 169,
+                    "chapterNo": 1,
+                    "views": 2230
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 97,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/6.jpg",
+                "lastChapter": {
+                    "chapterID": 171,
+                    "chapterNo": 2,
+                    "views": 2460
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 8,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/7.jpg",
+                "lastChapter": {
+                    "chapterID": 24,
+                    "chapterNo": 3,
+                    "views": 2780
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 53,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/8.jpg",
+                "lastChapter": {
+                    "chapterID": 104,
+                    "chapterNo": 2,
+                    "views": 2899
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 56,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/9.jpg",
+                "lastChapter": {
+                    "chapterID": 109,
+                    "chapterNo": 1,
+                    "views": 1852
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 62,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/1.jpg",
+                "lastChapter": {
+                    "chapterID": 118,
+                    "chapterNo": 1,
+                    "views": 2310
+                },
+                "isFavorite": false
+            }
+        ],
+        "currentPage": 3,
+        "totalPages": 3,
+        "totalCount": 51,
+        "pageSize": 11,
+        "hasPreviousPage": false,
+        "hasNextPage": true
+    }
+}

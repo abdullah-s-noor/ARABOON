@@ -2,7 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/m
 import useIsPhone from '../../hooks/useIsPhone'
 import React from 'react'
 
-function GeneralMangaCard({ n }) {
+function GeneralMangaCard({ mangaData }) {
     const isPhone = useIsPhone()
     const style = {
         card: {
@@ -74,7 +74,7 @@ function GeneralMangaCard({ n }) {
             >
                 <CardMedia
                     component="img"
-                    image={`/image/mediaCard/${n}.jpg`}
+                    image={mangaData.mangaImageUrl}
                     alt="green iguana"
                     sx={style.img}
                 />
@@ -84,7 +84,7 @@ function GeneralMangaCard({ n }) {
                     sx={style.title}
                     className='title'
                 >
-                    The Creepy and Freaky
+                    {mangaData.mangaName}
                 </Typography>
                 <Typography
                     className='author'

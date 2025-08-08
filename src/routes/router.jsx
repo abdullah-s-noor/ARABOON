@@ -5,6 +5,7 @@ import UserHomePage from "../pages/user/Home.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
 import MangaInformation from "../pages/user/MangaInformation.jsx";
 import MangaList from "../pages/user/MangaList.jsx"
+import Library from "../pages/user/Library.jsx";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
             // {
             //     path :'/manga-list',
             //     element:<MangaList/>
+            // },
+            // {
+            //     path:'/library',
+            //     element:<Library/>
             // }
         ],
     },
