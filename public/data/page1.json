@@ -1,0 +1,237 @@
+{
+    "statusCode": 200,
+    "meta": null,
+    "succeeded": true,
+    "message": "Manga found",
+    "errors": null,
+    "data": {
+        "data": [
+            {
+                "mangaID": 6,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/9.jpg",
+                "lastChapter": {
+                    "chapterID": 18,
+                    "chapterNo": 3,
+                    "views": 3210
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 35,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/8.jpg",
+                "lastChapter": {
+                    "chapterID": 74,
+                    "chapterNo": 1,
+                    "views": 2189
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 84,
+                "mangaName": "Attack on Titan",
+                "mangaImageUrl": "/image/mediaCard/7.jpg",
+                "lastChapter": {
+                    "chapterID": 151,
+                    "chapterNo": 1,
+                    "views": 2190
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 82,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/6.jpg",
+                "lastChapter": {
+                    "chapterID": 148,
+                    "chapterNo": 1,
+                    "views": 2018
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 96,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/5.jpg",
+                "lastChapter": {
+                    "chapterID": 169,
+                    "chapterNo": 1,
+                    "views": 2230
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 97,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/4.jpg",
+                "lastChapter": {
+                    "chapterID": 171,
+                    "chapterNo": 2,
+                    "views": 2460
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 8,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/3.jpg",
+                "lastChapter": {
+                    "chapterID": 24,
+                    "chapterNo": 3,
+                    "views": 2780
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 53,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/2.jpg",
+                "lastChapter": {
+                    "chapterID": 104,
+                    "chapterNo": 2,
+                    "views": 2899
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 56,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/1.jpg",
+                "lastChapter": {
+                    "chapterID": 109,
+                    "chapterNo": 1,
+                    "views": 1852
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 62,
+                "mangaName": "Black Clover",
+                "mangaImageUrl": "/image/mediaCard/9.jpg",
+                "lastChapter": {
+                    "chapterID": 118,
+                    "chapterNo": 1,
+                    "views": 2310
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 76,
+                "mangaName": "Bleach",
+                "mangaImageUrl": "/image/mediaCard/8.jpg",
+                "lastChapter": {
+                    "chapterID": 139,
+                    "chapterNo": 1,
+                    "views": 2076
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 38,
+                "mangaName": "Bleach",
+                "mangaImageUrl": "/image/mediaCard/7.jpg",
+                "lastChapter": {
+                    "chapterID": 79,
+                    "chapterNo": 2,
+                    "views": 2255
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 13,
+                "mangaName": "Bleach",
+                "mangaImageUrl": "/image/mediaCard/6.jpg",
+                "lastChapter": {
+                    "chapterID": 38,
+                    "chapterNo": 2,
+                    "views": 3104
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 29,
+                "mangaName": "Death Note",
+                "mangaImageUrl": "/image/mediaCard/5.jpg",
+                "lastChapter": {
+                    "chapterID": 63,
+                    "chapterNo": 2,
+                    "views": 3222
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 41,
+                "mangaName": "Death Note",
+                "mangaImageUrl": "/image/mediaCard/4.jpg",
+                "lastChapter": {
+                    "chapterID": 84,
+                    "chapterNo": 2,
+                    "views": 2642
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 64,
+                "mangaName": "Death Note",
+                "mangaImageUrl": "/image/mediaCard/3.jpg",
+                "lastChapter": {
+                    "chapterID": 120,
+                    "chapterNo": 1,
+                    "views": 2235
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 72,
+                "mangaName": "Death Note",
+                "mangaImageUrl": "/image/mediaCard/2.jpg",
+                "lastChapter": {
+                    "chapterID": 132,
+                    "chapterNo": 1,
+                    "views": 2194
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 93,
+                "mangaName": "Demon Slayer",
+                "mangaImageUrl": "/image/mediaCard/1.jpg",
+                "lastChapter": {
+                    "chapterID": 165,
+                    "chapterNo": 2,
+                    "views": 2280
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 37,
+                "mangaName": "Demon Slayer",
+                "mangaImageUrl": "/image/mediaCard/9.jpg",
+                "lastChapter": {
+                    "chapterID": 77,
+                    "chapterNo": 1,
+                    "views": 3090
+                },
+                "isFavorite": false
+            },
+            {
+                "mangaID": 58,
+                "mangaName": "Demon Slayer",
+                "mangaImageUrl": "/image/mediaCard/8.jpg",
+                "lastChapter": {
+                    "chapterID": 112,
+                    "chapterNo": 2,
+                    "views": 2470
+                },
+                "isFavorite": false
+            }
+        ],
+        "currentPage": 1,
+        "totalPages": 3,
+        "totalCount": 51,
+        "pageSize": 20,
+        "hasPreviousPage": false,
+        "hasNextPage": true
+    }
+}

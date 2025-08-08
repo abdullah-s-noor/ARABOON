@@ -61,12 +61,7 @@ function MangaList() {
           selectedSort={selectedSort} setSelectedSort={setSelectedSort}
         />
         <MangaCards status={status} genre={selectedGenre} sort={selectedSort} />
-        <Box
-          sx={{
-            margin: 'auto'
-          }}>
-            <MyPagination/>
-        </Box>
+        
       </Box>
     </>
   )
