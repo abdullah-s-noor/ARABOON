@@ -1,11 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
 import UserLayout from "../components/layouts/user/UserLayout.jsx";
-import UserHomePage from "../pages/user/Home.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
-import MangaInformation from "../pages/user/MangaInformation.jsx";
-import MangaList from "../pages/user/MangaList.jsx"
-import Library from "../pages/user/Library.jsx";
+import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage } from "../pages";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -17,16 +14,23 @@ export const router = createBrowserRouter([
                 element: <UserHomePage />,
             },
             {
-                path:'/manga-information',
-                element:<MangaInformation/>
+                path: '/manga-information',
+                element: <MangaInformation />
             },
             // {
-            //     path :'/manga-list',
-            //     element:<MangaList/>
+            //     path: '/manga-list',
+            //     element: <MangaList />
             // },
             // {
-            //     path:'/library',
-            //     element:<Library/>
+            //     path: '/library',
+            //     element: <Library />
+            // },
+            // {
+            //     path: '/manga-ranking',
+            //     element: <MangaRanking />
+            // }, {
+            //     path: '/test-page',
+            //     element: <TestPage />
             // }
         ],
     },
