@@ -49,7 +49,7 @@ export default function Navbar() {
     t("home"),
     t("ranking"),
     t("manga list"),
-    t("favorited"),
+    t("library"),
     t("about us"),
   ];
   return (
@@ -89,7 +89,7 @@ export default function Navbar() {
                 onMouseLeave={() => setHoveredIdx(null)}
                 sx={style.menuItems}
                 >
-                  <Link to={idx===2?"/manga-list":"/"} style={{textDecoration:"none",color:'inherit'}}>
+                  <Link to={idx===1?"manga-ranking":idx===2?"/manga-list":(idx===3?"library":"/")} style={{textDecoration:"none",color:'inherit'}}>
                 {item}
                 </Link>
               </Typography>
