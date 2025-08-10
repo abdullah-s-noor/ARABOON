@@ -96,9 +96,19 @@ function RankingPageCard({ mangaData,rate }) {
                         background: theme.palette.mode === 'dark' ? 'linear-gradient(90deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(90deg, rgba(255,255,255,0.5), rgba(220,9,20,0))'
                     }}
                 >
+                    {[1, 2, 3].includes(rate) ? (
+                            <Box
+                                component={'img'}
+                                src={`/image/medal/${rate}.svg`}
+                                sx={{
+                                    width: { xs: '20px', sm: '30px' },
+                                }}
+                            />
+                        ) : (
                     <Typography sx={{ fontWeight: 700, fontSize: { xs: 14, sm: 16 } }}>
                         #{rate}
                     </Typography>
+                        )}
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
                         <Whatshot sx={{ fontSize: 18 }} />
