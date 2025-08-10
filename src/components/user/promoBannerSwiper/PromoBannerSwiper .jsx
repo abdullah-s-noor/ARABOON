@@ -5,10 +5,10 @@ import 'swiper/css/pagination';
 import { Box } from '@mui/material';
 import './style.css';
 import { useTranslation } from 'react-i18next';
-import useIsPhone from '../../../hooks/useIsPhone';
+import useIsPhone from '../../../hooks/usePhone';
 
 const PromoBannerSwiper = () => {
-  const isPhone=useIsPhone()
+  const {isPhone}=useIsPhone()
   const { i18n } = useTranslation();
   const banners = [1, 2, 3, 4, 5];
   const imageStyle = {
