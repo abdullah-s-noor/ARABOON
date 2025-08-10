@@ -28,10 +28,11 @@ export const router = createBrowserRouter([
             // {
             //     path: '/manga-ranking',
             //     element: <MangaRanking />
-            // }, {
-            //     path: '/test-page',
-            //     element: <TestPage />
-            // }
+            // }, 
+            {
+                path: '/test-page',
+                element: <TestPage />
+            }
         ],
     },
     {
