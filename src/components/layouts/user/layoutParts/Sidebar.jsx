@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next';
 import styles from './style';
 import SelectLanguage from '../../../common/SelectLanguage';
 import { ThemeModeContext } from '../../../../context/darkMode';
-import useIsPhone from '../../../../hooks/useIsPhone';
+import useIsPhone from '../../../../hooks/usePhone';
 function Sidebar({ language, setLanguage }) {
     const theme = useTheme()
     const style = styles(theme)
     const [open, setOpen] = useState(false);
     const { i18n, t } = useTranslation();
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
-    const isPhone = useIsPhone()
+    const {isPhone} = useIsPhone()
     const menuItems = [
         { text: t("home"), icon: <Home /> },
         { text: t("ranking"), icon: <Leaderboard /> },

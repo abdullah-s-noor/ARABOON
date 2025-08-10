@@ -2,13 +2,13 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import PromoBannerSwiper from "../../components/user/promoBannerSwiper/PromoBannerSwiper ";
 import MediaCardSwiper from "../../components/user/mediaCardSwiper/MediaCardSwiper";
-import useIsPhone from "../../hooks/useIsPhone";
+import useIsPhone from "../../hooks/usePhone";
 import HottestHomePage from "../../components/user/hottestHomePage/HottestHomePage";
 
 const Home = () => {
     const count = [1, 2, 3];
     const theme = useTheme()
-    const isPhone = useIsPhone()
+    const {isPhone} = useIsPhone()
     const styles = (theme) => ({
         container: {
             backgroundColor: 'background.default',

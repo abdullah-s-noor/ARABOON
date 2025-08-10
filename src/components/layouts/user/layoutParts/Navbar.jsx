@@ -13,11 +13,11 @@ import { useTranslation } from "react-i18next";
 import styles from "./style";
 import SelectLanguage from "../../../common/SelectLanguage";
 import { ThemeModeContext } from "../../../../context/darkMode";
-import useIsPhone from "../../../../hooks/useIsPhone";
+import useIsPhone from "../../../../hooks/usePhone";
 import { Link } from "react-router-dom";
 export default function Navbar() {
   const theme = useTheme()
-  const isPhone=useIsPhone()
+  const {isPhone}=useIsPhone()
   const style = styles(theme,isPhone)
   const { i18n, t } = useTranslation();
   const [language, setLanguage] = useState(i18n.language?.toUpperCase() || "EN");

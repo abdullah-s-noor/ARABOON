@@ -1,9 +1,9 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
-import useIsPhone from '../../hooks/useIsPhone'
+import useIsPhone from '../../hooks/usePhone'
 import React from 'react'
 
 function GeneralMangaCard({ mangaData }) {
-    const isPhone = useIsPhone()
+    const {isPhone} = useIsPhone()
     const style = {
         card: {
             maxWidth: { xs: 100, sm: 150, md: 230 },

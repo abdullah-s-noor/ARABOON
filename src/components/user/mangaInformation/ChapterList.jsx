@@ -1,11 +1,11 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material'
-import useIsPhone from '../../../hooks/useIsPhone';
+import useIsPhone from '../../../hooks/usePhone';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function ChapterList() {
     const arr = [1, 2, 3, 4]
-    const isPhone = useIsPhone()
+    const {isPhone} = useIsPhone()
     const [selectedIndex, setSelectedIndex] = useState(null)
     const theme = useTheme()
     const { i18n } = useTranslation();

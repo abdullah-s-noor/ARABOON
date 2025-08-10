@@ -5,6 +5,7 @@ export const api = axios.create({
 // Add a request interceptor to dynamically attach token
 api.interceptors.request.use(
     (config) => {
+        config.headers['Accept-Language']='en'
         const token = localStorage.getItem("userToken");
         if (token) {
             config.headers.Authorization = `${token}`;

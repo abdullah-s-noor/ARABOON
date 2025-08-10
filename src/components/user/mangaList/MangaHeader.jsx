@@ -4,12 +4,12 @@ import React, { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import GenreDialog from '../dialog/GenreDialog';
 import SortDialog from '../dialog/SortDialog';
-import useIsPhone from '../../../hooks/useIsPhone';
+import useIsPhone from '../../../hooks/usePhone';
 
 function MangaHeader({ status, setStatus, selectedGenre, setSelectedGenre, selectedSort, setSelectedSort }) {
     const { i18n } = useTranslation();
     const theme = useTheme()
-    const isPhone = useIsPhone()
+    const {isPhone} = useIsPhone()
     const styles = (theme, i18n) => ({
         container: {
             width: '100%',

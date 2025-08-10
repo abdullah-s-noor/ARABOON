@@ -3,11 +3,11 @@ import React, { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { KeyboardArrowRight } from '@mui/icons-material';
-import useIsPhone from '../../../hooks/useIsPhone';
+import useIsPhone from '../../../hooks/usePhone';
 function LibraryHeader() {
   const { i18n } = useTranslation()
   const theme = useTheme()
-  const isPhone = useIsPhone()
+  const {isPhone} = useIsPhone()
   const [status, setStatus] = useState('favorited')
   const style = {
     container: {

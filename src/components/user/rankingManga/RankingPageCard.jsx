@@ -1,10 +1,10 @@
 import { Whatshot } from '@mui/icons-material'
 import { Box, Card, CardContent, CardMedia, Typography, useTheme } from '@mui/material'
-import useIsPhone from '../../../hooks/useIsPhone'
-import React from 'react'
+import useIsPhone from '../../../hooks/usePhone'
+import React, { useEffect } from 'react'
 
-function RankingPageCard({n}) {
-    const isPhone = useIsPhone()
+function RankingPageCard({ mangaData,rate }) {
+    const {isPhone} = useIsPhone()
     const theme = useTheme()
     const style = {
         card: {
@@ -73,13 +73,14 @@ function RankingPageCard({n}) {
             fontSize: { xs: 10, sm: 13 }
         },
     }
+
     return (
         <Card
             sx={style.card}
         >
             <CardMedia
                 component="img"
-                image={`/image/mediaCard/${n}.jpg`}
+                image={mangaData.mangaImageUrl}
                 alt="green iguana"
                 sx={style.img}
                 className='image'
@@ -96,7 +97,7 @@ function RankingPageCard({n}) {
                     }}
                 >
                     <Typography sx={{ fontWeight: 700, fontSize: { xs: 14, sm: 16 } }}>
-                        #1
+                        #{rate}
                     </Typography>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
@@ -110,7 +111,7 @@ function RankingPageCard({n}) {
                     className='title'
                     sx={style.title}
                 >
-                    abdullah saed noor
+                    {mangaData.mangaName}
                 </Typography>
                 <Typography
                     className='author'
