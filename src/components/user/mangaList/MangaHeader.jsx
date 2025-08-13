@@ -6,7 +6,10 @@ import GenreDialog from '../dialog/GenreDialog';
 import SortDialog from '../dialog/SortDialog';
 import useIsPhone from '../../../hooks/usePhone';
 
-function MangaHeader({ status, setStatus, selectedGenre, setSelectedGenre, selectedSort, setSelectedSort }) {
+function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
+    selectedGenre, setSelectedGenre,genreOptions,
+    selectedSort, setSelectedSort, sortOptions,
+}) {
     const { i18n } = useTranslation();
     const theme = useTheme()
     const {isPhone} = useIsPhone()
@@ -91,17 +94,12 @@ function MangaHeader({ status, setStatus, selectedGenre, setSelectedGenre, selec
         },
     })
     const style = styles(theme, i18n)
-    const tabs = [
-        { tab: 'Ongoing', value: 'ongoing' },
-        { tab: 'Completed', value: 'completed' },
-        { tab: 'One-shot', value: 'one-shot' }
-    ]
     const [openGenre, setOpenGenre] = useState(false)
     const [openSort, setOpenSort] = useState(false)
     return (
         <>
-            <GenreDialog open={openGenre} setOpen={setOpenGenre} selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} />
-            <SortDialog open={openSort} setOpen={setOpenSort} selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
+            <GenreDialog open={openGenre} setOpen={setOpenGenre} selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} genreOptions={genreOptions} />
+            <SortDialog open={openSort} setOpen={setOpenSort} selectedSort={selectedSort} setSelectedSort={setSelectedSort} sortOptions={sortOptions}/>
             <Box
                 component={'div'}
                 sx={style.container}
@@ -121,24 +119,24 @@ function MangaHeader({ status, setStatus, selectedGenre, setSelectedGenre, selec
                         >
 
                             {
-                                tabs.map(({ tab, value }, index) => (
+                                statusOptions.map((status, index) => (
                                     <Fragment key={index}>
                                         {index > 0 && <Typography component={'span'} sx={{ margin: '0 8px', color: 'text.secondary' }}>|</Typography>}
                                         <Button
                                             onClick={() => {
-                                                setStatus(value)
-                                                localStorage.setItem("status", value)
+                                                setSelectedStatus(status)
+                                                localStorage.setItem("status", status)
                                             }}
-                                            disabled={status === value}
+                                            disabled={selectedStatus === status}
                                             sx={{
                                                 ...style.tabButton,
                                                 ...(isPhone ? {
-                                                    ":active": { color: value !== status && 'text.primary', }
+                                                    ":active": { color: status !== selectedStatus && 'text.primary', }
                                                 } : {
-                                                    ":hover": { color: value !== status && 'text.primary', }
+                                                    ":hover": { color: status !== selectedStatus && 'text.primary', }
                                                 }
                                                 )
-                                            }}>{tab}
+                                            }}>{status.charAt(0).toUpperCase() + status.slice(1)}
                                         </Button>
                                     </Fragment>
 

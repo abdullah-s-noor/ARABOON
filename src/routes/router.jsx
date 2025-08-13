@@ -17,18 +17,18 @@ export const router = createBrowserRouter([
                 path: '/manga-information',
                 element: <MangaInformation />
             },
-            // {
-            //     path: '/manga-list',
-            //     element: <MangaList />
-            // },
-            // {
-            //     path: '/library',
-            //     element: <Library />
-            // },
-            // {
-            //     path: '/manga-ranking',
-            //     element: <MangaRanking />
-            // }, 
+            {
+                path: '/manga-list',
+                element: <MangaList />
+            },
+            {
+                path: '/library',
+                element: <Library />
+            },
+            {
+                path: '/manga-ranking',
+                element: <MangaRanking />
+            }, 
             {
                 path: '/test-page',
                 element: <TestPage />

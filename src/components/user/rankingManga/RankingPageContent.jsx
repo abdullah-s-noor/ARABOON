@@ -8,34 +8,22 @@ import usePhone from '../../../hooks/usePhone';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import RankingPageSkeleton from '../mySkeletons/RankingPageSkeleton';
+import usePaginatedManga from '../../../hooks/usePaginatedManga';
 
 function RankingPageContent() {
     const theme = useTheme();
     const { isMobile, isTablet } = usePhone();
     const { i18n } = useTranslation();
-    const [mangas, setMangas] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [count, setCount] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-    const pageSize = isMobile ? 15 : 20;
-    const [hasNextPage, setHasNextPage] = useState(null);
-    const fetchHottestManga = async () => {
-        try {
-            setLoading(true);
-            const response = await api.get(`/Manga/GetMangaByStatus?Status=ongoing&PageNumber=${pageNumber}&OrderBy=1&pageSize=${pageSize}`);
-            const data = response.data.data;
-            setCount(data.totalCount);
-            setHasNextPage(data.hasNextPage);
-            (pageNumber === 1 ? setMangas(data.data) : setMangas(prev => [...prev, ...data.data]));
-        } catch (error) {
-            console.error("Error fetching hottest manga:", error.response ? error.response.data.message : error.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-    useEffect(() => {
-        fetchHottestManga();
-    }, [pageNumber, i18n.language]);
+    const baseUrl = "/Manga/GetMangaByStatus"
+        const { mangas,loading,count,pageNumber,setPageNumber,hasNextPage,fetchMangas,pageSize}=usePaginatedManga(baseUrl);
+        
+        useEffect(() => {
+            const fetchData = async ( ) => {
+                await fetchMangas();
+            };
+            fetchData( );
+        }, []);
+        
     return (
         <>
             {loading && pageNumber === 1 ? (

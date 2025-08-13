@@ -5,15 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 
-export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSort }) {
+export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSort ,sortOptions}) {
     const handleClose = () => {
         setOpen(false);
     };
-    const sort = {
-        az: "A to Z",
-        za: "Z to A",
-        PopularityScore: "Popularity Score"
-    }
+
     return (
         <React.Fragment>
             <Dialog
@@ -33,14 +29,14 @@ export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSo
                                 value={selectedSort.key}
                                 onChange={(e) => {
                                     const key = e.target.value;
-                                    const label = sort[key];
+                                    const label = sortOptions[key];
                                     setSelectedSort({ key, value: label });
                                     localStorage.setItem("sort",key)
                                     setOpen(false);
                                 }}
                                 name="radio-buttons-group"
                             >
-                                {Object.entries(sort).map(([key, label]) => (
+                                {Object.entries(sortOptions).map(([key, label]) => (
                                     <FormControlLabel
                                         key={key}
                                         value={key}

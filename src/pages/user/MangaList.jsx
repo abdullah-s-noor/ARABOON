@@ -1,34 +1,50 @@
-import { Box, Pagination, PaginationItem } from '@mui/material'
+import { Box } from '@mui/material'
 import MangaHeader from '../../components/user/mangaList/MangaHeader'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import MangaCards from '../../components/user/mangaList/MangaCards';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import MyPagination  from '../../components/common/MyPagination';
+import { api } from '../../services/api';
 
 function MangaList() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams()
-  const [status, setStatus] = useState(searchParams.get("status")?.toLowerCase() || localStorage.getItem("status") || "ongoing");
-  const [selectedGenre, setSelectedGenre] = useState(searchParams.get("genre")?.toLowerCase() || localStorage.getItem("genre") || "all")
-  const sortKey = searchParams.get("sort")?.toLowerCase() || localStorage.getItem("sort") || "az";
+  const statusKey = (searchParams.get("status")?.toLowerCase() || localStorage.getItem("status")?.toLowerCase() || "ongoing");
+  const genreKey = (searchParams.get("genre")?.toLowerCase() || localStorage.getItem("genre")?.toLowerCase() || "all")
+  const sortKey = (searchParams.get("sort")?.toLowerCase() || localStorage.getItem("sort")?.toLowerCase() || "az");
+  const statusOptions = ["ongoing", "completed", "one shot"];
+  const genreOptions = ["all", "action", "adventure", "fantasy", "supernatural"]
   const sortOptions = {
     az: "A to Z",
     za: "Z to A",
     popularityscore: "Popularity Score",
   };
-  const [selectedSort, setSelectedSort] = useState(
-    sortOptions[sortKey]
-      ? { key: sortKey, value: sortOptions[sortKey] }
-      : { key: "az", value: sortOptions["az"] }
-  ); 
+  const [selectedStatus, setSelectedStatus] = useState(statusKey);
+  const [selectedGenre, setSelectedGenre] = useState(genreKey);
+  const [selectedSort, setSelectedSort] = useState({ key: sortKey, value: sortOptions[sortKey] });
+
+  const baseUrl = "/Manga/GetMangaByStatus"
   useEffect(() => {
-    const params = {
-      status: status,
-      genre: selectedGenre,
-      sort: selectedSort.key,
-    }
-    setSearchParams(params)
-  }, [selectedGenre, selectedSort, status,searchParams])
+    const fetchMangaList = async () => {
+      try {
+        if (!genreOptions.includes(genreKey) || !statusOptions.includes(statusKey) || !sortOptions[sortKey]) {
+          navigate('/not-found')
+        }
+        const params = {
+          status: selectedStatus,
+          genre: selectedGenre,
+          sort: selectedSort.key,
+        }
+        const order = params.sort === "az" ? 0 : params.sort === "za" ? 1 : 2;
+        const response = await api.get(`${baseUrl}?Status=${params.status}&${params.genre !== 'all' && `filter=${params.genre}&`}OrderBy=${order}&PageNumber=1&pageSize=20`);
+        console.log("Fetched manga list:", response.data);
+        setSearchParams(params)
+      } catch (error) {
+      } finally {
+      }
+      setMangaList(mangaList);
+    };
+    fetchMangaList();
+  }, [selectedGenre, selectedSort, selectedStatus, searchParams])
 
   useEffect(() => {//delete the local storage when close the tab
     const handleTabClose = () => {
@@ -42,8 +58,11 @@ function MangaList() {
       window.removeEventListener("beforeunload", handleTabClose);
     };
   }, []);
-  
 
+  const [mangaList, setMangaList] = useState([]);
+  useEffect(() => {
+
+  }, [selectedStatus, selectedGenre, selectedSort, searchParams, localStorage]);
   return (
     <>
       <Box
@@ -56,12 +75,12 @@ function MangaList() {
         }}
       >
         <MangaHeader
-          status={status} setStatus={setStatus}
-          selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre}
-          selectedSort={selectedSort} setSelectedSort={setSelectedSort}
+          selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} statusOptions={statusOptions}
+          selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} genreOptions={genreOptions}
+          selectedSort={selectedSort} setSelectedSort={setSelectedSort} sortOptions={sortOptions}
         />
-        <MangaCards status={status} genre={selectedGenre} sort={selectedSort} />
-        
+        <MangaCards status={selectedStatus} genre={selectedGenre} sort={selectedSort} />
+
       </Box>
     </>
   )
