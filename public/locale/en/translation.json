@@ -3,16 +3,16 @@
     "manga list": "Manga List",
     "ranking": "Ranking",
     "about us": "About Us",
-    "favorited": "Favorited",
     "home": "Home",
     "login": "Login",
     "sign up": "Sign Up",
     "logout": "Logout",
     "library": "Library",
-    "favorited":"Favorited",
-    "completed": "Completed",
+    "favorited": "Favorited",
     "reading": "Reading",
     "later": "Read Later",
-    "notifications": "Notifications"
-    
+    "notifications": "Notifications",
+    "completed": "Completed",
+    "ongoing": "Ongoing",
+    "one shot": "One Shot"
 }

@@ -8,7 +8,8 @@ function LibraryHeader() {
   const { i18n,t } = useTranslation()
   const theme = useTheme()
   const {isPhone} = useIsPhone()
-  const [status, setStatus] = useState('favorited')
+  const [librarySection, setLibrarySection] = useState('favorited')
+
   const style = {
     container: {
       width: '100%',
@@ -81,13 +82,8 @@ function LibraryHeader() {
       },
     }
   }
-  const tabs = [
-    { tab: t('favorited'), value: 'favorited' },
-    { tab: t('completed'), value: 'completed' },
-    { tab: t('reading'), value: 'reading' },
-    { tab: t('later'), value: 'later' },
-    { tab: t('notifications'), value: 'notifications' },
-  ]
+  const sections = ['favorited' , 'completed', 'reading', 'later', 'notifications']
+
   return (
     <Box component={'div'} sx={style.container}>
       <Box component={'div'} sx={style.headerWrapper}>
@@ -99,7 +95,7 @@ function LibraryHeader() {
         <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>
           <Link to="/" style={style.link}>{t("home").toLowerCase()}</Link>
           {i18n.language==="en"?<KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} />:<KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
-          <Link to="" style={style.link}>{t(status).toLowerCase()}</Link>
+          <Link to="" style={style.link}>{t(librarySection).toLowerCase()}</Link>
         </Box>
       </Box>
       <Box
@@ -108,7 +104,7 @@ function LibraryHeader() {
           sx={style.tabsBoxInner}
         >
           {
-            tabs.map(({ tab, value }, index) => (
+            sections.map((section, index) => (
               <Fragment key={index}>
                 {index === 3 && (
                   <Box sx={{ ...(style.breakLine) }} />
@@ -127,19 +123,19 @@ function LibraryHeader() {
                 </Typography>}
                 <Button
                   onClick={() => {
-                    setStatus(value)
-                    localStorage.setItem("status", value)
+                    setLibrarySection(section)
+                    localStorage.setItem("librarySection", section)
                   }}
-                  disabled={status === value}
+                  disabled={librarySection === section}
                   sx={{
                     ...style.tabButton,
                     ...(isPhone ? {
-                      ":active": { color: value !== status && 'text.primary', }
+                      ":active": { color: section !== librarySection && 'text.primary', }
                     } : {
-                      ":hover": { color: value !== status && 'text.primary', }
+                      ":hover": { color: section !== librarySection && 'text.primary', }
                     }
                     )
-                  }}>{tab}
+                  }}>{t(section)}
                 </Button>
               </Fragment>
 

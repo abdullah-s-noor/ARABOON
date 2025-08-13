@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import MangaCards from '../../components/user/mangaList/MangaCards';
 import { api } from '../../services/api';
+import usePaginatedMangaList from '../../hooks/usePaginatedMangaList';
 
 function MangaList() {
   const navigate = useNavigate();
@@ -21,27 +22,18 @@ function MangaList() {
   const [selectedStatus, setSelectedStatus] = useState(statusKey);
   const [selectedGenre, setSelectedGenre] = useState(genreKey);
   const [selectedSort, setSelectedSort] = useState({ key: sortKey, value: sortOptions[sortKey] });
-
-  const baseUrl = "/Manga/GetMangaByStatus"
+  
   useEffect(() => {
     const fetchMangaList = async () => {
-      try {
-        if (!genreOptions.includes(genreKey) || !statusOptions.includes(statusKey) || !sortOptions[sortKey]) {
-          navigate('/not-found')
-        }
-        const params = {
-          status: selectedStatus,
-          genre: selectedGenre,
-          sort: selectedSort.key,
-        }
-        const order = params.sort === "az" ? 0 : params.sort === "za" ? 1 : 2;
-        const response = await api.get(`${baseUrl}?Status=${params.status}&${params.genre !== 'all' && `filter=${params.genre}&`}OrderBy=${order}&PageNumber=1&pageSize=20`);
-        console.log("Fetched manga list:", response.data);
-        setSearchParams(params)
-      } catch (error) {
-      } finally {
+      if (!genreOptions.includes(genreKey) || !statusOptions.includes(statusKey) || !sortOptions[sortKey]) {
+        navigate('/not-found')
       }
-      setMangaList(mangaList);
+      const params = {
+        status: selectedStatus,
+        genre: selectedGenre,
+        sort: selectedSort.key,
+      }
+      setSearchParams(params)
     };
     fetchMangaList();
   }, [selectedGenre, selectedSort, selectedStatus, searchParams])
@@ -58,13 +50,9 @@ function MangaList() {
       window.removeEventListener("beforeunload", handleTabClose);
     };
   }, []);
-
-  const [mangaList, setMangaList] = useState([]);
-  useEffect(() => {
-
-  }, [selectedStatus, selectedGenre, selectedSort, searchParams, localStorage]);
   return (
     <>
+    
       <Box
         component={'div'}
         sx={{

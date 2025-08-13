@@ -15,7 +15,7 @@ const usePaginatedManga = (baseUrl) => {
     const fetchMangas = async () => {
         try {
             setLoading(true);
-            const response = await api.get(`${baseUrl}?Status=ongoing&PageNumber=${pageNumber}&OrderBy=1&pageSize=${pageSize}`);
+            const response = await api.get(`${baseUrl}&PageNumber=${pageNumber}&pageSize=${pageSize}`);
             console.log("Fetched mangas:", response.data);
             const data = response.data.data;
             setCount(data.totalCount);
