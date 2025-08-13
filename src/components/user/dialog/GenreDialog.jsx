@@ -1,16 +1,14 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({ open, setOpen,selectedGenre,setSelectedGenre }) {
+export default function AlertDialog({ open, setOpen,selectedGenre,setSelectedGenre, genreOptions }) {
     const handleClose = () => {
         setOpen(false);
     };
-    const genres = ["all","drama", "activity", "action", "sex", "ass", "dick"]
     return (
         <React.Fragment>
             <Dialog
@@ -24,11 +22,11 @@ export default function AlertDialog({ open, setOpen,selectedGenre,setSelectedGen
                 </DialogTitle>
                 <DialogContent >
                     <DialogContentText id="alert-dialog-description" sx={{display:'flex',gap:2,flexWrap:'wrap',justifyContent:'center'}}>
-                        {genres.map((genre, index) => (
+                        {genreOptions.map((genre, index) => (
                             <Button
                                 key={index}
                                 variant="outlined"
-                                disabled={genre===selectedGenre}
+                                disabled={genre.toLowerCase()===selectedGenre.toLowerCase()}
                                 sx={{
                                     ":disabled":{
                                         color:'primary.main',
@@ -41,8 +39,8 @@ export default function AlertDialog({ open, setOpen,selectedGenre,setSelectedGen
                                     borderRadius: '15px',
                                 }}
                                 onClick={() => {
-                                    setSelectedGenre(genre)
-                                    localStorage.setItem("genre",genre)
+                                    setSelectedGenre(genre.toLowerCase());
+                                    localStorage.setItem("genre",genre.toLowerCase())
                                     setOpen(false)
                                 }}>
                                 {genre}

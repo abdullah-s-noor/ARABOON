@@ -7,6 +7,12 @@
     "home": "Home",
     "login": "Login",
     "sign up": "Sign Up",
-    "logout": "Logout"
-
+    "logout": "Logout",
+    "library": "Library",
+    "favorited":"Favorited",
+    "completed": "Completed",
+    "reading": "Reading",
+    "later": "Read Later",
+    "notifications": "Notifications"
+    
 }

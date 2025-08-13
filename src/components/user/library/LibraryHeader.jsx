@@ -2,10 +2,10 @@ import { Box, Button, Typography, useTheme } from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { KeyboardArrowRight } from '@mui/icons-material';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import useIsPhone from '../../../hooks/usePhone';
 function LibraryHeader() {
-  const { i18n } = useTranslation()
+  const { i18n,t } = useTranslation()
   const theme = useTheme()
   const {isPhone} = useIsPhone()
   const [status, setStatus] = useState('favorited')
@@ -82,24 +82,24 @@ function LibraryHeader() {
     }
   }
   const tabs = [
-    { tab: 'Favorited', value: 'favorited' },
-    { tab: 'Completed', value: 'completed' },
-    { tab: 'Reading', value: 'reading' },
-    { tab: 'Read Later', value: 'later' },
-    { tab: 'Notifications', value: 'notifications' },
+    { tab: t('favorited'), value: 'favorited' },
+    { tab: t('completed'), value: 'completed' },
+    { tab: t('reading'), value: 'reading' },
+    { tab: t('later'), value: 'later' },
+    { tab: t('notifications'), value: 'notifications' },
   ]
   return (
     <Box component={'div'} sx={style.container}>
       <Box component={'div'} sx={style.headerWrapper}>
         <Typography
           sx={style.headerTitle}>
-          Library
+          {t("library")}
         </Typography>
         <Box sx={{ ...(style.breakLine) }} />
         <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>
-          <Link to="/" style={style.link}>home</Link>
-          <KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} />
-          <Link to="" style={style.link}>{status}</Link>
+          <Link to="/" style={style.link}>{t("home").toLowerCase()}</Link>
+          {i18n.language==="en"?<KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} />:<KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
+          <Link to="" style={style.link}>{t(status).toLowerCase()}</Link>
         </Box>
       </Box>
       <Box
