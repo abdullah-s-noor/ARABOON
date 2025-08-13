@@ -9,9 +9,10 @@
     "sign up": "إنشاء حساب",
     "logout": "تسجيل الخروج",
     "library": "المكتبة",
-    "completed": "مكتملة",
     "reading": "قيد القراءة",
     "later": "اقرأ لاحقًا",
     "notifications": "الإشعارات",
-    "favorited": "المفضلة"
+    "completed": "مكتملة",
+    "ongoing": "مستمرة",
+    "one shot": "ون شوت"
 }

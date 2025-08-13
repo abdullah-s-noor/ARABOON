@@ -10,7 +10,7 @@ function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
     selectedGenre, setSelectedGenre,genreOptions,
     selectedSort, setSelectedSort, sortOptions,
 }) {
-    const { i18n } = useTranslation();
+    const { i18n,t } = useTranslation();
     const theme = useTheme()
     const {isPhone} = useIsPhone()
     const styles = (theme, i18n) => ({
@@ -110,7 +110,7 @@ function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
                 >
                     <Typography
                         sx={style.headerTitle}>
-                        Manga List
+                        {t('manga list')}
                     </Typography>
                     <Box
                         sx={style.tabsBoxOuter}>
@@ -136,7 +136,8 @@ function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
                                                     ":hover": { color: status !== selectedStatus && 'text.primary', }
                                                 }
                                                 )
-                                            }}>{status.charAt(0).toUpperCase() + status.slice(1)}
+                                            }}>
+                                            {t(status)}
                                         </Button>
                                     </Fragment>
 
@@ -163,7 +164,7 @@ function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
                         onClick={() => {
                             setOpenSort(true)
                         }}
-                        sx={{ ...style.filterBtn, mr: 2 }}>
+                        sx={{ ...style.filterBtn,  mr: i18n.language==='en'?2:0 , ml: i18n.language==='ar'?2:0  }}>
                         {selectedSort.value} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
                     </Button>
                 </Box>

@@ -8,21 +8,21 @@ import usePhone from '../../../hooks/usePhone';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import RankingPageSkeleton from '../mySkeletons/RankingPageSkeleton';
-import usePaginatedManga from '../../../hooks/usePaginatedManga';
+import usePaginatedMangaList from '../../../hooks/usePaginatedMangaList';
 
 function RankingPageContent() {
     const theme = useTheme();
     const { isMobile, isTablet } = usePhone();
     const { i18n } = useTranslation();
-    const baseUrl = "/Manga/GetMangaByStatus"
-        const { mangas,loading,count,pageNumber,setPageNumber,hasNextPage,fetchMangas,pageSize}=usePaginatedManga(baseUrl);
+    const baseUrl = "/Manga/GetMangaByStatus?Status=ongoing&OrderBy=1"
+  const { mangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize } = usePaginatedMangaList({ baseUrl });
         
         useEffect(() => {
             const fetchData = async ( ) => {
-                await fetchMangas();
+                await fetchMangas(1);
             };
-            fetchData( );
-        }, []);
+            fetchData();
+        }, [i18n.language]);
         
     return (
         <>
