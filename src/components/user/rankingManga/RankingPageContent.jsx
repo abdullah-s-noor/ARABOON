@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import usePhone from '../../../hooks/usePhone';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import MySkeleton from '../mySkeletons/mySkeleton';
+import MySkeleton from '../mySkeletons/MySkeleton';
 import usePaginatedMangaList from '../../../hooks/usePaginatedMangaList';
 
 function RankingPageContent() {
