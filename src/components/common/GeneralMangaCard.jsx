@@ -1,33 +1,41 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
+import { Button, Card, CardActionArea, CardContent, CardMedia, IconButton, Typography } from '@mui/material'
 import useIsPhone from '../../hooks/usePhone'
-import React from 'react'
+import React, { useState } from 'react'
+import { BookmarkRemove, Delete } from '@mui/icons-material'
+import { useLocation } from 'react-router-dom'
 
-function GeneralMangaCard({ mangaData }) {
-    const {isPhone} = useIsPhone()
+function GeneralMangaCard({ mangaData,setSelectedForDeletion }) {
+    const { isPhone } = useIsPhone()
+    const location = useLocation();
+    //for library page
+    const isLibraryPage = location.pathname.startsWith('/library')
+    //style
     const style = {
         card: {
+            position: "relative",
             maxWidth: { xs: 100, sm: 150, md: 230 },
-            boxShadow: 'none',
-            ...(
-                isPhone ? {
-                    '&:active .title': {
+            boxShadow: "none",
+            transition: "0.3s",
+            ...(isPhone
+                ? {
+                    "&:active .MuiTypography-root.title": {
                         color: "primary.main",
                     },
-                    '&:active .author': {
+                    "&:active .MuiTypography-root.author": {
                         color: "text.primary",
-
                     },
-                } : {
-                    '&:hover .title': {
-                        color: "primary.main",
-                    },
-                    '&:hover .author': {
-                        color: "text.primary",
-
-                    },
+                    "&:active .delete-btn": { opacity: 1 }, // 📱 على الموبايل يظهر بالضغط
                 }
-            ),
-            transition: '0.3s',
+                : {
+                    "&:hover .MuiTypography-root.title": {
+                        color: "primary.main",
+                    },
+                    "&:hover .MuiTypography-root.author": {
+                        color: "text.primary",
+                    },
+                    "&:hover .delete-btn": { opacity: 1, display: isLibraryPage && 'flex' }, // 🖥️ على الكمبيوتر يظهر بالهوفر
+                }),
+
         },
         cardAction: {
             transition: '0.3s',
@@ -65,37 +73,62 @@ function GeneralMangaCard({ mangaData }) {
             color: 'text.secondary', textAlign: 'center',
             fontSize: { xs: 10, sm: 13 }
         },
+        BookMark: {
+            display: 'none',
+            position: "absolute",
+            top: 8,
+            right: 8,
+            opacity: 0, // مخفي افتراضياً
+            transition: "opacity 0.2s ease",
+            bgcolor: "error.main",
+            color: "error.contrastText",
+            "&:hover": {
+                bgcolor: "error.dark",
+            },
+            zIndex: 10,
+        }
     }
     return (
-        <Card
-            sx={style.card}>
-            <CardActionArea
-                sx={style.cardAction}
-            >
-                <CardMedia
-                    component="img"
-                    image={mangaData.mangaImageUrl}
-                    alt="green iguana"
-                    sx={style.img}
-                />
-            </CardActionArea>
-            <CardContent sx={{ bgcolor: 'background.default' }}>
-                <Typography gutterBottom variant="body1" component="div"
-                    sx={style.title}
-                    className='title'
+        <>
+            <Card sx={style.card}>
+                <IconButton size="small" color="error" className="delete-btn"
+                    onClick={() => { setSelectedForDeletion(mangaData) }}
+                    sx={style.BookMark}
+
                 >
-                    {mangaData.mangaName}
-                </Typography>
-                <Typography
-                    className='author'
-                    variant="body2"
-                    sx={style.author}
+                    <Delete fontSize="small" />
+                </IconButton>
+
+                <CardActionArea
+                    sx={style.cardAction}
                 >
-                    Masashi Kishimoto / Mikio Ikemoto
-                </Typography>
-            </CardContent>
-        </Card>
+                    <CardMedia
+                        component="img"
+                        image={mangaData.mangaImageUrl}
+                        alt="green iguana"
+                        sx={style.img}
+                    />
+                </CardActionArea>
+                <CardContent sx={{ bgcolor: 'background.default' }}>
+                    <Typography gutterBottom variant="body1" component="div"
+                        sx={style.title}
+                        className='title'
+                    >
+                        {mangaData.mangaName}
+                    </Typography>
+                    <Typography
+                        className='author'
+                        variant="body2"
+                        sx={style.author}
+                    >
+                        Masashi Kishimoto / Mikio Ikemoto
+                    </Typography>
+                </CardContent>
+            </Card>
+        </>
+
     )
 }
 
 export default GeneralMangaCard
+

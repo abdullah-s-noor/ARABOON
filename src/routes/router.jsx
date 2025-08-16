@@ -26,6 +26,10 @@ export const router = createBrowserRouter([
                 element: <Library />
             },
             {
+                path: '/library/:section',
+                element: <Library />
+            },
+            {
                 path: '/manga-ranking',
                 element: <MangaRanking />
             }, 

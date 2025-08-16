@@ -6,7 +6,7 @@ import GenreDialog from '../dialog/GenreDialog';
 import SortDialog from '../dialog/SortDialog';
 import useIsPhone from '../../../hooks/usePhone';
 
-function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
+function MangaListHeaderPreview({ selectedStatus, setSelectedStatus, statusOptions,
     selectedGenre, setSelectedGenre,genreOptions,
     selectedSort, setSelectedSort, sortOptions,
 }) {
@@ -174,4 +174,4 @@ function MangaHeader({ selectedStatus, setSelectedStatus, statusOptions,
     )
 }
 
-export default MangaHeader
+export default MangaListHeaderPreview

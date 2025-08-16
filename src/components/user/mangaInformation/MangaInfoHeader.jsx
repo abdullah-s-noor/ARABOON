@@ -3,7 +3,7 @@ import { Box, Button, Divider, Rating, Typography, useTheme } from '@mui/materia
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next'
 import styles from './style'
-function MangaHeader() {
+function MangaInfoHeader() {
     const { i18n } = useTranslation();
     const theme = useTheme()
     const [value, setValue] = useState(2)
@@ -83,4 +83,4 @@ function MangaHeader() {
     )
 }
 
-export default MangaHeader
+export default MangaInfoHeader

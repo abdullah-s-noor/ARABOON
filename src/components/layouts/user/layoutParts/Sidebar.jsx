@@ -18,7 +18,7 @@ function Sidebar({ language, setLanguage }) {
         { text: t("home"), icon: <Home /> },
         { text: t("ranking"), icon: <Leaderboard /> },
         { text: t("manga list"), icon: <MenuBook /> },
-        { text: t("favorited"), icon: <Favorite /> },
+        { text: t("library"), icon: <Favorite /> },
         { text: t("login"), icon: <Login /> },
         { text: t("sign up"), icon: <PersonAdd /> },
         { text: t("logout"), icon: <Logout /> },

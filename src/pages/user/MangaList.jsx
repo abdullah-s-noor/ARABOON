@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
-import MangaHeader from '../../components/user/mangaList/MangaHeader'
+import MangaListHeaderPreview from '../../components/user/mangaList/MangaListHeaderPreview'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import MangaCards from '../../components/user/mangaList/MangaCards';
+import MangaListCardsPreview from '../../components/user/mangaList/MangaListCardsPreview';
 import { api } from '../../services/api';
 import usePaginatedMangaList from '../../hooks/usePaginatedMangaList';
 
@@ -62,12 +62,12 @@ function MangaList() {
           mb: 2
         }}
       >
-        <MangaHeader
+        <MangaListHeaderPreview
           selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} statusOptions={statusOptions}
           selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} genreOptions={genreOptions}
           selectedSort={selectedSort} setSelectedSort={setSelectedSort} sortOptions={sortOptions}
         />
-        <MangaCards status={selectedStatus} genre={selectedGenre} sort={selectedSort} />
+        <MangaListCardsPreview status={selectedStatus} genre={selectedGenre} sort={selectedSort} />
 
       </Box>
     </>
