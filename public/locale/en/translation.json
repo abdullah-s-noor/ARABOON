@@ -8,11 +8,15 @@
     "sign up": "Sign Up",
     "logout": "Logout",
     "library": "Library",
-    "favorited": "Favorited",
     "reading": "Reading",
     "later": "Read Later",
-    "notifications": "Notifications",
     "completed": "Completed",
     "ongoing": "Ongoing",
-    "one shot": "One Shot"
+    "one shot": "One Shot",
+    "favorites": "Favorite",
+    "completed-reads": "Completed Reads",
+    "currently-reading": "Currently Reading",
+    "reading-later": "Reading Later",
+    "notifications": "Notifications",
+    "noData": "No Data Available"
 }

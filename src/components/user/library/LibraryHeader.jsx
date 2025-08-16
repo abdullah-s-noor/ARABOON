@@ -1,15 +1,14 @@
 import { Box, Button, Typography, useTheme } from '@mui/material'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, use, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import useIsPhone from '../../../hooks/usePhone';
-function LibraryHeader() {
-  const { i18n,t } = useTranslation()
+function LibraryHeader({librarySection, setLibrarySection, sections}) {
+  const { i18n, t } = useTranslation()
   const theme = useTheme()
-  const {isPhone} = useIsPhone()
-  const [librarySection, setLibrarySection] = useState('favorited')
-
+  const { isPhone } = useIsPhone()
+  
   const style = {
     container: {
       width: '100%',
@@ -23,10 +22,10 @@ function LibraryHeader() {
         (theme.palette.mode === 'dark' ? 'linear-gradient(270deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(270deg, rgba(255,255,255,0.5), rgba(220,9,20,0))'),
       display: 'flex',
       '@media (max-width:600px)': {
-        justifyContent:'center'
+        justifyContent: 'center'
       },
-      flexWrap:'wrap',
-      gap: {sm:4},
+      flexWrap: 'wrap',
+      gap: { sm: 4 },
     },
     headerTitle: {
       fontFamily: '"Open Sans",sans-serif,Cairo',
@@ -64,8 +63,9 @@ function LibraryHeader() {
       ":disabled": {
         color: '#ffd600'
       },
+      px:{xs:0, sm: "8px"},
       fontFamily: '"Open Sans",sans-serif,Cairo',
-      fontSize: { xs: '15px', sm: '18px' },
+      fontSize: { xs: '13px', sm: '18px' },
       fontWeight: 'bold',
       textTransform: 'none',
       transition: '.3s ease',
@@ -82,8 +82,7 @@ function LibraryHeader() {
       },
     }
   }
-  const sections = ['favorited' , 'completed', 'reading', 'later', 'notifications']
-
+  
   return (
     <Box component={'div'} sx={style.container}>
       <Box component={'div'} sx={style.headerWrapper}>
@@ -94,7 +93,7 @@ function LibraryHeader() {
         <Box sx={{ ...(style.breakLine) }} />
         <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>
           <Link to="/" style={style.link}>{t("home").toLowerCase()}</Link>
-          {i18n.language==="en"?<KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} />:<KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
+          {i18n.language === "en" ? <KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} /> : <KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
           <Link to="" style={style.link}>{t(librarySection).toLowerCase()}</Link>
         </Box>
       </Box>
@@ -123,8 +122,8 @@ function LibraryHeader() {
                 </Typography>}
                 <Button
                   onClick={() => {
-                    setLibrarySection(section)
                     localStorage.setItem("librarySection", section)
+                    setLibrarySection(section)
                   }}
                   disabled={librarySection === section}
                   sx={{
@@ -135,7 +134,7 @@ function LibraryHeader() {
                       ":hover": { color: section !== librarySection && 'text.primary', }
                     }
                     )
-                  }}>{t(section)}
+                  }}>{t(section.toLowerCase())}
                 </Button>
               </Fragment>
 

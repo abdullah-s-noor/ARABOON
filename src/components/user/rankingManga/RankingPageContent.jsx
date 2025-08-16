@@ -1,13 +1,10 @@
-import { Box, Skeleton, Stack, Typography, useTheme } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import RankingPageCard from './RankingPageCard'
 import { useEffect, useState } from 'react'
-import { api } from '../../../services/api';
-import MyPagination from '../../common/MyPagination';
-import Loader from '../../common/Loader';
 import usePhone from '../../../hooks/usePhone';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import RankingPageSkeleton from '../mySkeletons/RankingPageSkeleton';
+import MySkeleton from '../mySkeletons/mySkeleton';
 import usePaginatedMangaList from '../../../hooks/usePaginatedMangaList';
 
 function RankingPageContent() {
@@ -15,31 +12,41 @@ function RankingPageContent() {
     const { isMobile, isTablet } = usePhone();
     const { i18n } = useTranslation();
     const baseUrl = "/Manga/GetMangaByStatus?Status=ongoing&OrderBy=1"
-  const { mangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize } = usePaginatedMangaList({ baseUrl });
-        
-        useEffect(() => {
-            const fetchData = async ( ) => {
-                await fetchMangas(1);
-            };
-            fetchData();
-        }, [i18n.language]);
-        
+    const { mangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize } = usePaginatedMangaList({ baseUrl });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchMangas(1);
+        };
+        fetchData();
+    }, [i18n.language]);
+    const skeletonStyle = {
+        h: { xs: "165px", sm: "225px", md: "270px", lg: "315px" },
+        w: { xs: "110px", sm: "150px", md: "180px", lg: "210px" },
+        pd: { xs: '5px', sm: '10px' }
+    }
     return (
         <>
             {loading && pageNumber === 1 ? (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center', }}>
-                    <RankingPageSkeleton SkeletonCount={isMobile ? 6 : isTablet ? 10 : 12} />
+                    <MySkeleton
+                        pd={skeletonStyle.pd} h={skeletonStyle.h} w={skeletonStyle.w}
+                        SkeletonCount={isMobile ? 6 : isTablet ? 10 : 12}
+                    />
                 </Box>
             ) :
                 <InfiniteScroll
                     dataLength={mangas.length}
                     next={() => setPageNumber(prev => prev + 1)} // زيادة الصفحة عند تحميل المزيد
                     hasMore={hasNextPage} // true أو false حسب وجود صفحات إضافية
-                    loader={<RankingPageSkeleton SkeletonCount={Math.min(pageSize, count - pageSize * (pageNumber - 1))}/>}
+                    loader={<MySkeleton
+                        pd={skeletonStyle.pd} h={skeletonStyle.h} w={skeletonStyle.w}
+                        SkeletonCount={Math.min(pageSize, count - pageSize * (pageNumber - 1))}
+                    />}
                     style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        
+
                         flexWrap: 'wrap',
                         gap: 2
                     }}
@@ -48,7 +55,7 @@ function RankingPageContent() {
                         <RankingPageCard
                             key={index}
                             mangaData={mangaData}
-                            rate={index + 1 }
+                            rate={index + 1}
                         />
                     ))}
 

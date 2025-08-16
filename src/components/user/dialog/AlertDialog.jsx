@@ -1,20 +1,58 @@
-import * as React from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from 'react-i18next';
+import { api } from '../../../services/api';
 
-export default function AlertDialog({ dialogTitle, dialogContent, open, setOpen }) {
-
+const dialogText = {
+    en: {
+        removeTitle: "Remove Bookmark",
+        removeContent: (title) => `Are you sure you want to remove "${title}" from your library? This action cannot be undone.`,
+        cancel: "Cancel",
+        remove: "Remove",
+        removing: "Removing...",
+    },
+    ar: {
+        removeTitle: "حذف المرجع",
+        removeContent: (title) => `هل أنت متأكد أنك تريد حذف "${title}" من مكتبتك؟ هذا الإجراء لا يمكن التراجع عنه.`,
+        cancel: "إلغاء",
+        remove: "حذف",
+        removing: "جارٍ الحذف...",
+    }
+}
+export default function AlertDialog({selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
+    const { i18n } = useTranslation()
+    const lang = i18n.language
+    const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
+    console.log(selectedForDeletion)
+    useEffect(() => {
+        setOpen(selectedForDeletion ? true : false)
+    }, [selectedForDeletion])
 
     const handleClose = () => {
-        setOpen(false);
+        setSelectedForDeletion(null)
     };
 
+    const handleDelete = async () => {
+        try {
+            setLoading(true)
+            setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
+            const response =await api.delete(`/Notifications/RemoveFromNotifications/${selectedForDeletion.mangaID}`)
+            console.log(response)
+            handleClose()
+        } catch(err) {
+            console.log(err)
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
-        <React.Fragment>
+        <Fragment>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -22,20 +60,20 @@ export default function AlertDialog({ dialogTitle, dialogContent, open, setOpen 
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {dialogTitle}
+                    {dialogText[lang].removeTitle}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {dialogContent}
+                        {dialogText[lang].removeContent(selectedForDeletion?.mangaName)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
-                        Agree
+                    <Button onClick={handleClose} disabled={loading}>{dialogText[lang].cancel}</Button>
+                    <Button onClick={handleDelete} autoFocus disabled={loading}>
+                        {loading ? dialogText[lang].removing : dialogText[lang].remove}
                     </Button>
                 </DialogActions>
             </Dialog>
-        </React.Fragment>
+        </Fragment>
     );
 }

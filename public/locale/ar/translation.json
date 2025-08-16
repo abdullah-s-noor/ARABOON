@@ -4,15 +4,18 @@
     "manga list": "قائمة المانجا",
     "ranking": "التصنيف",
     "about us": "عنّا",
-    "favorited": "المفضلة",
     "login": "تسجيل الدخول",
     "sign up": "إنشاء حساب",
     "logout": "تسجيل الخروج",
     "library": "المكتبة",
     "reading": "قيد القراءة",
-    "later": "اقرأ لاحقًا",
-    "notifications": "الإشعارات",
     "completed": "مكتملة",
     "ongoing": "مستمرة",
-    "one shot": "ون شوت"
+    "one shot": "ون شوت",
+    "notifications": "الإشعارات",
+    "reading-later": "اقرأ لاحقًا",
+    "currently-reading": "قيد القراءة",
+    "completed-reads": "المنتهية",
+    "favorites": "المفضلة",
+    "noData": "لا توجد بيانات"
 }

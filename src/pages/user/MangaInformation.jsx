@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import ChapterList from '../../components/user/mangaInformation/ChapterList'
-import MangaHeader from '../../components/user/mangaInformation/MangaHeader'
+import MangaInfoHeader from '../../components/user/mangaInformation/MangaInfoHeader'
 import MangaActionSidebar from '../../components/user/mangaInformation/MangaActionSidebar'
 function MangaInformation() {
     return (
@@ -18,7 +18,7 @@ function MangaInformation() {
                 margin={'auto'}
             >
                 {/* manga info */}
-                <MangaHeader />
+                <MangaInfoHeader />
                 {/* chapters list */}
                 <Box
                     sx={{
