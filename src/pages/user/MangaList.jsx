@@ -1,58 +1,23 @@
 import { Box } from '@mui/material'
 import MangaListHeaderPreview from '../../components/user/mangaList/MangaListHeaderPreview'
-import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import MangaListCardsPreview from '../../components/user/mangaList/MangaListCardsPreview';
-import { api } from '../../services/api';
-import usePaginatedMangaList from '../../hooks/usePaginatedMangaList';
+import useMangaListFilter from '../../hooks/useMangaListFilter';
 
 function MangaList() {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams()
-  const statusKey = (searchParams.get("status")?.toLowerCase() || localStorage.getItem("status")?.toLowerCase() || "ongoing");
-  const genreKey = (searchParams.get("genre")?.toLowerCase() || localStorage.getItem("genre")?.toLowerCase() || "all")
-  const sortKey = (searchParams.get("sort")?.toLowerCase() || localStorage.getItem("sort")?.toLowerCase() || "az");
-  const statusOptions = ["ongoing", "completed", "one shot"];
-  const genreOptions = ["all", "action", "adventure", "fantasy", "supernatural"]
-  const sortOptions = {
-    az: "A to Z",
-    za: "Z to A",
-    popularityscore: "Popularity Score",
-  };
-  const [selectedStatus, setSelectedStatus] = useState(statusKey);
-  const [selectedGenre, setSelectedGenre] = useState(genreKey);
-  const [selectedSort, setSelectedSort] = useState({ key: sortKey, value: sortOptions[sortKey] });
-  
-  useEffect(() => {
-    const fetchMangaList = async () => {
-      if (!genreOptions.includes(genreKey) || !statusOptions.includes(statusKey) || !sortOptions[sortKey]) {
-        navigate('/not-found')
-      }
-      const params = {
-        status: selectedStatus,
-        genre: selectedGenre,
-        sort: selectedSort.key,
-      }
-      setSearchParams(params)
-    };
-    fetchMangaList();
-  }, [selectedGenre, selectedSort, selectedStatus, searchParams])
-
-  useEffect(() => {//delete the local storage when close the tab
-    const handleTabClose = () => {
-      localStorage.removeItem("status");
-      localStorage.removeItem("genre");
-      localStorage.removeItem("sort");
-    };
-    window.addEventListener("beforeunload", handleTabClose);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleTabClose);
-    };
-  }, []);
+  const {
+    selectedStatus,
+    setSelectedStatus,
+    statusOptions,
+    selectedGenre,
+    setSelectedGenre,
+    genreOptions,
+    selectedSort,
+    setSelectedSort,
+    sortOptions
+  } = useMangaListFilter()
   return (
     <>
-    
+
       <Box
         component={'div'}
         sx={{

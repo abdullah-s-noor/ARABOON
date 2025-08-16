@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { BookmarkRemove, Delete } from '@mui/icons-material'
 import { useLocation } from 'react-router-dom'
 
-function GeneralMangaCard({ mangaData,setSelectedForDeletion }) {
+function GeneralMangaCard({ mangaData,setSelectedForDeletion=null }) {
     const { isPhone } = useIsPhone()
     const location = useLocation();
     //for library page

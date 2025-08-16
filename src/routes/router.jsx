@@ -2,12 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
 import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
-import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage } from "../pages";
+import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound } from "../pages";
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <UserLayout />,
-        errorElement: <h1>page not found</h1>,
         children: [
             {
                 path: "/",
@@ -36,7 +35,12 @@ export const router = createBrowserRouter([
             {
                 path: '/test-page',
                 element: <TestPage />
-            }
+            },
+            {
+                path: '/not-found',
+                element: <NotFound />
+            },
+
         ],
     },
     {
