@@ -23,7 +23,7 @@ function Library() {
       setLibrarySection(s);
       localStorage.setItem("librarySection", s);
     } else {
-      navigate("not-found");
+      navigate("/not-found");
     }
   }, [params.section]);
 
