@@ -3,13 +3,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSort ,sortOptions}) {
+export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSort, sortOptions }) {
+    const { t } = useTranslation()
     const handleClose = () => {
         setOpen(false);
     };
-
     return (
         <React.Fragment>
             <Dialog
@@ -19,7 +20,7 @@ export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSo
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title" sx={{ textAlign: 'center' }}>
-                    Sort
+                    {t("sort")}
                 </DialogTitle>
                 <DialogContent >
                     <DialogContentText id="alert-dialog-description" sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -31,7 +32,7 @@ export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSo
                                     const key = e.target.value;
                                     const label = sortOptions[key];
                                     setSelectedSort({ key, value: label });
-                                    localStorage.setItem("sort",key)
+                                    localStorage.setItem("sort", key)
                                     setOpen(false);
                                 }}
                                 name="radio-buttons-group"
@@ -41,7 +42,7 @@ export default function AlertDialog({ open, setOpen, selectedSort, setSelectedSo
                                         key={key}
                                         value={key}
                                         control={<Radio />}
-                                        label={label}
+                                        label={t(label)}
                                     />
                                 ))}
                             </RadioGroup>

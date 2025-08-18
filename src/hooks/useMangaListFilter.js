@@ -1,96 +1,97 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { api } from "../services/api";
 
 const useMangaListFilter = () => {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // State to hold the available genre options.
+    const [genreOptions, setGenreOptions] = useState([]);
+
+    // State to manage the loading status.
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Static filter options
     const statusOptions = ["ongoing", "completed", "one shot"];
-    const genreOptions = ["all", "action", "adventure", "fantasy", "supernatural"]
     const sortOptions = {
-        az: "A to Z",
-        za: "Z to A",
-        popularityscore: "Popularity Score",
+        az: "a to z",
+        za: "z to a",
+        popularityscore: "popularity score",
     };
 
-    const [selectedStatus, setSelectedStatus] = useState(() => {
-        const store = localStorage.getItem("status")?.toLowerCase();
-        return statusOptions.includes(store) ? store : "ongoing";
-    });
+    // Initialize all filter states with default values.
+    const [selectedStatus, setSelectedStatus] = useState("ongoing");
+    const [selectedGenre, setSelectedGenre] = useState({ en: "all", ar: 'الكل' });
+    const [selectedSort, setSelectedSort] = useState({ key: "az", value: "A to Z" });
 
-    const [selectedGenre, setSelectedGenre] = useState(() => {
-        const store = localStorage.getItem("genre")?.toLowerCase();
-        return genreOptions.includes(store) ? store : "all";
-    });
-
-    const sortKey = (() => {
-        const store = localStorage.getItem("sort")?.toLowerCase();
-        return sortOptions[store] ? store : "az";
-    })();
-    const [selectedSort, setSelectedSort] = useState({ key: sortKey, value: sortOptions[sortKey] });
-
+    // This effect handles initial data fetching and state synchronization.
     useEffect(() => {
-        let status = searchParams.get("status")?.toLowerCase()
-        let genre = searchParams.get("genre")?.toLowerCase()
-        let sort = searchParams.get("sort")?.toLowerCase()
-        if (!status || !statusOptions.includes(status)) {
-            status = selectedStatus
-        } else {
-            setSelectedStatus(status)
-            localStorage.setItem("status", status)
-        }
-        if (!genre || !genreOptions.includes(genre)) {
-            genre = selectedGenre
-        } else {
-            setSelectedGenre(genre)
-            localStorage.setItem("genre", genre)
+        const fetchAndInitFilters = async () => {
+            try {
+                // Fetch available genre options from the API.
+                const { data } = await api.get('/Categories/GetCategories');
+                const fetchedGenres = data.data || [];
+                const allGenres = [{ en: "all", ar: "الكل" }, ...fetchedGenres];
+                const enGenres = allGenres.map(g => g.en)
+                // Update the genre options state.
+                setGenreOptions(allGenres);
 
-        }
-        if (!sort || !sortOptions[sort]) {
-            sort = selectedSort.key
-            localStorage.setItem('sort', sort)
-        } else {
-            setSelectedSort({ key: sort, value: sortOptions[sort] })
-        }
+                // Get filter values from URL and localStorage.
+                const statusFromURL = searchParams.get("status")?.toLowerCase();
+                const genreFromURL = searchParams.get("genre")?.toLowerCase();
+                const sortFromURL = searchParams.get("sort")?.toLowerCase();
 
+                const statusFromStore = localStorage.getItem("status")?.toLowerCase();
+                const genreFromStore = localStorage.getItem("genre")?.toLowerCase();
+                const sortFromStore = localStorage.getItem("sort")?.toLowerCase();
 
-        const fetchMangaList = async () => {
+                // Determine and set the final state based on priority: URL > localStorage > default.
+                const finalStatus = statusFromURL && statusOptions.includes(statusFromURL) ? statusFromURL : statusFromStore && statusOptions.includes(statusFromStore) ? statusFromStore : "ongoing";
+                const finalGenre =
+                    genreFromURL && enGenres.includes(genreFromURL)
+                        ? allGenres.find((g) => g.en === genreFromURL)
+                        : genreFromStore && enGenres.includes(genreFromStore)
+                            ? allGenres.find((g) => g.en === genreFromStore)
+                            : allGenres.find((g) => g.en === "all");
 
-            const params = {
-                status,
-                genre,
-                sort,
+                const finalSortKey = sortFromURL && sortOptions[sortFromURL] ? sortFromURL : sortFromStore && sortOptions[sortFromStore] ? sortFromStore : "az";
+
+                setSelectedStatus(finalStatus);
+                setSelectedGenre(finalGenre);
+                setSelectedSort({ key: finalSortKey, value: sortOptions[finalSortKey] });
+
+                // Update localStorage with the final determined values.
+                localStorage.setItem("status", finalStatus);
+                localStorage.setItem("genre", finalGenre.en);
+                localStorage.setItem("sort", finalSortKey);
+
+            } catch (error) {
+                console.error("Failed to fetch genres:", error);
+            } finally {
+                // Set loading to false once the process is complete (success or fail).
+                setIsLoading(false);
             }
-            setSearchParams(params)
-
         };
-        fetchMangaList();
-    }, [searchParams])
-    useEffect(() => {
-        const fetchMangaList = async () => {
 
+        fetchAndInitFilters();
+
+    }, [searchParams]);
+
+    // This effect syncs the state changes back to the URL.
+    useEffect(() => {
+        // Only update the URL if not in a loading state.
+        if (!isLoading) {
             const params = {
                 status: selectedStatus,
-                genre: selectedGenre,
+                genre: selectedGenre.en,
                 sort: selectedSort.key,
-            }
-            setSearchParams(params)
-
-        };
-        fetchMangaList();
-    }, [selectedStatus, selectedGenre, selectedSort])
-    useEffect(() => {//delete the local storage when close the tab
-        const handleTabClose = () => {
-            localStorage.removeItem("status");
-            localStorage.removeItem("genre");
-            localStorage.removeItem("sort");
-        };
-        window.addEventListener("beforeunload", handleTabClose);
-
-        return () => {
-            window.removeEventListener("beforeunload", handleTabClose);
-        };
-    }, []);
+            };
+            setSearchParams(params);
+        }
+    }, [selectedStatus, selectedGenre, selectedSort, isLoading, setSearchParams]);
 
     return {
+        isLoading, // Return the loading state for conditional rendering
         selectedStatus,
         setSelectedStatus,
         statusOptions,
@@ -100,7 +101,7 @@ const useMangaListFilter = () => {
         selectedSort,
         setSelectedSort,
         sortOptions
-    }
+    };
+};
 
-}
 export default useMangaListFilter;

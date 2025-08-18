@@ -152,11 +152,11 @@ function MangaListHeaderPreview({ selectedStatus, setSelectedStatus, statusOptio
                 >
                     <Button
                         variant="outlined"
-                        sx={{ ...style.filterBtn, color: selectedGenre !== "all" ? "primary.main" : "text.primary", borderColor: selectedGenre !== "all" ? "primary.main" : "text.primary" }}
+                        sx={{ ...style.filterBtn, color: selectedGenre.en !== "all" ? "primary.main" : "text.primary", borderColor: selectedGenre.en !== "all" ? "primary.main" : "text.primary" }}
                         onClick={() => {
                             setOpenGenre(true)
                         }}>
-                        {selectedGenre === "all" ? 'Filter' : selectedGenre} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
+                        {selectedGenre.en === "all" ? t('filter') :(i18n.language==='en'?selectedGenre.en:selectedGenre.ar)} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
                     </Button>
                     <Button
 
@@ -165,7 +165,7 @@ function MangaListHeaderPreview({ selectedStatus, setSelectedStatus, statusOptio
                             setOpenSort(true)
                         }}
                         sx={{ ...style.filterBtn,  mr: i18n.language==='en'?2:0 , ml: i18n.language==='ar'?2:0  }}>
-                        {selectedSort.value} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
+                        {t(selectedSort.value)} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
                     </Button>
                 </Box>
             </Box>
