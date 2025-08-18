@@ -109,7 +109,7 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
                         sx={style.img}
                     />
                 </CardActionArea>
-                <CardContent sx={{ bgcolor: 'background.default' }}>
+                <CardContent sx={{ bgcolor: 'background.default'  }}>
                     <Typography gutterBottom variant="body1" component="div"
                         sx={style.title}
                         className='title'
