@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const dialogText = {
     en: {
@@ -45,7 +46,8 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
             setLoading(true)
             setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
             const {data} = await api.delete(`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
-            console.log(data.message)
+            console.log(data)
+            toast.success(data.message)
             handleClose()
         } catch (err) {
             console.log(err)

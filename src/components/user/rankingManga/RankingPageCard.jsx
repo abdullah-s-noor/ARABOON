@@ -73,7 +73,6 @@ function RankingPageCard({ mangaData,rate }) {
             fontSize: { xs: 10, sm: 13 }
         },
     }
-
     return (
         <Card
             sx={style.card}
@@ -110,10 +109,10 @@ function RankingPageCard({ mangaData,rate }) {
                     </Typography>
                         )}
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
-                        <Whatshot sx={{ fontSize: 18 }} />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: {xs:0.2,sm:0.6} }}>
+                        <Whatshot sx={{ fontSize: {xs:12,sm:18} }} />
                         <Typography sx={{ fontWeight: 600, fontSize: { xs: 12, sm: 14 } }}>
-                            1050
+                            {mangaData.popularityScore}
                         </Typography>
                     </Box>
                 </Box>
@@ -128,7 +127,7 @@ function RankingPageCard({ mangaData,rate }) {
                     variant="body2"
                     sx={style.author}
                 >
-                    Masashi Kishimoto / Mikio Ikemoto
+                    {mangaData.authorName}
                 </Typography>
             </CardContent>
         </Card>
