@@ -13,7 +13,7 @@ function LibraryCardsPreview({ librarySection }) {
   const navigate = useNavigate();
   const { isMobile, isTablet } = usePhone();
   const { i18n, t } = useTranslation()
-  const s = librarySection.split('-').join('');
+  const s = librarySection?.split('-')?.join('');
   const baseUrl = `/${s}/View${s}Manga?`;
   const { mangas,setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl });
   const [selectedForDeletion, setSelectedForDeletion] = useState(null)

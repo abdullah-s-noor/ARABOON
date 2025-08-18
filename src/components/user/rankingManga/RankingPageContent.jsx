@@ -11,7 +11,7 @@ function RankingPageContent() {
     const theme = useTheme();
     const { isMobile, isTablet } = usePhone();
     const { i18n } = useTranslation();
-    const baseUrl = "/Manga/GetMangaByStatus?Status=ongoing&OrderBy=1"
+    const baseUrl = "/Manga/GetPaginatedHottestManga?"
     const { mangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize } = usePaginatedMangaList({ baseUrl });
 
     useEffect(() => {
