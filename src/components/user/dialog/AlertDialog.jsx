@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../../services/api';
+import { useLocation } from 'react-router-dom';
 
 const dialogText = {
     en: {
@@ -24,12 +25,13 @@ const dialogText = {
         removing: "جارٍ الحذف...",
     }
 }
-export default function AlertDialog({selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
+export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
+    const location = useLocation()
+    const pathname = (location.pathname?.split('/')[2])?.split('-')?.join('')
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
-    console.log(selectedForDeletion)
     useEffect(() => {
         setOpen(selectedForDeletion ? true : false)
     }, [selectedForDeletion])
@@ -42,10 +44,10 @@ export default function AlertDialog({selectedForDeletion, setSelectedForDeletion
         try {
             setLoading(true)
             setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
-            const response =await api.delete(`/Notifications/RemoveFromNotifications/${selectedForDeletion.mangaID}`)
-            console.log(response)
+            const {data} = await api.delete(`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
+            console.log(data.message)
             handleClose()
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         } finally {
             setLoading(false)

@@ -47,13 +47,13 @@ function RankingPageHeader() {
         <Box component={'div'} sx={style.headerWrapper}>
             <Typography
                 sx={style.headerTitle}>
-                {t("library")}
+                {t("Ranking")}
             </Typography>
             <Box sx={{ ...(style.breakLine) }} />
             <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>
                 <Link to="/" style={style.link}>{t("home").toLowerCase()}</Link>
                 {i18n.language === "en" ? <KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} /> : <KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
-                <Link to="" style={style.link}>{t("ranking").toLowerCase()}</Link>
+                <Link to="/manga-ranking" style={style.link}>{t("ranking").toLowerCase()}</Link>
             </Box>
         </Box>
     )

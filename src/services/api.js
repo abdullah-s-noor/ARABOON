@@ -11,6 +11,10 @@ api.interceptors.request.use(
     config.headers['Accept-Language'] = language;
     const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFib29kIiwiRW1haWwiOiJhYm9vZG5vb3JtbTIwMDRAZ21haWwuY29tIiwiRmlyc3ROYW1lIjoiQWJkdWxsYWgiLCJMYXN0TmFtZSI6Ik5vb3IiLCJJRCI6IjEwMDMiLCJSb2xlIjoiVXNlciIsImV4cCI6MTc1NTUzOTMyOSwiaXNzIjoiYXJhYm9vbi1hdXRoLXNlcnZlciIsImF1ZCI6ImFyYWJvb24tY2xpZW50cyJ9.zxP9qKPfrVsVDxcfCidsgODvr2x6nI2ihJlLpZmE55Q";
     config.headers.Authorization = `Bearer ${token}`;
+
+    config.headers['Cache-Control'] = 'no-cache';
+    config.headers['Pragma'] = 'no-cache';
+    
     return config;
   },
   (error) => Promise.reject(error)

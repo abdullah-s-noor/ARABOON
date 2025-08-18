@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import useIsPhone from '../../../hooks/usePhone';
-function LibraryHeader({librarySection, setLibrarySection, sections}) {
+function LibraryHeader({ librarySection, setLibrarySection, sections }) {
   const { i18n, t } = useTranslation()
   const theme = useTheme()
   const { isPhone } = useIsPhone()
-  
+
   const style = {
     container: {
       width: '100%',
@@ -22,6 +22,7 @@ function LibraryHeader({librarySection, setLibrarySection, sections}) {
         (theme.palette.mode === 'dark' ? 'linear-gradient(270deg, rgba(0,0,0,0.5), rgba(220,9,20,0))' : 'linear-gradient(270deg, rgba(255,255,255,0.5), rgba(220,9,20,0))'),
       display: 'flex',
       '@media (max-width:600px)': {
+        pr: '25px',
         justifyContent: 'center'
       },
       flexWrap: 'wrap',
@@ -63,7 +64,7 @@ function LibraryHeader({librarySection, setLibrarySection, sections}) {
       ":disabled": {
         color: '#ffd600'
       },
-      px:{xs:0, sm: "8px"},
+      px: { xs: 0, sm: "8px" },
       fontFamily: '"Open Sans",sans-serif,Cairo',
       fontSize: { xs: '13px', sm: '18px' },
       fontWeight: 'bold',
@@ -82,7 +83,7 @@ function LibraryHeader({librarySection, setLibrarySection, sections}) {
       },
     }
   }
-  
+
   return (
     <Box component={'div'} sx={style.container}>
       <Box component={'div'} sx={style.headerWrapper}>

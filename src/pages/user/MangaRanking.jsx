@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import React from 'react'
 import RankingPageHeader from '../../components/user/rankingManga/RankingPageHeader.jsx'
 import RankingPageContent from '../../components/user/rankingManga/RankingPageContent.jsx'
 function MangaRanking() {
