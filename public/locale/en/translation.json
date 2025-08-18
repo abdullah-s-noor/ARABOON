@@ -18,5 +18,11 @@
     "currently-reading": "Currently Reading",
     "reading-later": "Reading Later",
     "notifications": "Notifications",
-    "noData": "No Data Available"
+    "noData": "No Data Available",
+    "filter": "Filter",
+    "a to z": "A to Z",
+    "z to a": "Z to A",
+    "popularity score": "Popularity Score",
+    "sort":"Sort",
+    "genres":"Genres"
 }

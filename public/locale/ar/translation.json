@@ -17,5 +17,11 @@
     "currently-reading": "قيد القراءة",
     "completed-reads": "المنتهية",
     "favorites": "المفضلة",
-    "noData": "لا توجد بيانات"
+    "noData": "لا توجد بيانات",
+    "filter":"تصفية",
+    "a to z": "أ الى ي",
+    "z to a": "ي الى أ",
+    "popularity score": "درجة الشهرة",
+    "sort":"ترتيب",
+    "genres":"النوع"
 }

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { BookmarkRemove, Delete } from '@mui/icons-material'
 import { useLocation } from 'react-router-dom'
 
-function GeneralMangaCard({ mangaData,setSelectedForDeletion=null }) {
+function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
     const { isPhone } = useIsPhone()
     const location = useLocation();
     //for library page
@@ -121,7 +121,7 @@ function GeneralMangaCard({ mangaData,setSelectedForDeletion=null }) {
                         variant="body2"
                         sx={style.author}
                     >
-                        Masashi Kishimoto / Mikio Ikemoto
+                        {mangaData.authorName}
                     </Typography>
                 </CardContent>
             </Card>
