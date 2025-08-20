@@ -5,14 +5,15 @@ import {
     Box,
     useTheme,
 } from "@mui/material"
-import { Visibility, VisibilityOff, Email, Lock, Person, FlashAuto } from "@mui/icons-material"
 import { Zap } from "lucide-react"
 import Register from "../../components/auth/register/Register"
 import Login from "../../components/auth/login/Login"
 import { styles } from "./styles"
-export function AuthDialog({ mode, open, onOpenChange }) {
+import { useState } from "react"
+export function AuthDialog({ open, onOpenChange }) {
     const theme = useTheme()
     const style = styles(theme)
+    const [mode,setMode]=useState('register')
     return (
         <Dialog
             open={open}
@@ -50,7 +51,10 @@ export function AuthDialog({ mode, open, onOpenChange }) {
                 </Box>
                 {/* right side */}
                 <Box sx={style.rightSide}>
-                    <Register />
+                    {mode==="register"?<Register setMode={setMode} />:
+                    mode==='login'?<Login setMode={setMode}/>:
+                    null
+                    }
                 </Box>
 
             </DialogContent>

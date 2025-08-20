@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { TextField, IconButton, InputAdornment, InputLabel, Box } from '@mui/material';
 import { Email, Person, Phone, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
+import { useTranslation } from 'react-i18next';
 
 function Input({ type, title, id, name, value, onChange, errors, onBlur, touched, disabled = false }) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
+    const {i18n}=useTranslation()
     const getStartIcon = () => {
         if (type === "email") return <Mail size="16px" color="oklch(70.4% 0.04 256.788)" />;
         if (type === "password") return <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />;
@@ -37,11 +39,11 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                     InputLabelProps={type === 'date' && { shrink: true }}
                     InputProps={{
                         startAdornment: getStartIcon() && (
-                            <InputAdornment position="start">{getStartIcon()}</InputAdornment>
+                            <InputAdornment position={i18n.language==='en'?"start":'end'}>{getStartIcon()}</InputAdornment>
                         ),
                         endAdornment: type === "password" ? (
-                            <InputAdornment position="end">
-                                <IconButton onClick={handleClickShowPassword} edge="end">
+                            <InputAdornment position={i18n.language==='ar'?"start":'end'}>
+                                <IconButton onClick={handleClickShowPassword} edge={i18n.language==='ar'?"start":'end'}>
                                     {showPassword ? <EyeOff size="16px" color="oklch(70.4% 0.04 256.788)" /> : <Eye size="16px" color="oklch(70.4% 0.04 256.788)" />}
                                 </IconButton>
                             </InputAdornment>

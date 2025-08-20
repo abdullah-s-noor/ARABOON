@@ -9,7 +9,7 @@ import inputs from './inputs';
 import Input from '../../common/Input';
 import { styles } from './styles';
 import { renderInput1, renderInput2 } from './authFormInputs.jsx'; // عدّل المسار حسب مشروعك
-function Register() {
+function Register({ setMode }) {
   const theme = useTheme()
   const [serverError, setServerError] = useState(null);
   const style = styles(theme)
@@ -67,12 +67,12 @@ function Register() {
         {renderInput1(formik)}
         {renderInput2(formik, inputs)}
 
-        {/* Bottom text */}
-        <Typography sx={style.bottomText}>Already have an account?{" "}
-          <Button sx={style.signInButton}>Sign in</Button>
-        </Typography>
         {/* Submit Button */}
         <Button type="submit" sx={style.submitButton}>Create Account</Button>
+        {/* Bottom text */}
+        <Typography sx={style.bottomText}>Already have an account?{" "}
+          <Button sx={style.signInForgetButton} onClick={() => { setMode('login') }}>Sign in</Button>
+        </Typography>
       </Box>
 
     </>

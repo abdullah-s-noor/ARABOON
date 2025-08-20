@@ -30,12 +30,13 @@ export const styles = (theme) => ({
         fontSize: "0.875rem",
         color: "#94a3b8",
     },
-    signInButton: {
+    signInForgetButton: {
         color: "primary.main",
         fontWeight: 500,
         textTransform: "none",
         "&:hover": {
             color: theme.palette.mode === "dark" ? "#d32f2f" : "#2688f0",
+            bgcolor: "transparent",
         },
     },
     submitButton: {
