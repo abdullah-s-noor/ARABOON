@@ -7,22 +7,24 @@ import styles from './style';
 import SelectLanguage from '../../../common/SelectLanguage';
 import { ThemeModeContext } from '../../../../context/darkMode';
 import useIsPhone from '../../../../hooks/usePhone';
+import { useNavigate } from 'react-router-dom';
 function Sidebar({ language, setLanguage }) {
     const theme = useTheme()
     const style = styles(theme)
     const [open, setOpen] = useState(false);
     const { i18n, t } = useTranslation();
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
-    const {isPhone} = useIsPhone()
+    const { isPhone } = useIsPhone()
+    const naviage=useNavigate()
     const menuItems = [
-        { text: t("home"), icon: <Home /> },
-        { text: t("ranking"), icon: <Leaderboard /> },
-        { text: t("manga list"), icon: <MenuBook /> },
-        { text: t("library"), icon: <Favorite /> },
-        { text: t("login"), icon: <Login /> },
-        { text: t("sign up"), icon: <PersonAdd /> },
-        { text: t("logout"), icon: <Logout /> },
-        { text: t("about us"), icon: <Info /> },
+        { text: t("home"), icon: <Home />, path: '/' },
+        { text: t("ranking"), icon: <Leaderboard />, path: "/manga-ranking" },
+        { text: t("manga list"), icon: <MenuBook />, path: "/manga-list" },
+        { text: t("library"), icon: <Favorite />, path: "/library" },
+        { text: t("login"), icon: <Login />, path: '' },
+        { text: t("sign up"), icon: <PersonAdd />, path: '' },
+        { text: t("logout"), icon: <Logout />, path: '' },
+        { text: t("about us"), icon: <Info /> , path: ''},
     ]
     return (
         <>
@@ -76,19 +78,21 @@ function Sidebar({ language, setLanguage }) {
                     <List>
                         {menuItems.map((item, index) => (
                             <ListItem key={index} disablePadding >
-                                <ListItemButton sx={{
-                                    ...(
-                                        isPhone ? {
-                                            "&:active .MuiListItemIcon-root, &:hover .MuiTypography-root": {
-                                                color: "#ffd600",
-                                            },
-                                        } : {
-                                            "&:hover .MuiListItemIcon-root, &:hover .MuiTypography-root": {
-                                                color: "#ffd600",
-                                            },
-                                        }
-                                    )
-                                }}>
+                                <ListItemButton
+                                    onClick={() => { setOpen(false) ,naviage(item.path)  }} style={{ textDecoration: "none", color: 'inherit' }}
+                                    sx={{
+                                        ...(
+                                            isPhone ? {
+                                                "&:active .MuiListItemIcon-root, &:hover .MuiTypography-root": {
+                                                    color: "#ffd600",
+                                                },
+                                            } : {
+                                                "&:hover .MuiListItemIcon-root, &:hover .MuiTypography-root": {
+                                                    color: "#ffd600",
+                                                },
+                                            }
+                                        )
+                                    }}>
                                     <ListItemIcon sx={{ color: '#eee' }}>
                                         {item.icon}
                                     </ListItemIcon>
