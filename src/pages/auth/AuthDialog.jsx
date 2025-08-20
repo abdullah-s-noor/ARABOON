@@ -6,8 +6,8 @@ import {
     useTheme,
 } from "@mui/material"
 import { Zap } from "lucide-react"
-import Register from "../../components/auth/register/Register"
-import Login from "../../components/auth/login/Login"
+import Register from "../../components/auth/Register"
+import Login from "../../components/auth/Login"
 import { styles } from "./styles"
 import { useState } from "react"
 export function AuthDialog({ open, onOpenChange }) {

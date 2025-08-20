@@ -1,13 +1,13 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
 import { toast } from 'react-toastify';
-import { api } from '../../../services/api';
+import { api } from '../../services/api';
 import { useFormik } from 'formik';
-import validationSchema from './validation';
-import inputs from './inputs';
-import { styles } from '../register/styles';
-import { renderInput } from './authFormInputs.jsx'; // عدّل المسار حسب مشروعك
-function Register({ setMode }) {
+import { validations } from './shared/validations';
+import { styles } from './styles';
+import RenderFields from './shared/RenderFields';
+import { loginFields } from './shared/formFields';
+function Login({ setMode }) {
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -22,6 +22,7 @@ function Register({ setMode }) {
             const { data } = await api.post('/Authentication/SignIn', values);
             toast.success('Signin successful!.');
         } catch (error) {
+            console.log(error)
             const Errors = error.response?.data?.Errors;
             if (Errors) {
                 const userNameError = Errors?.UserName?.[0];
@@ -42,7 +43,7 @@ function Register({ setMode }) {
     const formik = useFormik({
         initialValues,
         onSubmit,
-        validationSchema
+        validationSchema: validations.login
     });
     return (
         <>
@@ -57,7 +58,8 @@ function Register({ setMode }) {
                         {serverError}
                     </Alert>
                 )}
-                {renderInput(formik, inputs)}
+                <RenderFields formik={formik} fields={loginFields} />
+
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px" }}>
                     {/* Bottom text */}
                     <Typography sx={{ textAlign: 'end' }}>
@@ -76,4 +78,4 @@ function Register({ setMode }) {
     )
 }
 
-export default Register
+export default Login
