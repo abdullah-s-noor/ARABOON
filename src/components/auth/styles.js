@@ -28,6 +28,7 @@ export const styles = (theme) => ({
         width: "100%",
     },
     bottomText: {
+        mt: 1,
         textAlign: "center",
         fontSize: "0.875rem",
         color: "#94a3b8",
@@ -42,7 +43,8 @@ export const styles = (theme) => ({
     },
     signInForgetButton: {
         color: "primary.main",
-        fontWeight: 500,
+        p: 0
+        , fontWeight: 500,
         textTransform: "none",
         "&:hover": {
             color: theme.palette.mode === "dark" ? "#d32f2f" : "#2688f0",
@@ -60,4 +62,26 @@ export const styles = (theme) => ({
         transition: "all 0.3s",
         textTransform: "none",
     },
+
+    signInBack: {
+        display: 'flex',
+        textAlign: 'center',
+        justifyContent: 'center',
+        textDecoration: 'none',
+        color: "primary.main",
+        alignItems: 'center',
+        gap: 0.5,
+        '&:hover': {
+            textDecoration: 'underline',
+        }
+    },
+    resend: {
+        color: "primary.main",
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+
+    }
 });

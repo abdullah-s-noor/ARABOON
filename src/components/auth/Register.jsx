@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { useFormik } from 'formik';
-import {validations} from './shared/validations';
+import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { registerFields } from './shared/formFields';
@@ -63,14 +63,15 @@ function Register({ setMode }) {
             {serverError}
           </Alert>
         )}
-        <RenderFields formik={formik} fields={registerFields}/>
+        <RenderFields formik={formik} fields={registerFields} />
         {/* Submit Button */}
         <Button type="submit" sx={style.submitButton}>Create Account</Button>
-        {/* Bottom text */}
-        <Typography sx={style.bottomText}>Already have an account?{" "}
-          <Button sx={style.signInForgetButton} onClick={() => { setMode('login') }}>Sign in</Button>
-        </Typography>
       </Box>
+
+      {/* Bottom text */}
+      <Typography sx={style.bottomText}>Already have an account?{""}
+        <Button sx={style.signInForgetButton} onClick={() => { setMode('login') }}>Sign in</Button>
+      </Typography>
 
     </>
   )
