@@ -57,7 +57,7 @@ export default function Navbar() {
   ];
   return (
     <>
-    <AuthDialog mode={"signup"}  open={open} onOpenChange={setOpen}/>
+    {/* <AuthDialog mode={"signup"}  open={open} onOpenChange={setOpen}/> */}
     <AppBar position="static" sx={style.appBar}>
       <Toolbar sx={style.toolbar}>
         {/* Yellow bar on hover */}
