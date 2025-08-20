@@ -15,6 +15,8 @@ import SelectLanguage from "../../../common/SelectLanguage";
 import { ThemeModeContext } from "../../../../context/darkMode";
 import useIsPhone from "../../../../hooks/usePhone";
 import { Link } from "react-router-dom";
+import { AuthDialog } from "../../../../pages/auth/AuthDialog";
+
 export default function Navbar() {
   const theme = useTheme()
   const {isPhone}=useIsPhone()
@@ -26,6 +28,7 @@ export default function Navbar() {
   const menuRefs = useRef([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const {toggleDarkMode,darkMode}=useContext(ThemeModeContext)
+  const [open,setOpen]=useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -53,6 +56,8 @@ export default function Navbar() {
     t("about us"),
   ];
   return (
+    <>
+    <AuthDialog mode={"signup"}  open={open} onOpenChange={setOpen}/>
     <AppBar position="static" sx={style.appBar}>
       <Toolbar sx={style.toolbar}>
         {/* Yellow bar on hover */}
@@ -125,6 +130,9 @@ export default function Navbar() {
               {/* Login Icon */}
               <Box
                 sx={style.menuIcons}
+                onClick={()=>{
+                  setOpen(true)
+                }}
               >
                 <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
               </Box>
@@ -140,6 +148,7 @@ export default function Navbar() {
 
       </Toolbar>
     </AppBar>
+     </>
   );
 }
 
