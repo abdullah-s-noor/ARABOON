@@ -10,6 +10,7 @@ import Register from "../../components/auth/Register"
 import Login from "../../components/auth/Login"
 import { styles } from "./styles"
 import { useState } from "react"
+import SendForgetPasswordEmail from "../../components/auth/SendForgetPasswordEmail"
 export function AuthDialog({ open, onOpenChange }) {
     const theme = useTheme()
     const style = styles(theme)
@@ -53,6 +54,7 @@ export function AuthDialog({ open, onOpenChange }) {
                 <Box sx={style.rightSide}>
                     {mode==="register"?<Register setMode={setMode} />:
                     mode==='login'?<Login setMode={setMode}/>:
+                    mode==='forgetpassword'?<SendForgetPasswordEmail setMode={setMode}/>:
                     null
                     }
                 </Box>

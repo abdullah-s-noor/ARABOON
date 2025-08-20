@@ -1,3 +1,5 @@
+import { ArrowBack } from "@mui/icons-material";
+
 export const styles = (theme) => ({
     header: {
         width: "100%",
@@ -29,6 +31,14 @@ export const styles = (theme) => ({
         textAlign: "center",
         fontSize: "0.875rem",
         color: "#94a3b8",
+    },
+    ArrowBack: {
+        fontSize: "0.875rem",
+        fontWeight: 500,
+        "&:hover": {
+            color: theme.palette.mode === "dark" ? "#d32f2f" : "#2688f0",
+            bgcolor: "transparent",
+        },
     },
     signInForgetButton: {
         color: "primary.main",
