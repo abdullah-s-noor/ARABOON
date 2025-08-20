@@ -1,267 +1,79 @@
-import { Email, Person, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Box, Button, Divider, IconButton, InputAdornment, InputLabel, TextField, Typography } from '@mui/material'
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
-import React, { useState } from 'react'
+import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
+import { useState } from 'react'
+import { toast } from 'react-toastify';
+import { api } from '../../../services/api';
+import { useFormik } from 'formik';
+import validationSchema from './validation';
+import inputs from './inputs';
+import { styles } from '../register/styles';
+import { renderInput } from './authFormInputs.jsx'; // عدّل المسار حسب مشروعك
+function Register({ setMode }) {
+    const theme = useTheme()
+    const [serverError, setServerError] = useState(null);
+    const style = styles(theme)
+    const initialValues = {
+        userName: '',
+        password: '',
+    };
 
-function Login() {
-    const [showPassword, setShowPassword] = useState(false)
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-    })
+    const onSubmit = async (values, { setSubmitting }) => {
+        setServerError(null);
+        try {
+            const { data } = await api.post('/Authentication/SignIn', values);
+            toast.success('Signin successful!.');
+        } catch (error) {
+            const Errors = error.response?.data?.Errors;
+            if (Errors) {
+                const userNameError = Errors?.UserName?.[0];
+                const emailError = Errors?.Email?.[0];
+                const passwordError = Errors?.Password?.[0];
+                setServerError(userNameError || emailError || passwordError || 'Something went wrong.');
+                console.log('Errors from server:', Errors);
+            } else if (error.response?.data?.message) {
+                setServerError(error.response.data.message);
+            } else {
+                setServerError('Something went wrong. Please try again.');
+            }
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log("Auth submission:", { formData })
-
-    }
-
-    const handleInputChange = (field, value) => {
-        setFormData((prev) => ({ ...prev, [field]: value }))
-    }
-
-
+    const formik = useFormik({
+        initialValues,
+        onSubmit,
+        validationSchema
+    });
     return (
         <>
-            <Box sx={{ width: '100%', mb: 3 }}>
-                <Typography
-                    sx={{
-                        fontFamily: '"Roboto", sans-serif',
-                        fontSize: '30px',
-                        textAlign: 'center',
-                        fontWeight: 700,
-                        mb: 1
-                    }}
-                >
-                    Join the ARABOON
-                </Typography>
-                <Typography
-                    sx={{
-                        color: 'text.secondary',
-                        textAlign: 'center'
-                    }}>
-                    Create your account and unlock your potential
-                </Typography>
+            <Box sx={style.header}>
+                <Typography sx={style.title}>Welcome Back</Typography>
+                <Typography sx={style.subtitle}>Create your account and unlock your potential</Typography>
             </Box>
 
-            <Box
-                component="form"
-                onSubmit={handleSubmit}
-                sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%", maxWidth: 400 }}
-            >
-                <Box>
-                    <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: "#cbd5e1" }}>
-                        Full Name
-                    </InputLabel>
-                    {/* Full Name */}
-                    <TextField
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <User size="16px" color="oklch(70.4% 0.04 256.788)" />
-                                </InputAdornment>
-                            ),
-                        }}
-                        placeholder="Enter your name"
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                bgcolor: "#1e293b",
-                                color: "#fff",
-                                "&:hover fieldset": { borderColor: "primary.main" }, // purple hover
-                                "&.Mui-focused": {
-                                    borderColor: "primary.main",
-                                    boxShadow: "0 0 0 4px rgba(128,28,28,0.5)", // 🔥 نفس الـ ring من الكلاس
-                                },
-                                borderRadius: "7px", // 🔥 عدل القيمة حسب ما تحب
-
-                            },
-                            "& .MuiOutlinedInput-input::placeholder": {
-                                color: "oklch(70.4% 0.04 256.788)",
-                                opacity: 1,
-                                fontSize: "0.8rem",
-                            },
-                            "& .MuiFormLabel-root": { color: "#94a3b8" },
-                            boxSizing: "border-box",
-                            "& .MuiOutlinedInput-input": { padding: "6px 8px" },
-                        }}
-                    />
+            <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
+                {serverError && (
+                    <Alert severity="error" sx={style.errorAlert}>
+                        {serverError}
+                    </Alert>
+                )}
+                {renderInput(formik, inputs)}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px" }}>
+                    {/* Bottom text */}
+                    <Typography sx={{ textAlign: 'end' }}>
+                        <Button onClick={() => { setMode('register') }} sx={style.signInForgetButton}>Forgot password?</Button>
+                    </Typography>
+                    {/* Submit Button */}
+                    <Button type="submit" sx={style.submitButton}>Sign in</Button>
+                    {/* Bottom text */}
+                    <Typography sx={style.bottomText}>Don't have an account?{" "}
+                        <Button onClick={() => { setMode('register') }} sx={style.signInForgetButton}>Sign up</Button>
+                    </Typography>
                 </Box>
-
-                {/* Email */}
-                <Box>
-
-                    <InputLabel htmlFor="email" sx={{ fontSize: '14px', color: "#cbd5e1" }}>
-                        Email
-                    </InputLabel>
-                    <TextField
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Mail size="16px" color="oklch(70.4% 0.04 256.788)" />
-                                </InputAdornment>
-                            ),
-                        }}
-                        placeholder="Enter your email"
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                bgcolor: "#1e293b",
-                                color: "#fff",
-                                "&:hover fieldset": { borderColor: "primary.main" }, // purple hover
-                                "&.Mui-focused": {
-                                    borderColor: "primary.main",
-                                    boxShadow: "0 0 0 5px rgba(128,28,28,0.5)", // 🔥 نفس الـ ring من الكلاس
-                                },
-                            },
-                            "& .MuiOutlinedInput-input::placeholder": {
-                                color: "oklch(70.4% 0.04 256.788)",
-                                opacity: 1,
-                                fontSize: "0.8rem",
-                            },
-                            "& .MuiFormLabel-root": { color: "#94a3b8" },
-                            boxSizing: "border-box",
-                            "& .MuiOutlinedInput-input": { padding: "6px 8px" },
-                        }}
-                    />
-                </Box>
-
-                {/* Password */}
-                <Box>
-
-                    <InputLabel htmlFor="email" sx={{ fontSize: '14px', color: "#cbd5e1" }}>
-                        Password
-                    </InputLabel>
-                    <TextField
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={(e) => handleInputChange("password", e.target.value)}
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />
-                                </InputAdornment>
-                            ),
-                        }}
-                        placeholder="Enter your password"
-                        sx={{
-
-                            "& .MuiOutlinedInput-root": {
-                                bgcolor: "#1e293b",
-                                color: "#fff",
-                                "&:hover fieldset": { borderColor: "primary.main" }, // purple hover
-                                "&.Mui-focused": {
-                                    borderColor: "primary.main",
-                                    boxShadow: "0 0 0 5px rgba(128,28,28,0.5)", // 🔥 نفس الـ ring من الكلاس
-                                },
-                            },
-                            "& .MuiOutlinedInput-input::placeholder": {
-                                color: "oklch(70.4% 0.04 256.788)",
-                                opacity: 1,
-                                fontSize: "0.8rem",
-                            },
-                            "& .MuiFormLabel-root": { color: "#94a3b8" },
-                            boxSizing: "border-box",
-                            "& .MuiOutlinedInput-input": { padding: "6px 8px" },
-                        }}
-                    />
-                </Box>
-
-                {/* confirm password */}
-                <Box>
-                    <InputLabel htmlFor="email" sx={{ fontSize: '14px', color: "#cbd5e1" }}>
-                        Confirm Password
-                    </InputLabel>
-                    <TextField
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />
-                                </InputAdornment>
-                            ),
-                        }}
-                        placeholder="Re-enter your password"
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                bgcolor: "#1e293b",
-                                color: "#fff",
-                                "&:hover fieldset": { borderColor: "primary.main" }, // purple hover
-                                "&.Mui-focused": {
-                                    borderColor: "primary.main",
-                                    boxShadow: "0 0 0 5px rgba(128,28,28,0.5)", // 🔥 نفس الـ ring من الكلاس
-                                },
-                            },
-                            "& .MuiOutlinedInput-input::placeholder": {
-                                color: "oklch(70.4% 0.04 256.788)",
-                                opacity: 1,
-                                fontSize: "0.8rem",
-                            },
-                            "& .MuiFormLabel-root": { color: "#94a3b8" },
-                            boxSizing: "border-box",
-                            "& .MuiOutlinedInput-input": { padding: "6px 8px" },
-                        }}
-                    />
-                </Box>
-
-
-
-
-                {/* Bottom text */}
-                <Typography sx={{ textAlign: "center", fontSize: "0.875rem", color: "#94a3b8" }}>
-                    Already have an account?{" "}
-                    <Button
-                        onClick={() => { }}
-                        sx={{ color: "#b71c1c", fontWeight: 500, textTransform: "none", "&:hover": { color: "#d32f2f" } }}
-                    >
-                        Sign in
-                    </Button>
-                </Typography>
-
-                {/* Submit Button */}
-                <Button
-                    type="submit"
-                    sx={{
-                        width: "100%",
-                        bgcolor: "#b71c1c",
-                        color: "#fff",
-                        fontSize: "15px",
-                        fontFamily: '"Roboto", sans-serif',
-                        boxShadow: "0 4px 6px rgba(183,28,28,0.3)",
-                        "&:hover": { bgcolor: "#d32f2f" },
-                        transition: "all 0.3s",
-                        textTransform: "none", // 🔥 يلغي الـ uppercase
-                    }}
-                >
-                    Create Account
-                </Button>
-
             </Box>
 
         </>
     )
 }
 
-export default Login
+export default Register
