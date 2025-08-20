@@ -6,21 +6,21 @@ import { useFormik } from 'formik';
 import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
-import { loginFields } from './shared/formFields';
-function Login({ setMode }) {
+import { forgetPasswordFields } from './shared/formFields';
+import { ArrowBackIosNew } from '@mui/icons-material';
+function SendForgetPasswordEmail({ setMode }) {
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
     const initialValues = {
-        userName: '',
-        password: '',
+        email: '',
     };
 
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            const { data } = await api.post('/Authentication/SignIn', values);
-            toast.success('Signin successful!.');
+            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
+            toast.success('Verification code sent successfully.');
         } catch (error) {
             console.log(error)
             const Errors = error.response?.data?.Errors;
@@ -43,13 +43,13 @@ function Login({ setMode }) {
     const formik = useFormik({
         initialValues,
         onSubmit,
-        validationSchema: validations.login
+        validationSchema: validations.forgetPassword
     });
     return (
         <>
             <Box sx={style.header}>
-                <Typography sx={style.title}>Welcome Back</Typography>
-                <Typography sx={style.subtitle}>Create your account and unlock your potential</Typography>
+                <Typography sx={style.title}>Find Your Account</Typography>
+                <Typography sx={style.subtitle}>Enter your email and we’ll send you a verification code to confirm your identity.</Typography>
             </Box>
 
             <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
@@ -58,18 +58,15 @@ function Login({ setMode }) {
                         {serverError}
                     </Alert>
                 )}
-                <RenderFields formik={formik} fields={loginFields} />
+                <RenderFields formik={formik} fields={forgetPasswordFields} />
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px" }}>
-                    {/* Bottom text */}
-                    <Typography sx={{ textAlign: 'end' }}>
-                        <Button onClick={() => { setMode('forgetpassword') }} sx={style.signInForgetButton}>Forgot password?</Button>
-                    </Typography>
                     {/* Submit Button */}
-                    <Button type="submit" sx={style.submitButton}>Sign in</Button>
+                    <Button type="submit" sx={style.submitButton}>Send request</Button>
                     {/* Bottom text */}
-                    <Typography sx={style.bottomText}>Don't have an account?{" "}
-                        <Button onClick={() => { setMode('register') }} sx={style.signInForgetButton}>Sign up</Button>
+                    <Typography sx={{ ...style.bottomText, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <ArrowBackIosNew sx={{ fontSize: '14px', ...style.signInForgetButton }} />
+                        <Button onClick={() => { setMode('login') }} sx={style.signInForgetButton}>Return to sign in</Button>
                     </Typography>
                 </Box>
             </Box>
@@ -78,4 +75,4 @@ function Login({ setMode }) {
     )
 }
 
-export default Login
+export default SendForgetPasswordEmail

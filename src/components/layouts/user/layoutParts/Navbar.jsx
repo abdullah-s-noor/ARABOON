@@ -19,16 +19,16 @@ import { AuthDialog } from "../../../../pages/auth/AuthDialog";
 
 export default function Navbar() {
   const theme = useTheme()
-  const {isPhone}=useIsPhone()
-  const style = styles(theme,isPhone)
+  const { isPhone } = useIsPhone()
+  const style = styles(theme, isPhone)
   const { i18n, t } = useTranslation();
   const [language, setLanguage] = useState(i18n.language?.toUpperCase() || "EN");
   const [hoveredIdx, setHoveredIdx] = useState(null);
   const [barStyle, setBarStyle] = useState({ left: 0, width: 0 });
   const menuRefs = useRef([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const {toggleDarkMode,darkMode}=useContext(ThemeModeContext)
-  const [open,setOpen]=useState(false);
+  const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -57,98 +57,98 @@ export default function Navbar() {
   ];
   return (
     <>
-    {/* <AuthDialog mode={"signup"}  open={open} onOpenChange={setOpen}/> */}
-    <AppBar position="static" sx={style.appBar}>
-      <Toolbar sx={style.toolbar}>
-        {/* Yellow bar on hover */}
-        <Box
-          sx={{
-
-            left: barStyle.left,
-            width: barStyle.width,
-            opacity: hoveredIdx !== null ? 1 : 0,
-            transform: `scaleY(${hoveredIdx !== null ? 1 : 0})`,
-            ...style.yellowBar,
-          }}
-        />
-
-        {/* Logo */}
-        {windowWidth > 900 ?
-          (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-            <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
-            <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
-          </Box>) :
-          <Sidebar language={language} setLanguage={setLanguage} />
-        }
-
-        {/* Menu Items */}
-        {windowWidth > 900 ?
-          (<Box sx={{ display: "flex", gap: 2 }}>
-            {menuItems.map((item, idx) => (
-              <Typography
-                key={item}
-                ref={(el) => {
-                  menuRefs.current[idx] = el;
-                }}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                sx={style.menuItems}
-                >
-                  <Link to={idx===1?"manga-ranking":idx===2?"/manga-list":(idx===3?"library":"/")} style={{textDecoration:"none",color:'inherit'}}>
-                {item}
-                </Link>
-              </Typography>
-            ))}
-          </Box>)
-          :
-          (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-            <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
-            <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
-          </Box>)
-        }
-
-        {/* Language & LightDark Mode& Login & Search */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {windowWidth > 900 &&
-            <>
-              <SelectLanguage
-                language={language}
-                setLanguage={setLanguage}
-              />
-              {/* Light&Dark Mode */}
-              <Box
-                sx={style.menuIcons}
-                onClick={()=>{
-                  toggleDarkMode()
-                }}
-              >
-               { darkMode?
-                <Brightness7  sx={{ color: 'orange' }} fontSize="medium" />
-                :
-                <Brightness4 sx={{ color: 'white' }} fontSize="medium" />}
-              </Box>
-              {/* Login Icon */}
-              <Box
-                sx={style.menuIcons}
-                onClick={()=>{
-                  setOpen(true)
-                }}
-              >
-                <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
-              </Box>
-            </>
-          }
-          {/* Search Icon Only */}
+      {/* <AuthDialog  open={open} onOpenChange={setOpen} /> */}
+      <AppBar position="static" sx={style.appBar}>
+        <Toolbar sx={style.toolbar}>
+          {/* Yellow bar on hover */}
           <Box
-            sx={style.menuIcons}
-          >
-            <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
-          </Box>
-        </Box>
+            sx={{
 
-      </Toolbar>
-    </AppBar>
-     </>
+              left: barStyle.left,
+              width: barStyle.width,
+              opacity: hoveredIdx !== null ? 1 : 0,
+              transform: `scaleY(${hoveredIdx !== null ? 1 : 0})`,
+              ...style.yellowBar,
+            }}
+          />
+
+          {/* Logo */}
+          {windowWidth > 900 ?
+            (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
+              <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
+              <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
+            </Box>) :
+            <Sidebar language={language} setLanguage={setLanguage} />
+          }
+
+          {/* Menu Items */}
+          {windowWidth > 900 ?
+            (<Box sx={{ display: "flex", gap: 2 }}>
+              {menuItems.map((item, idx) => (
+                <Typography
+                  key={item}
+                  ref={(el) => {
+                    menuRefs.current[idx] = el;
+                  }}
+                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onMouseLeave={() => setHoveredIdx(null)}
+                  sx={style.menuItems}
+                >
+                  <Link to={idx === 1 ? "manga-ranking" : idx === 2 ? "/manga-list" : (idx === 3 ? "library" : "/")} style={{ textDecoration: "none", color: 'inherit' }}>
+                    {item}
+                  </Link>
+                </Typography>
+              ))}
+            </Box>)
+            :
+            (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
+              <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
+              <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
+            </Box>)
+          }
+
+          {/* Language & LightDark Mode& Login & Search */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {windowWidth > 900 &&
+              <>
+                <SelectLanguage
+                  language={language}
+                  setLanguage={setLanguage}
+                />
+                {/* Light&Dark Mode */}
+                <Box
+                  sx={style.menuIcons}
+                  onClick={() => {
+                    toggleDarkMode()
+                  }}
+                >
+                  {darkMode ?
+                    <Brightness7 sx={{ color: 'orange' }} fontSize="medium" />
+                    :
+                    <Brightness4 sx={{ color: 'white' }} fontSize="medium" />}
+                </Box>
+                {/* Login Icon */}
+                <Box
+                  sx={style.menuIcons}
+                  onClick={() => {
+                    setOpen(true)
+                  }}
+                >
+                  <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
+                </Box>
+              </>
+            }
+            {/* Search Icon Only */}
+            <Box
+              sx={style.menuIcons}
+            >
+              <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
+            </Box>
+          </Box>
+
+        </Toolbar>
+      </AppBar>
+    </>
   );
 }
 
