@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, Typography, useTheme, Link as MuiLink } from '@mui/material'
 import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
@@ -8,6 +8,7 @@ import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { forgetPasswordFields } from './shared/formFields';
 import { ArrowBackIosNew } from '@mui/icons-material';
+import { Link as RouterLink } from 'react-router-dom';
 function SendForgetPasswordEmail({ setMode }) {
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -19,8 +20,9 @@ function SendForgetPasswordEmail({ setMode }) {
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
+            // const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
             toast.success('Verification code sent successfully.');
+            setMode('sendcode')
         } catch (error) {
             console.log(error)
             const Errors = error.response?.data?.Errors;
@@ -59,17 +61,14 @@ function SendForgetPasswordEmail({ setMode }) {
                     </Alert>
                 )}
                 <RenderFields formik={formik} fields={forgetPasswordFields} />
-
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px" }}>
-                    {/* Submit Button */}
-                    <Button type="submit" sx={style.submitButton}>Send request</Button>
-                    {/* Bottom text */}
-                    <Typography sx={{ ...style.bottomText, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <ArrowBackIosNew sx={{ fontSize: '14px', ...style.signInForgetButton }} />
-                        <Button onClick={() => { setMode('login') }} sx={style.signInForgetButton}>Return to sign in</Button>
-                    </Typography>
-                </Box>
+                {/* Submit Button */}
+                <Button type="submit" sx={style.submitButton}>Send request</Button>
             </Box>
+
+            <MuiLink variant="body2" component={RouterLink} to="" sx={{ ...style.signInBack, mt: 1 }} onClick={() => { setMode('login') }}>
+                <ArrowBackIosNew fontSize="small" sx={{ fontSize: '10px' }} />
+                Return to sign in
+            </MuiLink>
 
         </>
     )
