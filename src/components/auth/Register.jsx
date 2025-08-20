@@ -1,14 +1,12 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
-import { api } from '../../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 import { useFormik } from 'formik';
-import validationSchema from './validation';
-import inputs from './inputs';
-import Input from '../../common/Input';
+import {validations} from './shared/validations';
 import { styles } from './styles';
-import { renderInput1, renderInput2 } from './authFormInputs.jsx'; // عدّل المسار حسب مشروعك
+import RenderFields from './shared/RenderFields';
+import { registerFields } from './shared/formFields';
 function Register({ setMode }) {
   const theme = useTheme()
   const [serverError, setServerError] = useState(null);
@@ -27,6 +25,7 @@ function Register({ setMode }) {
     try {
       const { data } = await api.post('/Authentication/RegistrationUser', values);
       toast.success('Registration successful! Please log in.');
+      setMode('login')
     } catch (error) {
       const Errors = error.response?.data?.Errors;
 
@@ -49,7 +48,7 @@ function Register({ setMode }) {
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validationSchema
+    validationSchema: validations.register,
   });
   return (
     <>
@@ -64,9 +63,7 @@ function Register({ setMode }) {
             {serverError}
           </Alert>
         )}
-        {renderInput1(formik)}
-        {renderInput2(formik, inputs)}
-
+        <RenderFields formik={formik} fields={registerFields}/>
         {/* Submit Button */}
         <Button type="submit" sx={style.submitButton}>Create Account</Button>
         {/* Bottom text */}
