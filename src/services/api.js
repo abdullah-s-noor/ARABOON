@@ -2,8 +2,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const api = axios.create({
-  // تم تعديل baseURL هنا ليتوافق مع إعدادات الـ Proxy في Vite
-  baseURL: "/api/V1",
+  // @ts-ignore
+  baseURL: import.meta.env.PROD 
+    ? 'https://araboon.runasp.net/Api/V1' 
+    : '/api/V1',
 });
 
 api.interceptors.request.use(
@@ -15,7 +17,7 @@ api.interceptors.request.use(
 
     config.headers['Cache-Control'] = 'no-cache';
     config.headers['Pragma'] = 'no-cache';
-
+    
     return config;
   },
   (error) => Promise.reject(error)
