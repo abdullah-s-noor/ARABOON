@@ -15,6 +15,7 @@ export const styles = (theme) => ({
         p: 0,
         bgcolor: "secondary.main",
         display: "flex",
+        position:"relative"
     },
     leftSide: {
 

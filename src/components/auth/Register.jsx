@@ -1,13 +1,15 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
-import { api } from '../../services/api';
 import { useFormik } from 'formik';
 import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { registerFields } from './shared/formFields';
+import { useTranslation } from 'react-i18next';
+import { handleAuthSubmit } from '../../services/authHelperReq';
 function Register({ setMode }) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const [serverError, setServerError] = useState(null);
   const style = styles(theme)
@@ -21,28 +23,15 @@ function Register({ setMode }) {
   };
 
   const onSubmit = async (values, { setSubmitting }) => {
-    setServerError(null);
-    try {
-      const { data } = await api.post('/Authentication/RegistrationUser', values);
-      toast.success('Registration successful! Please log in.');
-      setMode('login')
-    } catch (error) {
-      const Errors = error.response?.data?.Errors;
-
-      if (Errors) {
-        const userNameError = Errors?.UserName?.[0];
-        const emailError = Errors?.Email?.[0];
-        const passwordError = Errors?.Password?.[0];
-        setServerError(userNameError || emailError || passwordError || 'Something went wrong.');
-        console.log('Errors from server:', Errors);
-      } else if (error.response?.data?.message) {
-        setServerError(error.response.data.message);
-      } else {
-        setServerError('Something went wrong. Please try again.');
-      }
-    } finally {
-      setSubmitting(false);
-    }
+    await handleAuthSubmit({
+      endpoint: '/Authentication/RegistrationUser',
+      payload:values,
+      setServerError,
+      setSubmitting,
+      successMessage: 'Registration successful! Please log in.',
+      setMode,nextMode:'login'
+    });
+    setMode('login')
   };
 
   const formik = useFormik({
@@ -53,8 +42,8 @@ function Register({ setMode }) {
   return (
     <>
       <Box sx={style.header}>
-        <Typography sx={style.title}>Welcome to ARABOON</Typography>
-        <Typography sx={style.subtitle}>Discover, read, and enjoy endless manga stories</Typography>
+        <Typography sx={style.title}>{t('register.title')}</Typography>
+        <Typography sx={style.subtitle}>{t('register.subtitle')}</Typography>
       </Box>
 
       <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
@@ -65,12 +54,12 @@ function Register({ setMode }) {
         )}
         <RenderFields formik={formik} fields={registerFields} />
         {/* Submit Button */}
-        <Button type="submit" sx={style.submitButton}>Create Account</Button>
+        <Button type="submit" sx={style.submitButton}>{t('register.create_account')}</Button>
       </Box>
 
       {/* Bottom text */}
-      <Typography sx={style.bottomText}>Already have an account?{""}
-        <Button sx={style.signInForgetButton} onClick={() => { setMode('login') }}>Sign in</Button>
+      <Typography sx={style.bottomText}>{t('register.already_have_account')}{""}
+        <Button sx={style.signInForgetButton} onClick={() => { setMode('login') }}>{t('register.sign_in')}</Button>
       </Typography>
 
     </>

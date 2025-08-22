@@ -7,10 +7,13 @@ import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { resetPasswordFields } from './shared/formFields';
-import { ArrowBackIosNew, Password } from '@mui/icons-material';
+import { ArrowBackIos,ArrowForwardIos } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import OTP from './OTP';
-function CodeConfirmation({ setMode, emailForReset }) {
+import { useTranslation } from 'react-i18next';
+import { handleAuthSubmit } from '../../services/authHelperReq';
+function ResetPasswordWithOTP({ setMode, emailForReset }) {
+    const { t, i18n } = useTranslation()
     const [tokenForReset, setTokenForReset] = useState(null)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -19,50 +22,38 @@ function CodeConfirmation({ setMode, emailForReset }) {
         password: '',
         confirmPassword: '',
     };
+    const [resendLoading,setResendLoading]=useState(false)
 
     const onSubmit = async (values, { setSubmitting }) => {
-        setServerError(null);
-        try {
-            const payload = {
-                email: emailForReset,
-                token: tokenForReset,
-                password: values.password,
-                confirmPassword: values.confirmPassword
-            }
-            console.log(payload)
-            const { data } = await api.post('/Authentication/ResetPassword', payload);
-            toast.success('Reset password successfully.');
-        } catch (error) {
-            console.log(error)
-            const Errors = error.response?.data?.Errors;
-            if (Errors) {
-                const userNameError = Errors?.UserName?.[0];
-                const emailError = Errors?.Email?.[0];
-                const passwordError = Errors?.Password?.[0];
-                setServerError(userNameError || emailError || passwordError || 'Something went wrong.');
-                console.log('Errors from server:', Errors);
-            } else if (error.response?.data?.message) {
-                setServerError(error.response.data.message);
-            } else {
-                setServerError('Something went wrong. Please try again.');
-            }
-        } finally {
-            setSubmitting(false);
-        }
+        const payload = {
+            email: emailForReset,
+            token: tokenForReset,
+            password: values.password,
+            confirmPassword: values.confirmPassword
+        };
+        await handleAuthSubmit({
+            endpoint: '/Authentication/ResetPassword',
+            payload,
+            setServerError,
+            setSubmitting,
+            successMessage: 'Reset password successfully.',
+            setMode,nextMode:'login'
+        });
     };
 
     const handleReset = async () => {
         try {
+            setResendLoading(true)
             setTokenForReset(null)
             const { data } = await api.post('/Authentication/SendForgetPasswordEmail', { email: emailForReset });
             toast.success("A new code has been sent to your email.")
         } catch (error) {
             console.log(error)
         } finally {
-
+            setResendLoading(false)
         }
+        
     }
-
     const formik = useFormik({
         initialValues,
         onSubmit,
@@ -71,9 +62,9 @@ function CodeConfirmation({ setMode, emailForReset }) {
     return (
         <>
             <Box sx={style.header}>
-                <Typography sx={style.title}>Reset Your Password</Typography>
-                {!tokenForReset? <Typography sx={style.subtitle}>We've sent a 6-digit code to your email. <br />Please enter it to continue.</Typography>
-                :<Typography sx={style.subtitle}>Your code has been verified, please set a new password.</Typography>
+                <Typography sx={style.title}>{t('reset.title')}</Typography>
+                {!tokenForReset ? <Typography sx={style.subtitle}>{t('reset.subtitle1')}</Typography>
+                    : <Typography sx={style.subtitle}>{t('reset.subtitle1')}</Typography>
                 }
             </Box>
 
@@ -86,20 +77,20 @@ function CodeConfirmation({ setMode, emailForReset }) {
                 <OTP setTokenForReset={setTokenForReset} formik={formik} emailForReset={emailForReset} />
                 {tokenForReset && <RenderFields formik={formik} fields={resetPasswordFields} />}
                 {/* Submit Button */}
-                {tokenForReset && <Button type="submit" sx={style.submitButton}>Send request</Button>}
+                {tokenForReset && <Button type="submit" sx={style.submitButton}>{t('forgot.send_request')}</Button>}
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px", mt: tokenForReset && 2 }}>
                 {/* Bottom text */}
                 {!tokenForReset && <Typography variant="body2" sx={{ textAlign: 'center', color: "#94a3b8", }}
-                    onClick={() => { handleReset() }}>
-                    Don’t have a code?{' '}
-                    <Typography component="span" sx={style.resend}>Resend</Typography>
+                    onClick={() => { !resendLoading&&handleReset() }}>
+                    {t('forgot.no_code')}{' '}
+                    <Typography component="span" sx={style.resend}>{t('forgot.resend')} </Typography>
                 </Typography>}
 
-                <MuiLink variant="body2" component={RouterLink} to="" sx={style.signInBack} onClick={() => { setMode('login') }} >
-                    <ArrowBackIosNew fontSize="small" sx={{ fontSize: '10px' }} />
-                    Return to sign in
+                <MuiLink variant="body2" component={RouterLink} to="" sx={{ ...style.signInBack, mt: 1 }} onClick={() => { setMode('login') }}>
+                    {i18n.language === 'en' ? <ArrowBackIos fontSize="small" sx={{ fontSize: '10px' }} /> : <ArrowForwardIos fontSize="small" sx={{ fontSize: '10px' }} />}
+                    {t('forgot.return_to_signin')}
                 </MuiLink>
             </Box>
 
@@ -107,4 +98,4 @@ function CodeConfirmation({ setMode, emailForReset }) {
     )
 }
 
-export default CodeConfirmation
+export default ResetPasswordWithOTP

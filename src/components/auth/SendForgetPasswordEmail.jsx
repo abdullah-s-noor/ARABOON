@@ -7,9 +7,11 @@ import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { forgetPasswordFields } from './shared/formFields';
-import { ArrowBackIosNew } from '@mui/icons-material';
+import { ArrowBackIos, ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
+    const {t,i18n}=useTranslation()
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -52,8 +54,8 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
     return (
         <>
             <Box sx={style.header}>
-                <Typography sx={style.title}>Find Your Account</Typography>
-                <Typography sx={style.subtitle}>Enter your email and we’ll send you a verification code to confirm your identity.</Typography>
+                <Typography sx={style.title}>{t('forgot.title')}</Typography>
+                <Typography sx={style.subtitle}>{t('forgot.subtitle')}</Typography>
             </Box>
 
             <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
@@ -64,12 +66,12 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
                 )}
                 <RenderFields formik={formik} fields={forgetPasswordFields} />
                 {/* Submit Button */}
-                <Button type="submit" sx={style.submitButton}>Send request</Button>
+                <Button type="submit" sx={style.submitButton}>{t('forgot.send_request')}</Button>
             </Box>
 
             <MuiLink variant="body2" component={RouterLink} to="" sx={{ ...style.signInBack, mt: 1 }} onClick={() => { setMode('login') }}>
-                <ArrowBackIosNew fontSize="small" sx={{ fontSize: '10px' }} />
-                Return to sign in
+                {i18n.language==='en'?<ArrowBackIos fontSize="small" sx={{ fontSize: '10px' }} />:<ArrowForwardIos fontSize="small" sx={{ fontSize: '10px' }} />}
+                {t('forgot.return_to_signin')}
             </MuiLink>
 
         </>

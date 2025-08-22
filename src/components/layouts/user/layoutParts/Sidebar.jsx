@@ -24,7 +24,7 @@ function Sidebar({ language, setLanguage }) {
         { text: t("login"), icon: <Login />, path: '' },
         { text: t("sign up"), icon: <PersonAdd />, path: '' },
         { text: t("logout"), icon: <Logout />, path: '' },
-        { text: t("about us"), icon: <Info /> , path: ''},
+        { text: t("about us"), icon: <Info /> , path: '/'},
     ]
     return (
         <>

@@ -2,7 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const api = axios.create({
-  baseURL: "https://araboon.runasp.net/Api/V1",
+  // تم تعديل baseURL هنا ليتوافق مع إعدادات الـ Proxy في Vite
+  baseURL: "/api/V1",
 });
 
 api.interceptors.request.use(
@@ -14,7 +15,7 @@ api.interceptors.request.use(
 
     config.headers['Cache-Control'] = 'no-cache';
     config.headers['Pragma'] = 'no-cache';
-    
+
     return config;
   },
   (error) => Promise.reject(error)

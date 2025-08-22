@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 function Input({ type, title, id, name, value, onChange, errors, onBlur, touched, disabled = false }) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
-    const { i18n } = useTranslation()
+    const { i18n,t } = useTranslation()
     const getStartIcon = () => {
         if (type === "email") return <Mail size="16px" color="oklch(70.4% 0.04 256.788)" />;
         if (type === "password") return <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />;
@@ -18,7 +18,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
         <>
             <Box>
                 <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: "text.secondary" }}>
-                    {title}
+                    {t(`formFields.${name}`)}
                 </InputLabel>
                 <TextField
                     type={type === 'password' && showPassword ? 'text' : type}
@@ -49,7 +49,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                             </InputAdornment>
                         ) : null,
                     }}
-                    placeholder={`Enter your ${title}`}
+                    placeholder={t(`formFields.enter_${name}`)}
                     sx={{
                         "& .MuiFormLabel-root.Mui-error": {
                             color: "#f87171", // أحمر فاتح للـ label error
