@@ -22,6 +22,7 @@
     "i18next-http-backend": "^3.0.2",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.540.0",
+    "mui-one-time-password-input": "^5.0.0",
     "react": "^19.1.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",

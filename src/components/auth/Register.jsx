@@ -53,8 +53,8 @@ function Register({ setMode }) {
   return (
     <>
       <Box sx={style.header}>
-        <Typography sx={style.title}>Join the ARABOON</Typography>
-        <Typography sx={style.subtitle}>Create your account and unlock your potential</Typography>
+        <Typography sx={style.title}>Welcome to ARABOON</Typography>
+        <Typography sx={style.subtitle}>Discover, read, and enjoy endless manga stories</Typography>
       </Box>
 
       <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>

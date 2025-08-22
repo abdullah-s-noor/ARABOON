@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 function Input({ type, title, id, name, value, onChange, errors, onBlur, touched, disabled = false }) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
-    const {i18n}=useTranslation()
+    const { i18n } = useTranslation()
     const getStartIcon = () => {
         if (type === "email") return <Mail size="16px" color="oklch(70.4% 0.04 256.788)" />;
         if (type === "password") return <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />;
@@ -39,17 +39,17 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                     InputLabelProps={type === 'date' && { shrink: true }}
                     InputProps={{
                         startAdornment: getStartIcon() && (
-                            <InputAdornment position={i18n.language==='en'?"start":'end'}>{getStartIcon()}</InputAdornment>
+                            <InputAdornment position={i18n.language === 'en' ? "start" : 'end'}>{getStartIcon()}</InputAdornment>
                         ),
                         endAdornment: type === "password" ? (
-                            <InputAdornment position={i18n.language==='ar'?"start":'end'}>
-                                <IconButton onClick={handleClickShowPassword} edge={i18n.language==='ar'?"start":'end'}>
+                            <InputAdornment position={i18n.language === 'ar' ? "start" : 'end'}>
+                                <IconButton onClick={handleClickShowPassword} edge={i18n.language === 'ar' ? "start" : 'end'}>
                                     {showPassword ? <EyeOff size="16px" color="oklch(70.4% 0.04 256.788)" /> : <Eye size="16px" color="oklch(70.4% 0.04 256.788)" />}
                                 </IconButton>
                             </InputAdornment>
                         ) : null,
                     }}
-                    placeholder="Enter your name"
+                    placeholder={`Enter your ${title}`}
                     sx={{
                         "& .MuiFormLabel-root.Mui-error": {
                             color: "#f87171", // أحمر فاتح للـ label error
@@ -74,7 +74,9 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                             },
                             "&.Mui-focused fieldset": {
                                 borderColor: theme => theme.palette.primary.main, // يضل primary
-                                boxShadow: "0 0 0 3px rgba(12,112,222,0.3)", // أزرق شفاف
+                                boxShadow: (theme) => theme.palette.mode === 'dark' ?
+                                    "0 0 0 3px rgba(128,28,28,0.5)"
+                                : "0 0 0 3px rgba(12,112,222,0.3)", // أزرق شفاف
                             },
                             borderRadius: "7px",
                             px: "14px",
@@ -83,13 +85,13 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                         "& .MuiOutlinedInput-input::placeholder": {
                             color: "oklch(70.4% 0.04 256.788)",
                             opacity: 1,
-                            fontSize: "0.8rem",
+                            fontSize: "0.7rem",
                         },
                         "& .MuiFormLabel-root": {
                             color: "#94a3b8",
                         },
                         boxSizing: "border-box",
-                        "& .MuiOutlinedInput-input": { padding: "6px 8px" },
+                        "& .MuiOutlinedInput-input": { padding: "6px 0px" },
                     }}
 
                 />

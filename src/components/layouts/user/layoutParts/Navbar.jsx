@@ -16,6 +16,7 @@ import { ThemeModeContext } from "../../../../context/darkMode";
 import useIsPhone from "../../../../hooks/usePhone";
 import { Link } from "react-router-dom";
 import { AuthDialog } from "../../../../pages/auth/AuthDialog";
+import { Palette } from "lucide-react";
 
 export default function Navbar() {
   const theme = useTheme()
@@ -57,7 +58,7 @@ export default function Navbar() {
   ];
   return (
     <>
-      {/* <AuthDialog  open={open} onOpenChange={setOpen} /> */}
+      <AuthDialog  open={open} onOpenChange={setOpen} />
       <AppBar position="static" sx={style.appBar}>
         <Toolbar sx={style.toolbar}>
           {/* Yellow bar on hover */}
@@ -75,7 +76,7 @@ export default function Navbar() {
           {/* Logo */}
           {windowWidth > 900 ?
             (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-              <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
+              <img src={`/image/logo/${theme.palette.mode==='dark'?6:5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }} />
               <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
             </Box>) :
             <Sidebar language={language} setLanguage={setLanguage} />
@@ -102,7 +103,7 @@ export default function Navbar() {
             </Box>)
             :
             (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-              <img src="/image/logo/6.png" alt="Logo" style={{ height: 64, marginRight: 8 }} />
+              {<img src={`/image/logo/${theme.palette.mode==='dark'?6:5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }}/>}
               <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
             </Box>)
           }
