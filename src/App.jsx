@@ -1,5 +1,3 @@
-"use client"
-
 import { RouterProvider } from "react-router-dom"
 import { router } from "./routes/router.jsx"
 import { ToastContainer } from "react-toastify"
@@ -11,7 +9,7 @@ import Cookies from "js-cookie"
 import Theme from "./services/theme.js"
 import { ThemeModeContext } from "./context/darkMode.jsx"
 import "react-toastify/dist/ReactToastify.css"
-import "./app.css"
+import "./styles/Toast.css"
 
 function App() {
   const { darkMode, toggleDarkMode } = useContext(ThemeModeContext)

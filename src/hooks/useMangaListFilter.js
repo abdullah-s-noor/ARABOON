@@ -30,6 +30,7 @@ const useMangaListFilter = () => {
             try {
                 // Fetch available genre options from the API.
                 const { data } = await api.get('/Categories/GetCategories');
+                console.log("Categories",data)
                 const fetchedGenres = data.data || [];
                 const allGenres = [{ en: "all", ar: "الكل" }, ...fetchedGenres];
                 const enGenres = allGenres.map(g => g.en)

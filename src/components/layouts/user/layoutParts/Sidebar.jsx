@@ -8,6 +8,7 @@ import SelectLanguage from '../../../common/SelectLanguage';
 import { ThemeModeContext } from '../../../../context/darkMode';
 import useIsPhone from '../../../../hooks/usePhone';
 import { useNavigate } from 'react-router-dom';
+import { AuthDialog } from '../../../../pages/auth/AuthDialog';
 function Sidebar({ language, setLanguage }) {
     const theme = useTheme()
     const style = styles(theme)
@@ -15,7 +16,8 @@ function Sidebar({ language, setLanguage }) {
     const { i18n, t } = useTranslation();
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
     const { isPhone } = useIsPhone()
-    const naviage=useNavigate()
+    const naviage = useNavigate()
+    const [dialogOpen,setDialogOpen]=useState(false)
     const menuItems = [
         { text: t("home"), icon: <Home />, path: '/' },
         { text: t("ranking"), icon: <Leaderboard />, path: "/manga-ranking" },
@@ -24,10 +26,12 @@ function Sidebar({ language, setLanguage }) {
         { text: t("login"), icon: <Login />, path: '' },
         { text: t("sign up"), icon: <PersonAdd />, path: '' },
         { text: t("logout"), icon: <Logout />, path: '' },
-        { text: t("about us"), icon: <Info /> , path: '/'},
+        { text: t("about us"), icon: <Info />, path: '/' },
     ]
     return (
         <>
+            <AuthDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+
             {/* menu icon */}
             <IconButton onClick={() => { setOpen(true) }}
                 sx={style.menuIcons}
@@ -79,7 +83,7 @@ function Sidebar({ language, setLanguage }) {
                         {menuItems.map((item, index) => (
                             <ListItem key={index} disablePadding >
                                 <ListItemButton
-                                    onClick={() => { setOpen(false) ,naviage(item.path)  }} style={{ textDecoration: "none", color: 'inherit' }}
+                                    onClick={() => { setOpen(false),index===5?setDialogOpen(true):naviage(item.path) }} style={{ textDecoration: "none", color: 'inherit' }}
                                     sx={{
                                         ...(
                                             isPhone ? {
