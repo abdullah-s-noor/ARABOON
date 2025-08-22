@@ -15,7 +15,7 @@ const RenderFields = ({ formik, fields }) => {
         <>
             {/* first & last جنب بعض */}
             {firstLast.length === 2 && (
-                <Box display="flex" gap={2} mb={2}>
+                <Box display="flex" gap={1} mb={2}>
                     {firstLast.map((field) => (
                         <Box flex={1} key={field.id}>
                             <Input

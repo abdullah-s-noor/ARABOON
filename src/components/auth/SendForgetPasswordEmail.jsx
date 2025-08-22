@@ -9,7 +9,7 @@ import RenderFields from './shared/RenderFields';
 import { forgetPasswordFields } from './shared/formFields';
 import { ArrowBackIosNew } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
-function SendForgetPasswordEmail({ setMode }) {
+function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -20,7 +20,9 @@ function SendForgetPasswordEmail({ setMode }) {
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            // const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
+            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
+            console.log("sendEmail",data)
+            setEmailForReset(values.email)
             toast.success('Verification code sent successfully.');
             setMode('sendcode')
         } catch (error) {

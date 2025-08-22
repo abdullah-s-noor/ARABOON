@@ -9,7 +9,9 @@ import RenderFields from './shared/RenderFields';
 import { resetPasswordFields } from './shared/formFields';
 import { ArrowBackIosNew, Password } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
-function CodeConfirmation({ setMode }) {
+import OTP from './OTP';
+function CodeConfirmation({ setMode, emailForReset }) {
+    const [tokenForReset, setTokenForReset] = useState(null)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -21,9 +23,15 @@ function CodeConfirmation({ setMode }) {
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            // const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
-            toast.success('Verification code sent successfully.');
-            setMode('sendcode')
+            const payload = {
+                email: emailForReset,
+                token: tokenForReset,
+                password: values.password,
+                confirmPassword: values.confirmPassword
+            }
+            console.log(payload)
+            const { data } = await api.post('/Authentication/ResetPassword', payload);
+            toast.success('Reset password successfully.');
         } catch (error) {
             console.log(error)
             const Errors = error.response?.data?.Errors;
@@ -43,6 +51,18 @@ function CodeConfirmation({ setMode }) {
         }
     };
 
+    const handleReset = async () => {
+        try {
+            setTokenForReset(null)
+            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', { email: emailForReset });
+            toast.success("A new code has been sent to your email.")
+        } catch (error) {
+            console.log(error)
+        } finally {
+
+        }
+    }
+
     const formik = useFormik({
         initialValues,
         onSubmit,
@@ -52,7 +72,9 @@ function CodeConfirmation({ setMode }) {
         <>
             <Box sx={style.header}>
                 <Typography sx={style.title}>Reset Your Password</Typography>
-                <Typography sx={style.subtitle}>We've sent a 6-digit code to your email. <br />Please enter it to continue.</Typography>
+                {!tokenForReset? <Typography sx={style.subtitle}>We've sent a 6-digit code to your email. <br />Please enter it to continue.</Typography>
+                :<Typography sx={style.subtitle}>Your code has been verified, please set a new password.</Typography>
+                }
             </Box>
 
             <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
@@ -61,17 +83,19 @@ function CodeConfirmation({ setMode }) {
                         {serverError}
                     </Alert>
                 )}
-                <RenderFields formik={formik} fields={resetPasswordFields} />
+                <OTP setTokenForReset={setTokenForReset} formik={formik} emailForReset={emailForReset} />
+                {tokenForReset && <RenderFields formik={formik} fields={resetPasswordFields} />}
                 {/* Submit Button */}
-                <Button type="submit" sx={style.submitButton}>Send request</Button>
+                {tokenForReset && <Button type="submit" sx={style.submitButton}>Send request</Button>}
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px", mt: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px", mt: tokenForReset && 2 }}>
                 {/* Bottom text */}
-                <Typography variant="body2" sx={{ textAlign: 'center', color: "#94a3b8", }}>
+                {!tokenForReset && <Typography variant="body2" sx={{ textAlign: 'center', color: "#94a3b8", }}
+                    onClick={() => { handleReset() }}>
                     Don’t have a code?{' '}
                     <Typography component="span" sx={style.resend}>Resend</Typography>
-                </Typography>
+                </Typography>}
 
                 <MuiLink variant="body2" component={RouterLink} to="" sx={style.signInBack} onClick={() => { setMode('login') }} >
                     <ArrowBackIosNew fontSize="small" sx={{ fontSize: '10px' }} />

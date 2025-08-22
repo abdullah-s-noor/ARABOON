@@ -11,7 +11,7 @@ import Cookies from "js-cookie"
 import Theme from "./services/theme.js"
 import { ThemeModeContext } from "./context/darkMode.jsx"
 import "react-toastify/dist/ReactToastify.css"
-import "./styles/toast.css"
+import "./app.css"
 
 function App() {
   const { darkMode, toggleDarkMode } = useContext(ThemeModeContext)

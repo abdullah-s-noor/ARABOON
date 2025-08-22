@@ -9,13 +9,17 @@ import { Zap } from "lucide-react"
 import Register from "../../components/auth/Register"
 import Login from "../../components/auth/Login"
 import { styles } from "./styles"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SendForgetPasswordEmail from "../../components/auth/SendForgetPasswordEmail"
 import CodeConfirmation from "../../components/auth/CodeConfirmation"
 export function AuthDialog({ open, onOpenChange }) {
     const theme = useTheme()
     const style = styles(theme)
-    const [mode,setMode]=useState('register')
+    const [mode, setMode] = useState('register')
+    const [emailForReset, setEmailForReset] = useState(null)
+    useEffect(() => {
+        setMode('register')
+    }, [open])
     return (
         <Dialog
             open={open}
@@ -31,7 +35,7 @@ export function AuthDialog({ open, onOpenChange }) {
                     {/* Background Image */}
                     <Box
                         component="img"
-                        src={theme.palette.mode === 'dark' ? "/image/auth/5.png" :"/image/auth/6.png"}
+                        src={theme.palette.mode === 'dark' ? "/image/auth/7.png" : "/image/auth/6.png"}
                         alt="Mystical Character"
                         sx={style.bgImage}
                     />
@@ -47,17 +51,17 @@ export function AuthDialog({ open, onOpenChange }) {
                         </Box>
 
                         <Typography sx={style.bottomTypography}>
-                            "True strength comes from within. Channel your energy and transcend your limits."
+                            Discover manga your way — favorites, reading history, and a full library at your fingertips
                         </Typography>
                     </Box>
                 </Box>
                 {/* right side */}
                 <Box sx={style.rightSide}>
-                    {mode==="register"?<Register setMode={setMode} />:
-                    mode==='login'?<Login setMode={setMode}/>:
-                    mode==='forgetpassword'?<SendForgetPasswordEmail setMode={setMode}/>:
-                    mode==='sendcode'?<CodeConfirmation setMode={setMode}/>:
-                    null
+                    {mode === "register" ? <Register setMode={setMode} /> :
+                        mode === 'login' ? <Login setMode={setMode} /> :
+                            mode === 'forgetpassword' ? <SendForgetPasswordEmail setEmailForReset={setEmailForReset} setMode={setMode} /> :
+                                mode === 'sendcode' ? <CodeConfirmation emailForReset={emailForReset} setMode={setMode} /> :
+                                    null
                     }
                 </Box>
 

@@ -33,7 +33,7 @@ export const styles = (theme) => ({
     overlayGradient: {
         position: "absolute",
         inset: 0,
-        background: theme.palette.mode==='dark'?"linear-gradient(to right, transparent, rgba(25,25,25,0.8))":
+        background: theme.palette.mode==='dark'?"linear-gradient(to right, transparent, rgba(25,25,25,0.6))":
         "linear-gradient(to right, transparent, rgba(215, 218, 216, 0.4))",
     },
     bgImage: {

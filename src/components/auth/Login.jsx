@@ -19,7 +19,6 @@ function Login({ setMode }) {
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            const { data } = await api.post('/Authentication/SignIn', values);
             toast.success('Signin successful!.');
         } catch (error) {
             console.log(error)
