@@ -12,6 +12,7 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
     //style
     const style = {
         card: {
+            backgroundColor:'background.default',
             position: "relative",
             maxWidth: { xs: 100, sm: 150, md: 230 },
             boxShadow: "none",
@@ -35,7 +36,6 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
                     },
                     "&:hover .delete-btn": { opacity: 1, display: isLibraryPage && 'flex' }, // 🖥️ على الكمبيوتر يظهر بالهوفر
                 }),
-
         },
         cardAction: {
             transition: '0.3s',

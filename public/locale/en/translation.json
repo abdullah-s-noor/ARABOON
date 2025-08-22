@@ -23,6 +23,50 @@
     "a to z": "A to Z",
     "z to a": "Z to A",
     "popularity score": "Popularity Score",
-    "sort":"Sort",
-    "genres":"Genres"
+    "sort": "Sort",
+    "genres": "Genres",
+    "formFields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "enter_firstName": "Enter your First Name",
+        "enter_lastName": "Enter your Last Name",
+        "userName": "Username",
+        "enter_userName": "Enter your Username",
+        "email": "Email",
+        "enter_email": "Enter your Email",
+        "password": "Password",
+        "enter_password": "Enter your Password",
+        "confirmPassword": "Confirm Password",
+        "enter_confirmPassword": "Enter your Confirm Password"
+    },
+    "register": {
+        "title": "Welcome to ARABOON",
+        "subtitle": "Discover, read, and enjoy endless manga stories",
+        "create_account": "Create Account",
+        "already_have_account": "Already have an account?",
+        "sign_in": "Sign in",
+        "footer_text": "Discover manga your way — favorites, reading history, and a full library at your fingertips"
+    },
+    "signin": {
+        "welcome_back": "Welcome Back",
+        "login_subtitle": "Access your ARABOON account and continue your journey.",
+        "forgot_password": "Forgot password?",
+        "sign_in": "Sign in",
+        "dont_have_account": "Don't have an account?",
+        "sign_up": "Sign up"
+    },
+    "forgot": {
+        "title": "Find Your Account",
+        "subtitle": "Enter your email and we’ll send you a verification code to confirm your identity.",
+        "send_request": "Send request",
+        "return_to_signin": "Return to sign in"
+    },
+    "reset": {
+        "title": "Reset Your Password",
+        "subtitle1": "We've sent a 6-digit code to your email. Please enter it to continue.",
+        "subtitle2": "Your code has been verified, please set a new password.",
+        "no_code": "Don’t have a code?",
+        "resend": "Resend",
+        "return_to_signin": "Return to sign in"
+    }
 }

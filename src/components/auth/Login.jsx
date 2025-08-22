@@ -1,13 +1,14 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
-import { toast } from 'react-toastify';
-import { api } from '../../services/api';
 import { useFormik } from 'formik';
 import { validations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { loginFields } from './shared/formFields';
+import { useTranslation } from 'react-i18next';
+import { handleAuthSubmit } from '../../services/authHelperReq';
 function Login({ setMode }) {
+    const {t}=useTranslation()
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -17,26 +18,14 @@ function Login({ setMode }) {
     };
 
     const onSubmit = async (values, { setSubmitting }) => {
-        setServerError(null);
-        try {
-            toast.success('Signin successful!.');
-        } catch (error) {
-            console.log(error)
-            const Errors = error.response?.data?.Errors;
-            if (Errors) {
-                const userNameError = Errors?.UserName?.[0];
-                const emailError = Errors?.Email?.[0];
-                const passwordError = Errors?.Password?.[0];
-                setServerError(userNameError || emailError || passwordError || 'Something went wrong.');
-                console.log('Errors from server:', Errors);
-            } else if (error.response?.data?.message) {
-                setServerError(error.response.data.message);
-            } else {
-                setServerError('Something went wrong. Please try again.');
-            }
-        } finally {
-            setSubmitting(false);
-        }
+                await handleAuthSubmit({
+                    endpoint: '/Authentication/SignIn',
+                    payload:values,
+                    setServerError,
+                    setSubmitting,
+                    successMessage: 'Signin successful!.',
+                    setMode,nextMode:'close'
+                });
     };
 
     const formik = useFormik({
@@ -47,8 +36,8 @@ function Login({ setMode }) {
     return (
         <>
             <Box sx={style.header}>
-                <Typography sx={style.title}>Welcome Back</Typography>
-                <Typography sx={style.subtitle}>Create your account and unlock your potential</Typography>
+                <Typography sx={style.title}>{t("signin.welcome_back")}</Typography>
+                <Typography sx={style.subtitle}>{t('signin.login_subtitle')}</Typography>
             </Box>
 
             <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
@@ -63,17 +52,17 @@ function Login({ setMode }) {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: "10px" }}>
                     {/* Bottom text */}
                     <Typography sx={{ textAlign: 'end' }}>
-                        <Button onClick={() => { setMode('forgetpassword') }} sx={style.signInForgetButton}>Forgot password?</Button>
+                        <Button onClick={() => { setMode('forgetpassword') }} sx={style.signInForgetButton}>{t('signin.forgot_password')}</Button>
                     </Typography>
                     {/* Submit Button */}
-                    <Button type="submit" sx={style.submitButton}>Sign in</Button>
+                    <Button type="submit" sx={style.submitButton}>{t('signin.sign_in')}</Button>
 
                 </Box>
             </Box>
 
             {/* Bottom text */}
-            <Typography sx={style.bottomText}>Don't have an account?{" "}
-                <Button onClick={() => { setMode('register') }} sx={style.signInForgetButton}>Sign up</Button>
+            <Typography sx={style.bottomText}>{t('signin.dont_have_account')}{" "}
+                <Button onClick={() => { setMode('register') }} sx={style.signInForgetButton}>{t('signin.sign_up')}</Button>
             </Typography>
 
         </>

@@ -43,8 +43,8 @@ export const styles = (theme) => ({
     },
     signInForgetButton: {
         color: "primary.main",
-        p: 0
-        , fontWeight: 500,
+        p: 0,
+        fontWeight: 500,
         textTransform: "none",
         "&:hover": {
             color: theme.palette.mode === "dark" ? "#d32f2f" : "#2688f0",

@@ -47,7 +47,7 @@ function RankingPageHeader() {
         <Box component={'div'} sx={style.headerWrapper}>
             <Typography
                 sx={style.headerTitle}>
-                {t("Ranking")}
+                {t("ranking")}
             </Typography>
             <Box sx={{ ...(style.breakLine) }} />
             <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>

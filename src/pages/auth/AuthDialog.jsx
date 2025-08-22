@@ -4,6 +4,7 @@ import {
     Typography,
     Box,
     useTheme,
+    IconButton,
 } from "@mui/material"
 import { Zap } from "lucide-react"
 import Register from "../../components/auth/Register"
@@ -11,8 +12,11 @@ import Login from "../../components/auth/Login"
 import { styles } from "./styles"
 import { useEffect, useState } from "react"
 import SendForgetPasswordEmail from "../../components/auth/SendForgetPasswordEmail"
-import CodeConfirmation from "../../components/auth/CodeConfirmation"
+import ResetPasswordWithOTP from "../../components/auth/ResetPasswordWithOTP"
+import { useTranslation } from "react-i18next"
+import { Close } from "@mui/icons-material"
 export function AuthDialog({ open, onOpenChange }) {
+    const { t,i18n } = useTranslation()
     const theme = useTheme()
     const style = styles(theme)
     const [mode, setMode] = useState('register')
@@ -27,6 +31,10 @@ export function AuthDialog({ open, onOpenChange }) {
             PaperProps={{ sx: style.dialogPaper }}
         >
             <DialogContent sx={style.dialogContent}>
+                {/* close dialog button */}
+                <IconButton onClick={()=>{onOpenChange(false)}} sx={{ position: 'absolute', top: 5,...(i18n.language==='en'?{right:5}:{left:5}) }}>
+                    <Close />
+                </IconButton>
                 {/* Left side - Character Image */}
                 <Box sx={style.leftSide}>
                     {/* Overlay gradient for smooth blending */}
@@ -51,7 +59,7 @@ export function AuthDialog({ open, onOpenChange }) {
                         </Box>
 
                         <Typography sx={style.bottomTypography}>
-                            Discover manga your way — favorites, reading history, and a full library at your fingertips
+                            {t('register.footer_text')}
                         </Typography>
                     </Box>
                 </Box>
@@ -60,8 +68,8 @@ export function AuthDialog({ open, onOpenChange }) {
                     {mode === "register" ? <Register setMode={setMode} /> :
                         mode === 'login' ? <Login setMode={setMode} /> :
                             mode === 'forgetpassword' ? <SendForgetPasswordEmail setEmailForReset={setEmailForReset} setMode={setMode} /> :
-                                mode === 'sendcode' ? <CodeConfirmation emailForReset={emailForReset} setMode={setMode} /> :
-                                    null
+                                mode === 'sendcode' ? <ResetPasswordWithOTP emailForReset={emailForReset} setMode={setMode} /> :
+                                    onOpenChange(false)
                     }
                 </Box>
 
