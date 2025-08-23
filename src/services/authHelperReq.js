@@ -1,12 +1,16 @@
 import { toast } from 'react-toastify';
 import { api } from './api';
 
-export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode }) => {
+export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode,setUserToken=null }) => {
     setServerError(null);
     try {
         const { data } = await api.post(endpoint, payload);
-        if (successMessage) toast.success(successMessage);
+        console.log(data)
+        toast.success(data.message);
         setMode(nextMode)
+        if(nextMode==='close'){
+            setUserToken(data.data.accessToken)
+        }
         return data;
     } catch (error) {
         console.log(error);

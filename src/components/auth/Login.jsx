@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { validations } from './shared/validations';
 import { styles } from './styles';
@@ -7,8 +7,10 @@ import RenderFields from './shared/RenderFields';
 import { loginFields } from './shared/formFields';
 import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
+import { UserContext } from '../../context/UserContext';
 function Login({ setMode }) {
-    const {t}=useTranslation()
+    const { userToken, setUserToken, userData } = useContext(UserContext)
+    const { t } = useTranslation()
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -18,14 +20,17 @@ function Login({ setMode }) {
     };
 
     const onSubmit = async (values, { setSubmitting }) => {
-                await handleAuthSubmit({
-                    endpoint: '/Authentication/SignIn',
-                    payload:values,
-                    setServerError,
-                    setSubmitting,
-                    successMessage: 'Signin successful!.',
-                    setMode,nextMode:'close'
-                });
+        await handleAuthSubmit({
+            endpoint: '/Authentication/SignIn',
+            payload: values,
+            setServerError,
+            setSubmitting,
+            successMessage: 'Signin successful!.',
+            setMode, nextMode: 'close', setUserToken
+        });
+        console.log("userToken",userToken)
+        console.log("userData",userData)
+
     };
 
     const formik = useFormik({

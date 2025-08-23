@@ -10,6 +10,7 @@ import Theme from "./services/theme.js"
 import { ThemeModeContext } from "./context/darkMode.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./styles/Toast.css"
+import UserContextProvider from "./context/UserContext.jsx"
 
 function App() {
   const { darkMode, toggleDarkMode } = useContext(ThemeModeContext)
@@ -41,7 +42,9 @@ function App() {
           }}
         />
         <CssBaseline />
+        <UserContextProvider>
         <RouterProvider router={router} />
+          </UserContextProvider>
       </ThemeProvider>
     </>
   )
