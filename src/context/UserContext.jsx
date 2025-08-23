@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { api } from "../services/api";
 
 // @ts-ignore
 export const UserContext = createContext();
@@ -19,12 +20,11 @@ export default function UserContextProvider({ children }) {
         }
     }, [userToken]);
 
-    const getUserData = () => {
+    const getUserData = async () => {
         try {
             const decoded = jwtDecode(userToken);
             console.log(decoded)
             setUserData(decoded);
-            console.log("Decoded user:", decoded);
         } catch (error) {
             console.error("Invalid token:", error);
             setUserData(null);
@@ -37,7 +37,7 @@ export default function UserContextProvider({ children }) {
     }
 
     return (
-        <UserContext.Provider value={{ userToken, setUserToken, userData,logout }}>
+        <UserContext.Provider value={{ userToken, setUserToken, userData, logout }}>
             {children}
         </UserContext.Provider>
     );

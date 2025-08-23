@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Sidebar from "./Sidebar";
-import { AccountCircle, Brightness4, Brightness7, PersonAdd } from "@mui/icons-material";
+import { AccountCircle, Brightness4, Brightness7, Logout, PersonAdd } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import styles from "./style";
 import SelectLanguage from "../../../common/SelectLanguage";
@@ -17,6 +17,7 @@ import useIsPhone from "../../../../hooks/usePhone";
 import { Link } from "react-router-dom";
 import { AuthDialog } from "../../../../pages/auth/AuthDialog";
 import { Palette } from "lucide-react";
+import { UserContext } from "../../../../context/UserContext";
 
 export default function Navbar() {
   const theme = useTheme()
@@ -30,7 +31,10 @@ export default function Navbar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
   const [open, setOpen] = useState(false);
+  const { userToken, logout, userData } = useContext(UserContext)
   useEffect(() => {
+    console.log("userToken from navbar", userToken)
+    console.log("userData from navbar", userData)
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -58,7 +62,7 @@ export default function Navbar() {
   ];
   return (
     <>
-      <AuthDialog  open={open} onOpenChange={setOpen} />
+      <AuthDialog open={open} onOpenChange={setOpen} />
       <AppBar position="static" sx={style.appBar}>
         <Toolbar sx={style.toolbar}>
           {/* Yellow bar on hover */}
@@ -76,7 +80,7 @@ export default function Navbar() {
           {/* Logo */}
           {windowWidth > 900 ?
             (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-              <img src={`/image/logo/${theme.palette.mode==='dark'?6:5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }} />
+              <img src={`/image/logo/${theme.palette.mode === 'dark' ? 6 : 5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }} />
               <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
             </Box>) :
             <Sidebar language={language} setLanguage={setLanguage} />
@@ -103,7 +107,7 @@ export default function Navbar() {
             </Box>)
             :
             (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
-              {<img src={`/image/logo/${theme.palette.mode==='dark'?6:5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }}/>}
+              {<img src={`/image/logo/${theme.palette.mode === 'dark' ? 6 : 5}.png`} alt="Logo" style={{ height: 64, marginRight: 8 }} />}
               <img src="/image/logo/7.gif" style={{ height: 55, position: 'absolute', bottom: '0', ...(language === 'AR' && { left: 0 }) }} />
             </Box>)
           }
@@ -132,11 +136,17 @@ export default function Navbar() {
                 <Box
                   sx={style.menuIcons}
                   onClick={() => {
-                    setOpen(true)
+                    userToken ? logout() : setOpen(true)
                   }}
                 >
-                  <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
+                  {userToken ? <Logout sx={{ color: "#ccc" }} fontSize="medium" />
+                    : <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />}
                 </Box>
+                {userData &&
+                  <Typography>
+                    {userData.UserName}
+                  </Typography>
+                }
               </>
             }
             {/* Search Icon Only */}
