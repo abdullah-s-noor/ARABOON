@@ -21,6 +21,7 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.540.0",
     "mui-one-time-password-input": "^5.0.0",
     "react": "^19.1.0",

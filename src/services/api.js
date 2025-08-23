@@ -12,9 +12,8 @@ api.interceptors.request.use(
   (config) => {
     const language = Cookies.get('i18next') || 'en';
     config.headers['Accept-Language'] = language;
-    const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFib29kIiwiRW1haWwiOiJhYm9vZG5vb3JtbTIwMDRAZ21haWwuY29tIiwiRmlyc3ROYW1lIjoiQWJkdWxsYWgiLCJMYXN0TmFtZSI6Ik5vb3IiLCJJRCI6IjEwMDMiLCJSb2xlIjoiVXNlciIsImV4cCI6MTc1NTYyOTg5MSwiaXNzIjoiYXJhYm9vbi1hdXRoLXNlcnZlciIsImF1ZCI6ImFyYWJvb24tY2xpZW50cyJ9.lIizADPNVzi0jLrXYOsnh5KnGiM3aJPe2A9HL5yIx6o";
+    const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFib29kIiwiRW1haWwiOiJhYm9vZG5vb3JtbTIwMDRAZ21haWwuY29tIiwiRmlyc3ROYW1lIjoiQWJkdWxsYWgiLCJMYXN0TmFtZSI6Ik5vb3IiLCJJRCI6IjEwMDMiLCJSb2xlIjoiVXNlciIsImV4cCI6MTc1NjAyNDY5OSwiaXNzIjoiYXJhYm9vbi1hdXRoLXNlcnZlciIsImF1ZCI6ImFyYWJvb24tY2xpZW50cyJ9.mGJVlSxXCqCnhzo1dwEtvHPjcNeuekOSGpS3edJVaU8";
     config.headers.Authorization = `Bearer ${token}`;
-
     config.headers['Cache-Control'] = 'no-cache';
     config.headers['Pragma'] = 'no-cache';
     

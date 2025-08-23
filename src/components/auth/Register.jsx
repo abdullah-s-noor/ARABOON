@@ -31,7 +31,6 @@ function Register({ setMode }) {
       successMessage: 'Registration successful! Please log in.',
       setMode,nextMode:'login'
     });
-    setMode('login')
   };
 
   const formik = useFormik({
