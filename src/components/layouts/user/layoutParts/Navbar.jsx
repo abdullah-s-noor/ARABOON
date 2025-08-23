@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { AuthDialog } from "../../../../pages/auth/AuthDialog";
 import { Palette } from "lucide-react";
 import { UserContext } from "../../../../context/UserContext";
+import MyAvatar from "../../../../components/common/MyAvatar";
 
 export default function Navbar() {
   const theme = useTheme()
@@ -114,7 +115,7 @@ export default function Navbar() {
 
           {/* Language & LightDark Mode& Login & Search */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {windowWidth > 900 &&
+            {windowWidth > 900 ?
               <>
                 <SelectLanguage
                   language={language}
@@ -132,33 +133,29 @@ export default function Navbar() {
                     :
                     <Brightness4 sx={{ color: 'white' }} fontSize="medium" />}
                 </Box>
-                {/* Login Icon */}
-                <Box
-                  sx={style.menuIcons}
-                  onClick={() => {
-                    userToken ? logout() : setOpen(true)
-                  }}
-                >
-                  {userToken ? <Logout sx={{ color: "#ccc" }} fontSize="medium" />
-                    : <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />}
+                {/* Search Icon Only */}
+                <Box sx={style.menuIcons}>
+                  <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
                 </Box>
-                {userData &&
-                  <Typography>
-                    {userData.UserName}
-                  </Typography>
+
+                {userToken ?
+                  (userData && <MyAvatar />) :
+                  // login
+                  <Box sx={style.menuIcons} onClick={() => { setOpen(true) }}>
+                    <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
+                  </Box>
                 }
-              </>
+              </> :
+              /* Search Icon Only */
+              < Box sx={style.menuIcons}>
+                <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
+              </Box>
             }
-            {/* Search Icon Only */}
-            <Box
-              sx={style.menuIcons}
-            >
-              <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
-            </Box>
+
           </Box>
 
         </Toolbar>
-      </AppBar>
+      </AppBar >
     </>
   );
 }
