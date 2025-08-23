@@ -10,6 +10,7 @@ export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setS
         setMode(nextMode)
         if(nextMode==='close'){
             setUserToken(data.data.accessToken)
+            localStorage.setItem("userToken",data.data.accessToken)
         }
         return data;
     } catch (error) {
