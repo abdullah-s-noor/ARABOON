@@ -17,7 +17,7 @@ const dialogText = {
         removing: "جارٍ الحذف...",
     }
 }
-function AlertProfileImage({ setOriginalProfileImage, setProfileImage, setIsEditingProfile, open, setOpen }) {
+function AlertProfileImage({ setOriginalProfileImage, setIsEditingProfile, open, setOpen }) {
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [loading, setLoading] = useState(false)
@@ -26,7 +26,6 @@ function AlertProfileImage({ setOriginalProfileImage, setProfileImage, setIsEdit
     };
 
     const handleDelete = async () => {
-        setProfileImage(null)              // مسح الصورة
         setOriginalProfileImage(null)      // مسح النسخة الأصلية
         setIsEditingProfile(false)         // سكّر محرر الصور
         setOpen(false)                     // سكّر الـ Dialog

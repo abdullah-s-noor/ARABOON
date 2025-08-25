@@ -14,43 +14,58 @@ import {
 } from "@mui/material"
 import { CloudUpload, RotateLeft, RotateRight } from "@mui/icons-material"
 import AvatarEditor from "react-avatar-editor"
-
-export default function ProfileAvatarEditor({ open, onClose, onSave, existingImage, hasExistingProfile, onDelete }) {
-    const [image, setImage] = useState(existingImage || null)
-    const [scale, setScale] = useState(1.2)
-    const [rotate, setRotate] = useState(0)
+//onDelete=true  open the confirmation delete dialog
+//originalProfileImage => the origin image that stored in database
+//image =>this image take the initial value from the originalProfileimage and create some edition on this useState image not on the original direcly
+export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData,onSave }) {
+    const initialCropData = {scale: 1.2,rotate: 0,position: { x: .5, y: .5 }}
+    const [image, setImage] = useState(originalProfileImage || null)
     const editorRef = useRef(null)
     const fileInputRef = useRef(null)
+    const [tempCropData, setTempCropData] = useState(cropData)
     useEffect(() => {
-        setImage(existingImage || null)
-    }, [existingImage])
+        setImage(originalProfileImage || null)
+    }, [originalProfileImage])
     const handleFileChange = (event) => {
         const file = event.target.files?.[0]
         if (file) {
             setImage(file)
-        }
-    }
-
-    const handleSave = () => {
-        if (editorRef.current && image) {
-            const canvas = editorRef.current.getImageScaledToCanvas()
-            const croppedImageUrl = canvas.toDataURL()
-            onSave(croppedImageUrl, image)
+            setTempCropData(initialCropData)
         }
     }
 
     const handleRotateLeft = () => {
-        setRotate(rotate - 90)
+        setTempCropData(prev => ({ ...prev, rotate: prev.rotate - 90 }))
     }
 
     const handleRotateRight = () => {
-        setRotate(rotate + 90)
+        setTempCropData(prev => ({ ...prev, rotate: prev.rotate + 90 }))
     }
 
     const handleUploadClick = () => {
         fileInputRef.current?.click()
-
     }
+
+    const handleSave = () => {
+        if (editorRef.current && image) {
+            setCropData(tempCropData)
+            setOriginalProfileImage(image)
+            onSave(false)
+        }
+    }
+    const handleDelete = () => {
+        setImage(null)
+        setOriginalProfileImage(null)
+        setTempCropData(initialCropData)
+        setCropData(initialCropData)
+        onDelete(true)
+    }
+
+    const handleCancel = () => {
+        setImage(null)
+        setTempCropData(initialCropData)
+    }
+    
 
     return (
         <>
@@ -69,8 +84,10 @@ export default function ProfileAvatarEditor({ open, onClose, onSave, existingIma
                                         border={20}
                                         borderRadius={125}
                                         color={[255, 255, 255, 0.6]}
-                                        scale={scale}
-                                        rotate={rotate}
+                                        scale={tempCropData.scale}
+                                        rotate={tempCropData.rotate}
+                                        position={tempCropData.position}
+                                        onPositionChange={(pos) => setTempCropData(prev => ({ ...prev, position: pos }))}
                                     />
                                 </Box>
 
@@ -79,8 +96,8 @@ export default function ProfileAvatarEditor({ open, onClose, onSave, existingIma
                                         Zoom
                                     </Typography>
                                     <Slider
-                                        value={scale}
-                                        onChange={(e, value) => setScale(value)}
+                                        value={tempCropData.scale}
+                                        onChange={(e, value) => setTempCropData(prev => ({ ...prev, scale: value }))}
                                         min={1}
                                         max={3}
                                         step={0.1}
@@ -104,7 +121,7 @@ export default function ProfileAvatarEditor({ open, onClose, onSave, existingIma
                             <Box sx={{ textAlign: "center", py: 4 }}>
                                 <CloudUpload sx={{ fontSize: 64, color: "text.secondary", mb: 2 }} />
                                 <Typography variant="h6" gutterBottom>
-                                    {hasExistingProfile ? "Upload New Profile Picture" : "Upload Profile Picture"}
+                                    {originalProfileImage ? "Upload New Profile Picture" : "Upload Profile Picture"}
                                 </Typography>
                                 <Button variant="contained" onClick={handleUploadClick} startIcon={<CloudUpload />}>
                                     Choose Image
@@ -114,10 +131,10 @@ export default function ProfileAvatarEditor({ open, onClose, onSave, existingIma
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={()=>{onClose()}}>Cancel</Button>
                     <Box>
-                        {existingImage && <Button onClick={() => { onDelete(true) }} sx={{ mr: 1 }}>Delete</Button>}
-                        {image && <Button onClick={handleSave} variant="contained">Save</Button>}
+                        {originalProfileImage && <Button onClick={() => {handleDelete() }} sx={{ mr: 1 }}>Delete</Button>}
+                        {image && <Button onClick={()=>{handleSave()}} variant="contained">Save</Button>}
                     </Box>
                 </DialogActions>
             </Dialog>
