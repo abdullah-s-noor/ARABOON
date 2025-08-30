@@ -4,8 +4,10 @@ export const fields = {
     lastName: { type: "text", title: "Last Name", id: "lastName", name: "lastName" },
     userName: { type: "text", title: "Username", id: "userName", name: "userName" },
     email: { type: "email", title: "Email", id: "email", name: "email" },
+    bio: { type: "text", title: "Bio", id: "bio", name: "bio" },
     password: { type: "password", title: "Password", id: "password", name: "password" },
     confirmPassword: { type: "password", title: "Confirm Password", id: "confirmPassword", name: "confirmPassword" },
+    
 };
 
 // arrays للفورمز المختلفة
@@ -31,3 +33,11 @@ export const resetPasswordFields = [
 export const forgetPasswordFields = [
     fields.email,
 ];
+
+export const userInformationFields = [
+    fields.firstName,
+    fields.lastName,
+    fields.userName,
+    fields.email,
+    fields.bio,
+]

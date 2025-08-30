@@ -42,4 +42,5 @@ export const validations = {
     register: yup.object({ firstName, lastName, userName, email, password, confirmPassword }),
     forgetPassword: yup.object({ email }),
     resetPassword: yup.object({ password, confirmPassword }),
+    userInformation:yup.object({ firstName, lastName, userName, email }),
 };

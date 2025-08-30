@@ -8,14 +8,17 @@ import {
     Box,
     Typography,
     ListItemIcon,
+    IconButton,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import usePhone from "../../hooks/usePhone";
 import { UserContext } from "../../context/UserContext";
 import { Logout } from "@mui/icons-material";
 import { Settings } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileMenu() {
+    const {i18n}=useTranslation()
     const [anchorEl, setAnchorEl] = useState(null);
     const { isPhone } = usePhone()
     const { logout, userData } = useContext(UserContext)
@@ -32,31 +35,36 @@ export default function ProfileMenu() {
 
     return (
         <>
-            {/* Chip with Avatar + Name + Arrow */}
-            <Chip
-                avatar={<Avatar src="/static/images/avatar/1.jpg" />}
-                label={userData.FirstName}
-                onClick={handleClick}
-                deleteIcon={<ArrowDropDownIcon sx={{color: "#ccc !important", }} />}
-                onDelete={handleClick}
-                sx={{
-                    color: "#ccc",
-                    borderRadius: "20px",
-                    paddingRight: "8px",
-                    backgroundColor: "#222",
-                    cursor: "pointer",
-                    ...(isPhone ? {
-                        "&:active": {
-                            backgroundColor: "#333",
-                        },
-                    } : {
-                        "&:hover": {
-                            backgroundColor: "#333",
-                        },
-                    })
-                }}
+  <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#222",
+        color: "#ccc",
+        borderRadius: "20px",
+        padding: "4px 8px",
+        cursor: "pointer",
+        width: "fit-content",
+        ...(isPhone
+          ? { "&:active": { backgroundColor: "#333" } }
+          : { "&:hover": { backgroundColor: "#333" } }),
+      }}
+      onClick={handleClick}
+    >
+      <Avatar
+        src="/static/images/avatar/1.jpg"
+        sx={{
+             width: 24, height: 24,
+          marginRight: i18n.language === "en" ? 1 : 0,
+          marginLeft: i18n.language === "en" ? 0 : 1,
+        }}
+      />
+      <Typography sx={{ flexGrow: 1 }}>{userData.FirstName}</Typography>
+      <IconButton sx={{ padding: 0 }}>
+        <ArrowDropDownIcon sx={{ color: "#ccc" }} />
+      </IconButton>
+    </Box>
 
-            />
 
             {/* Custom Menu */}
             <Menu

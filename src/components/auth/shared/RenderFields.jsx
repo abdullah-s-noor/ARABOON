@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import Input from "../../common/Input";
 
-const RenderFields = ({ formik, fields }) => {
+const RenderFields = ({ formik, fields,isEdit=true }) => {
     // نفلتر الحقول الخاصة بـ first & last
     const firstLast = fields.filter(
         (f) => f.id === "firstName" || f.id === "lastName"
@@ -28,6 +28,7 @@ const RenderFields = ({ formik, fields }) => {
                                 onBlur={formik.handleBlur}
                                 errors={formik.errors}
                                 touched={formik.touched}
+                                disabled={!isEdit}
                             />
                         </Box>
                     ))}
@@ -47,6 +48,7 @@ const RenderFields = ({ formik, fields }) => {
                         onBlur={formik.handleBlur}
                         errors={formik.errors}
                         touched={formik.touched}
+                        disabled={!isEdit}                        
                     />
                 </Box>
             ))}

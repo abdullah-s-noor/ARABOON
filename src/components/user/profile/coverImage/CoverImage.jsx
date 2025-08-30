@@ -21,17 +21,23 @@ import {
 } from "@mui/material"
 import { Camera, Edit, Upload, CropRotate, Delete } from "@mui/icons-material"
 import ImageCropper from "./ImageCropper"
+import { api } from "../../../../services/api"
+import { base64ToBlob, handleImageBeforeSave } from "../handleImageBeforeSave"
+import { toast } from "react-toastify"
+import usePhone from "../../../../hooks/usePhone"
+import { useTranslation } from "react-i18next"
+import AlertProfileImage from "../profileImage/AlertProfileImage"
 
-export default function ProfilePage() {
-    const [coverImage, setCoverImage] = useState(null)
-    const [originalCoverImage, setOriginalCoverImage] = useState(null)
-    const [profileImage, setProfileImage] = useState(null)
+export default function ProfilePage({ originalImage, croppedImage }) {
+    const [coverImage, setCoverImage] = useState(croppedImage || null)
+    const [originalCoverImage, setOriginalCoverImage] = useState(originalImage || null)
     const [isEditingCover, setIsEditingCover] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
     const [menuAnchorEl, setMenuAnchorEl] = useState(null)
     const [cropperMode, setCropperMode] = useState("upload") // 'upload' or 'reposition'
     const fileInputRef = useRef(null)
-
+    const { isPhone } = usePhone()
+    const { t, i18n } = useTranslation()
     const handleEditCoverClick = (event) => {
         setMenuAnchorEl(event.currentTarget)
     }
@@ -79,12 +85,24 @@ export default function ProfilePage() {
         }
     }
 
-    const handleCropComplete = useCallback((croppedImage, originalImage) => {
-        setCoverImage(croppedImage)
-        if (originalImage) {
+    const handleCropComplete = useCallback(async (croppedImage, originalImage) => {
+        const payloadOriginalImage = await handleImageBeforeSave(originalImage)
+        console.log(payloadOriginalImage)
+        console.log(base64ToBlob(croppedImage))
+        try {
+            const formData = new FormData()
+            formData.append("OriginalImage", base64ToBlob(payloadOriginalImage))
+            formData.append("CroppedImage", base64ToBlob(croppedImage))
+            const response = await api.put("/users/upload/cover-image", formData)
+            console.log(response)
+            setCoverImage(croppedImage)
             setOriginalCoverImage(originalImage)
+            setIsEditingCover(false)
+        } catch (error) {
+            toast.error(error?.response?.data?.Errors?.['OriginalImage.Length'][0])
+        } finally {
+
         }
-        setIsEditingCover(false)
     }, [])
 
     const handleDeleteCover = useCallback(() => {
@@ -103,6 +121,8 @@ export default function ProfilePage() {
                 width: "100%",
                 height: "auto",
                 margin: "0 auto",
+                borderBottomLeftRadius: '10px',
+                borderBottomRightRadius: '10px',
             }}
         >
             <Box
@@ -113,24 +133,30 @@ export default function ProfilePage() {
                     width: "100%",
                     height: "auto",
                     objectFit: "cover",
+                    display: 'block'
                 }}
             />
 
-            <Box sx={{ position: "absolute", top: 16, right: 16 }}>
+            <Box sx={{ position: "absolute", top: 16, ...(i18n.language === 'en' ? { left: 16 } : { right: 16 }) }}>
                 <Button
                     variant="contained"
                     size="small"
-                    startIcon={<Camera />}
                     onClick={handleEditCoverClick}
                     sx={{
                         bgcolor: "rgba(0, 0, 0, 0.5)",
                         color: "white",
-                        "&:hover": {
-                            bgcolor: "rgba(0, 0, 0, 0.7)",
-                        },
+                        ...(isPhone ? {
+                            "&:active": {
+                                bgcolor: "rgba(0, 0, 0, 0.7)",
+                            },
+                        } : {
+                            "&:hover": {
+                                bgcolor: "rgba(0, 0, 0, 0.7)",
+                            },
+                        }),
                     }}
                 >
-                    Edit Cover
+                    <Camera sx={{ mx: 1 }} /> {t("profile.edit_cover")}
                 </Button>
             </Box>
 
@@ -140,18 +166,18 @@ export default function ProfilePage() {
                 onClose={handleMenuClose}
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "right",
+                    horizontal: i18n.language==="en"?"left":"right",
                 }}
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: i18n.language==="en"?"left":"right",
                 }}
             >
                 <MenuItem onClick={handleUploadNew}>
                     <ListItemIcon>
                         <Upload fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="تحميل صورة غلاف جديدة" />
+                    <ListItemText primary={t("profile.addNewCoverImage")} />
                 </MenuItem>
 
                 {coverImage && (
@@ -159,7 +185,7 @@ export default function ProfilePage() {
                         <ListItemIcon>
                             <CropRotate fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText primary="إعادة تغيير الموضع" />
+                        <ListItemText primary={t("profile.reposition")} />
                     </MenuItem>
                 )}
 
@@ -168,12 +194,12 @@ export default function ProfilePage() {
                         <ListItemIcon>
                             <Delete fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText primary="إزالة" />
+                        <ListItemText primary={t("profile.delete")} />
                     </MenuItem>
                 )}
             </Menu>
             <Dialog open={isEditingCover} onClose={() => setIsEditingCover(false)} maxWidth="lg" fullWidth>
-                <DialogTitle>Edit Cover Image</DialogTitle>
+                <DialogTitle>{t("profile.edit_cover_image")}</DialogTitle>
                 <DialogContent>
                     <ImageCropper
                         onCropComplete={handleCropComplete}
@@ -188,18 +214,12 @@ export default function ProfilePage() {
                 </DialogContent>
             </Dialog>
 
-            <Dialog open={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)}>
-                <DialogTitle>تأكيد الحذف</DialogTitle>
-                <DialogContent>
-                    <Typography>هل أنت متأكد من حذف صورة الغلاف؟</Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setShowDeleteConfirm(false)}>No</Button>
-                    <Button onClick={handleConfirmDelete} color="error" variant="contained">
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <AlertProfileImage
+                open={showDeleteConfirm}
+                setOpen={setShowDeleteConfirm}
+                handleDelete={handleConfirmDelete}
+                type={"cover_image"}
+            />
 
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
         </Box >

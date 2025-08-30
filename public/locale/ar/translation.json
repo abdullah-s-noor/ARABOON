@@ -36,7 +36,8 @@
         "password": "كلمة المرور",
         "enter_password": "أدخل كلمة المرور",
         "confirmPassword": "تأكيد كلمة المرور",
-        "enter_confirmPassword": "أدخل تأكيد كلمة المرور"
+        "enter_confirmPassword": "أدخل تأكيد كلمة المرور",
+        "bio":"السيرة الذاتية"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -67,5 +68,23 @@
         "no_code": "لم يصلك الرمز؟",
         "resend": "إعادة الإرسال",
         "return_to_signin": "العودة إلى تسجيل الدخول"
+    },
+    "profile":{
+        "edit_cover":"تحرير الغلاف",
+        "addNewCoverImage":"تحميل صورة غلاف جديدة",
+        "reposition":"إعاده تغيير الموضع",
+        "delete":"حذف",
+        "profile_information":"تعديل الملف الشخصي",
+        "update_profile":"تعديل الملف الشخصي",
+        "save_changes":"حفظ التغييرات",
+        "edit_cover_image":"تعديل صورة الغلاف",
+        "edit_profile_image":"تعديل صورة الملف الشخصي",
+        "zoom":"تكبير",
+        "cancel":"الغاء",
+        "save":"حفظ",
+        "addNewProfileImage":"تحميل صورة ملف شخصي جديدة",
+        "choose_image":"اختر صورة",
+        "uplaod_profile_picture":"تحميل صورة الملف الشخصي"
+
     }
 }

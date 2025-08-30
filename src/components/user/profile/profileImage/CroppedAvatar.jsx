@@ -1,10 +1,11 @@
 import React from "react"
 import AvatarEditor from "react-avatar-editor"
-import { Avatar } from "@mui/material"
+import { Avatar, useTheme } from "@mui/material"
 
 function CroppedAvatar({ originalImage, cropData, size = 100 }) {
+    const theme=useTheme()
     if (!originalImage) {
-        return <Avatar sx={{ width: size, height: size,transform: "translateY(-40px) translatex(20px)" }} />
+        return <Avatar sx={{ width: size, height: size, transform: "translateY(-40px) translatex(20px)" }} />
     }
 
     return (
@@ -13,11 +14,11 @@ function CroppedAvatar({ originalImage, cropData, size = 100 }) {
             width={size}
             height={size}
             border={0}
-            borderRadius={size / 2} // دائري
+            borderRadius={size /2} // دائري
             scale={cropData.scale}
             rotate={cropData.rotate}
             position={cropData.position}
-            style={{ border: "3px solid #1976d2", borderRadius: "50%" ,transform: "translateY(-40px) translatex(20px)"}}
+            style={{  border:`5px solid ${theme.palette.primary.main}`, borderRadius: "50%",  }}
         />
     )
 }

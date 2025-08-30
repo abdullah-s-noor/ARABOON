@@ -14,18 +14,23 @@ import {
 } from "@mui/material"
 import { CloudUpload, RotateLeft, RotateRight } from "@mui/icons-material"
 import AvatarEditor from "react-avatar-editor"
+import { api } from "../../../../services/api"
+import { handleImageBeforeSave } from "../handleImageBeforeSave"
+import { useTranslation } from "react-i18next"
 //onDelete=true  open the confirmation delete dialog
 //originalProfileImage => the origin image that stored in database
 //image =>this image take the initial value from the originalProfileimage and create some edition on this useState image not on the original direcly
-export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData,onSave }) {
-    const initialCropData = {scale: 1.2,rotate: 0,position: { x: .5, y: .5 }}
+export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData, onSave }) {
+    const initialCropData = { scale: 1.2, rotate: 0, position: { x: .5, y: .5 } }
     const [image, setImage] = useState(originalProfileImage || null)
     const editorRef = useRef(null)
     const fileInputRef = useRef(null)
     const [tempCropData, setTempCropData] = useState(cropData)
+    const { t ,i18n} = useTranslation()
     useEffect(() => {
         setImage(originalProfileImage || null)
-    }, [originalProfileImage])
+        setTempCropData(cropData)
+    }, [open])
     const handleFileChange = (event) => {
         const file = event.target.files?.[0]
         if (file) {
@@ -45,32 +50,36 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
     const handleUploadClick = () => {
         fileInputRef.current?.click()
     }
-
-    const handleSave = () => {
+    const handleSave = async () => {
+        const payloadImage = await handleImageBeforeSave(image); // لازم await هنا
+        console.log(payloadImage);
         if (editorRef.current && image) {
-            setCropData(tempCropData)
-            setOriginalProfileImage(image)
-            onSave(false)
+            try {
+                const formData = new FormData()
+                formData.append("ProfileImage", payloadImage)
+                formData.append("CropData.Position.X", tempCropData.position.x)
+                formData.append("CropData.Position.Y", tempCropData.position.y)
+                formData.append("CropData.Scale", tempCropData.scale)
+                formData.append("CropData.Rotate", tempCropData.rotate)
+
+                const response = await api.put("/users/upload/profile-image", formData)
+                console.log(response)
+                setCropData(tempCropData)
+                setOriginalProfileImage(image)
+                onSave(false)
+
+            } catch (error) {
+                console.log(error)
+            } finally {
+
+            }
         }
     }
-    const handleDelete = () => {
-        setImage(null)
-        setOriginalProfileImage(null)
-        setTempCropData(initialCropData)
-        setCropData(initialCropData)
-        onDelete(true)
-    }
-
-    const handleCancel = () => {
-        setImage(null)
-        setTempCropData(initialCropData)
-    }
-    
-
     return (
         <>
+
             <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-                <DialogTitle>Edit Profile Picture</DialogTitle>
+                <DialogTitle>{t("profile.edit_profile_image")}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, py: 2 }}>
                         {image ? (
@@ -93,7 +102,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
 
                                 <Box sx={{ width: "100%", px: 2 }}>
                                     <Typography variant="body2" gutterBottom>
-                                        Zoom
+                                        {t("profile.zoom")}
                                     </Typography>
                                     <Slider
                                         value={tempCropData.scale}
@@ -109,8 +118,8 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                                     <IconButton onClick={handleRotateLeft} size="small">
                                         <RotateLeft />
                                     </IconButton>
-                                    <Button variant="outlined" onClick={handleUploadClick} startIcon={<CloudUpload />}>
-                                        Choose Different Image
+                                    <Button variant="outlined" onClick={handleUploadClick}>
+                                        {t("profile.addNewProfileImage")}<CloudUpload sx={{mx:1}}/>
                                     </Button>
                                     <IconButton onClick={handleRotateRight} size="small">
                                         <RotateRight />
@@ -120,21 +129,20 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                         ) : (
                             <Box sx={{ textAlign: "center", py: 4 }}>
                                 <CloudUpload sx={{ fontSize: 64, color: "text.secondary", mb: 2 }} />
-                                <Typography variant="h6" gutterBottom>
-                                    {originalProfileImage ? "Upload New Profile Picture" : "Upload Profile Picture"}
+                                <Typography variant="h6" gutterBottom>{t("profile.uplaod_profile_picture")}
                                 </Typography>
-                                <Button variant="contained" onClick={handleUploadClick} startIcon={<CloudUpload />}>
-                                    Choose Image
+                                <Button variant="contained" onClick={handleUploadClick}>
+                                    {t("profile.choose_image")}<CloudUpload sx={{mx:1}}/>
                                 </Button>
                             </Box>
                         )}
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button onClick={()=>{onClose()}}>Cancel</Button>
+                    <Button onClick={() => { onClose(true) }}>{t("profile.cancel")}</Button>
                     <Box>
-                        {originalProfileImage && <Button onClick={() => {handleDelete() }} sx={{ mr: 1 }}>Delete</Button>}
-                        {image && <Button onClick={()=>{handleSave()}} variant="contained">Save</Button>}
+                        {originalProfileImage && <Button onClick={() => { onDelete(true) }} sx={{ mr: 1 }}>{t("profile.delete")}</Button>}
+                        {image && <Button onClick={() => { handleSave() }} variant="contained">{t("profile.save")}</Button>}
                     </Box>
                 </DialogActions>
             </Dialog>

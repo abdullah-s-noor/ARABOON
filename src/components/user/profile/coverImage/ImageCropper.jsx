@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react"
 import { Box, Button, Slider, Typography } from "@mui/material"
 import Cropper from "react-easy-crop"
+import { useTranslation } from "react-i18next"
 
 export default function ImageCropper({
     onCropComplete,
@@ -18,7 +19,7 @@ export default function ImageCropper({
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-
+    const {t}=useTranslation()
     useEffect(() => {
         if (mode === "reposition" && existingImage) {
             setImageSrc(existingImage)
@@ -27,6 +28,8 @@ export default function ImageCropper({
             if (existingImage) {
                 setImageSrc(existingImage)
             }
+        }else{
+            setImageSrc("")
         }
     }, [mode, existingImage])
 
@@ -108,16 +111,16 @@ export default function ImageCropper({
 
                     <Box sx={{ mt: 2 }}>
                         <Typography variant="body2" gutterBottom>
-                            Zoom
+                            {t("profile.zoom")}
                         </Typography>
                         <Slider value={zoom} min={1} max={3} step={0.1} onChange={(_, value) => setZoom(value)} sx={{ mb: 2 }} />
 
                         <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
                             <Button variant="outlined" onClick={onCancel}>
-                                Cancel
+                                {t("profile.cancel")}
                             </Button>
                             <Button variant="contained" onClick={handleSave}>
-                                Save
+                                {t("profile.save")}
                             </Button>
                         </Box>
                     </Box>
