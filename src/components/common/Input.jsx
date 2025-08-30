@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
-import { TextField, IconButton, InputAdornment, InputLabel, Box } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { TextField, IconButton, InputAdornment, InputLabel, Box, useTheme } from '@mui/material';
 import { Email, Person, Phone, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next';
-
+import { useLocation } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+//disabled for profile page specifcly for user Information
+//and userToken also for use information and use for padding 
 function Input({ type, title, id, name, value, onChange, errors, onBlur, touched, disabled = false }) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
-    const { i18n,t } = useTranslation()
+    const { i18n, t } = useTranslation()
+    const {userToken}=useContext(UserContext)
+    const theme =useTheme()
+    //to change the color of icons in dark&light in disable
+    const getIconColor = () => {
+        if (disabled) {
+            return theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.38)'; // لون رمادي فاتح/داكن للـ disabled
+        }
+        return "oklch(70.4% 0.04 256.788)";
+    };
+
     const getStartIcon = () => {
-        if (type === "email") return <Mail size="16px" color="oklch(70.4% 0.04 256.788)" />;
-        if (type === "password") return <Lock size="16px" color="oklch(70.4% 0.04 256.788)" />;
-        if (type === "text") return <User size="16px" color="oklch(70.4% 0.04 256.788)" />;
+        const color = getIconColor();
+        if (type === "email") return <Mail size="16px" color={color} />;
+        if (type === "password") return <Lock size="16px" color={color} />;
+        if (type === "text") return <User size="16px" color={color} />;
         return null;
     };
     return (
         <>
             <Box>
-                <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: "text.secondary" }}>
+                <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: disabled?"text.primary":"text.secondary"  }}>
                     {t(`formFields.${name}`)}
                 </InputLabel>
                 <TextField
@@ -65,7 +79,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                                 },
                             },
                             bgcolor: (theme) =>
-                                theme.palette.mode === "dark" ? "#1e293b" : "#f9fafb", // dark / light
+                                theme.palette.mode === "dark" ? (!disabled && "#1e293b") : "#f9fafb", // dark / light
                             color: (theme) =>
                                 theme.palette.mode === "dark" ? "#fff" : "#000",
 
@@ -76,7 +90,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                                 borderColor: theme => theme.palette.primary.main, // يضل primary
                                 boxShadow: (theme) => theme.palette.mode === 'dark' ?
                                     "0 0 0 3px rgba(128,28,28,0.5)"
-                                : "0 0 0 3px rgba(12,112,222,0.3)", // أزرق شفاف
+                                    : "0 0 0 3px rgba(12,112,222,0.3)", // أزرق شفاف
                             },
                             borderRadius: "7px",
                             px: "14px",
@@ -91,7 +105,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                             color: "#94a3b8",
                         },
                         boxSizing: "border-box",
-                        "& .MuiOutlinedInput-input": { padding: "6px 0px" },
+                        "& .MuiOutlinedInput-input": { padding: userToken?"18px 0px" :"6px 0px" },
                     }}
 
                 />

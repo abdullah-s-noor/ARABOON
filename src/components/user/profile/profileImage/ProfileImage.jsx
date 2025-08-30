@@ -5,11 +5,11 @@ import { Edit } from '@mui/icons-material'
 import AlertProfileImage from './AlertProfileImage'
 import CroppedAvatar from './CroppedAvatar'
 
-function ProfileImage() {
-  const [originalProfileImage, setOriginalProfileImage] = useState('/image/chapters/10.jpg')
+function ProfileImage({originalImage,cropInfo}) {
+  const [originalProfileImage, setOriginalProfileImage] = useState(originalImage||'/image/chapters/10.jpg')
   const [isEditingProfile, setIsEditingProfile] = useState(false)
   const [deleteConfirmation, setDeleteConfirmation] = useState(false)
-  const [cropData, setCropData] = useState({
+  const [cropData, setCropData] = useState(cropInfo||{
     scale: 1.2,
     rotate: 0,
     position: { x: .5, y: .5 }
@@ -17,21 +17,26 @@ function ProfileImage() {
   const handleProfileClick = () => {
     setIsEditingProfile(true)
   }
+  const handleDelete = async () => {
+        setOriginalProfileImage(null)      // مسح النسخة الأصلية
+        setIsEditingProfile(false)         // سكّر محرر الصور
+        setDeleteConfirmation(false)                     // سكّر الـ Dialog
+    }
   return (
     <>
       <Box sx={{ position: "relative" }}>
         <CroppedAvatar
           originalImage={originalProfileImage}
           cropData={cropData}
-          size={100}
+          size={168}
         />
         <IconButton
           size="small"
           onClick={handleProfileClick}
           sx={{
             position: "absolute",
-            bottom: 40,
-            left: 80,
+            bottom:'10px',
+            right:'20px',
             bgcolor: "background.paper",
             "&:hover": {
               bgcolor: "primary.main",
@@ -52,8 +57,8 @@ function ProfileImage() {
       <AlertProfileImage
         open={deleteConfirmation}
         setOpen={setDeleteConfirmation}
-        setOriginalProfileImage={setOriginalProfileImage}
-        setIsEditingProfile={setIsEditingProfile}
+        handleDelete={handleDelete}
+        type={"profile_image"}
       />
     </>
   )
