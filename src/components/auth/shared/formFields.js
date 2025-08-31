@@ -5,9 +5,10 @@ export const fields = {
     userName: { type: "text", title: "Username", id: "userName", name: "userName" },
     email: { type: "email", title: "Email", id: "email", name: "email" },
     bio: { type: "text", title: "Bio", id: "bio", name: "bio" },
+    currentPassword: { type: "password", title: "Current Password", id: "currentPassword", name: "currentPassword" },
     password: { type: "password", title: "Password", id: "password", name: "password" },
     confirmPassword: { type: "password", title: "Confirm Password", id: "confirmPassword", name: "confirmPassword" },
-    
+
 };
 
 // arrays للفورمز المختلفة
@@ -40,4 +41,10 @@ export const userInformationFields = [
     fields.userName,
     fields.email,
     fields.bio,
+]
+
+export const changePasswordFields = [
+    fields.currentPassword,
+    fields.password,
+    fields.confirmPassword,
 ]

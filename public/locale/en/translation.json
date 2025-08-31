@@ -38,7 +38,9 @@
         "enter_password": "Enter your Password",
         "confirmPassword": "Confirm Password",
         "enter_confirmPassword": "Enter your Confirm Password",
-        "bio":"Bio"
+        "bio":"Bio",
+        "currentPassword":"Current Password",
+        "enter_currentPassword": "Enter your Current Password"
         
     },
     "register": {
@@ -87,6 +89,7 @@
         "addNewProfileImage":"Upload a new profile photo",
         "choose_image":"Choose Image",
         "uplaod_profile_picture":"Upload Profile Picture",
-        "favorites_categories":"Favorites Catergories"
+        "favorites_categories":"Favorites Catergories",
+        "change_password":"Change Password"
     }
 }

@@ -37,7 +37,9 @@
         "enter_password": "أدخل كلمة المرور",
         "confirmPassword": "تأكيد كلمة المرور",
         "enter_confirmPassword": "أدخل تأكيد كلمة المرور",
-        "bio":"السيرة الذاتية"
+        "bio":"السيرة الذاتية",
+        "currentPassword":"كلمة السر الحالية",
+        "enter_currentPassword": "أدخل كلمة السر الحالية"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -85,6 +87,7 @@
         "addNewProfileImage":"تحميل صورة ملف شخصي جديدة",
         "choose_image":"اختر صورة",
         "uplaod_profile_picture":"تحميل صورة الملف الشخصي",
-        "favorites_categories":"التصنيفات المفضلة"
+        "favorites_categories":"التصنيفات المفضلة",
+        "change_password":"تغيير كلمة السر"
     }
 }

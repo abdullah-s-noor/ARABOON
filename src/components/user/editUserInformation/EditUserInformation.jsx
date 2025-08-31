@@ -10,6 +10,7 @@ import { userInformationFields } from '../../auth/shared/formFields';
 import { useTranslation } from 'react-i18next';
 import { Save } from '@mui/icons-material';
 import { useInfoOnSubmit } from './useInfoOnSubmit';
+import ChangePassword from './ChangePassword';
 function EditUserInformation({ userInfo, setUserInfo }) {
     const [isEdit, setIsEdit] = useState(false)
     const { t } = useTranslation()
@@ -17,6 +18,7 @@ function EditUserInformation({ userInfo, setUserInfo }) {
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
     const [loading, setLoading] = useState(false)
+    const [openChangePassword, setOpenChangePassword] = useState(false);
     const initialValues = {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
@@ -29,9 +31,8 @@ function EditUserInformation({ userInfo, setUserInfo }) {
 
     const formik = useFormik({
         initialValues,
-        onSubmit: (values) => useInfoOnSubmit(values, getModifiedFields, setIsEdit,setUserInfo,setServerError,setLoading),
+        onSubmit: (values) => useInfoOnSubmit(values, getModifiedFields, setIsEdit, setUserInfo, setServerError, setLoading),
         validationSchema: validations.userInformation,
-
     });
     const getModifiedFields = () => {
         //return the key if changed that mean return the name of the field
@@ -39,6 +40,7 @@ function EditUserInformation({ userInfo, setUserInfo }) {
             key => formik.values[key] !== userInfo[key]
         );
     };
+
 
     return (
         <>
@@ -50,8 +52,8 @@ function EditUserInformation({ userInfo, setUserInfo }) {
                             {t("profile.update_profile")}
                         </Button>
                     ) : (
-                        <Button type="submit" variant="contained" loadingPosition="start" loading={loading}  sx={{ bgcolor: "primary.main" }} onClick={() => formik.handleSubmit()}>
-                            <Save sx={{mx:1}}/>{t("profile.save_changes")}
+                        <Button type="submit" variant="contained" loadingPosition="start" loading={loading} sx={{ bgcolor: "primary.main" }} onClick={() => formik.handleSubmit()}>
+                            <Save sx={{ mx: 1 }} />{t("profile.save_changes")}
                         </Button>
                     )}
                 </Box>
@@ -67,9 +69,10 @@ function EditUserInformation({ userInfo, setUserInfo }) {
                     <RenderFields formik={formik} fields={userInformationFields} isEdit={isEdit} />
                 </Box>
                 {isEdit && (
-                    <Button type="button" sx={style.submitButton}>Change Password</Button>
+                    <Button onClick={()=>{setOpenChangePassword(true)}} type="button" sx={style.submitButton}>{t("profile.change_password")}</Button>
                 )}
             </Box>
+            <ChangePassword open={openChangePassword} setOpen={setOpenChangePassword} />
 
         </>
     )
