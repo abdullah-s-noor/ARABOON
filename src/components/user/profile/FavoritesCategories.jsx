@@ -37,15 +37,15 @@ function FavoritesCategories({ favoritesCategories }) {
             height: 16,
             borderRadius: "50%",
             backgroundColor: color,
-            marginRight: 8,
+            ...(i18n.language === 'en' ? { mr: { xs: 2, sm: 4, md: 8 } } : {ml: { xs: 2, sm: 4, md: 8 } })
         }),
     }
 
     return (
         <Box sx={style.container}>
-            <Typography sx={{fontSize:{xs:"20px",sm:30},fontWeight:"bold"}}>{t("profile.favorites_categories")}</Typography>
+            <Typography sx={{ fontSize: { xs: "20px", sm: 30 }, fontWeight: "bold" }}>{t("profile.favorites_categories")}</Typography>
             {favoritesCategories.map((category, index) => {
-                const color = dotColors[index % dotColors.length] 
+                const color = dotColors[index % dotColors.length]
                 return (
                     <Box key={index} sx={style.row}>
                         <Box sx={{ display: "flex", alignItems: "center" }}>

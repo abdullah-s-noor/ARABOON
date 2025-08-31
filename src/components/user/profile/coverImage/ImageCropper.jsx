@@ -1,41 +1,73 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
-import { Box, Button, Slider, Typography } from "@mui/material"
+import { Box, Button, Slider, Typography, CircularProgress } from "@mui/material"
 import Cropper from "react-easy-crop"
 import { useTranslation } from "react-i18next"
 
+// Helper function to convert a Blob/File to a Base64 string
+const blobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+};
+
 export default function ImageCropper({
     onCropComplete,
-    aspectRatio = 1200 / 450,
+    aspectRatio = 1250 / 463,
     onCancel,
-    fileInputRef,
-    onDelete,
     existingImage,
-    hasExistingCover,
-    mode = "upload", // 'upload' or 'reposition'
 }) {
-    const [imageSrc, setImageSrc] = useState("")
+    const [imageSrc, setImageSrc] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-    const {t}=useTranslation()
-    useEffect(() => {
-        if (mode === "reposition" && existingImage) {
-            setImageSrc(existingImage)
-        } else if (mode === "upload") {
-            // الصورة ستأتي من existingImage prop بعد اختيارها في parent
-            if (existingImage) {
-                setImageSrc(existingImage)
-            }
-        }else{
-            setImageSrc("")
-        }
-    }, [mode, existingImage])
+    const [isLoading, setIsLoading] = useState(true)
+    const { t } = useTranslation()
 
-    const onCropCompleteHandler = useCallback((croppedArea, croppedAreaPixels) => {
-        setCroppedAreaPixels(croppedAreaPixels)
-    }, [])
+    useEffect(() => {
+        if (!existingImage) {
+            setImageSrc(null);
+            setIsLoading(false);
+            return;
+        }
+
+        // Check if the image is a URL or a Base64 string
+        if (existingImage.startsWith("data:image")) {
+            // It's already a Base64 string (from a new upload), no need to fetch
+            setImageSrc(existingImage);
+            setZoom(1);
+            setCrop({ x: 0, y: 0 });
+            setIsLoading(false);
+        } else {
+            // It's a URL (from the backend), so we need to fetch it
+            setIsLoading(true);
+            const fetchAndSetImage = async () => {
+                try {
+                    const response = await fetch(existingImage);
+                    const blob = await response.blob();
+                    const base64String = await blobToBase64(blob);
+                    setImageSrc(base64String);
+                    setZoom(1);
+                    setCrop({ x: 0, y: 0 });
+                } catch (error) {
+                    console.error("Failed to fetch and convert image:", error);
+                    setImageSrc(null);
+                    // Handle error, e.g., show a toast notification
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            fetchAndSetImage();
+        }
+    }, [existingImage]);
+
+    const onCropCompleteHandler = useCallback((area, areaPixels) => {
+        setCroppedAreaPixels(areaPixels);
+    }, []);
 
     const createImage = (url) =>
         new Promise((resolve, reject) => {
@@ -47,13 +79,12 @@ export default function ImageCropper({
         })
 
     const getCroppedImg = async (imageSrc, pixelCrop) => {
+        if (!imageSrc || !pixelCrop) return null
         const image = await createImage(imageSrc)
         const canvas = document.createElement("canvas")
         const ctx = canvas.getContext("2d")
-
         canvas.width = pixelCrop.width
         canvas.height = pixelCrop.height
-
         ctx.drawImage(
             image,
             pixelCrop.x,
@@ -65,7 +96,6 @@ export default function ImageCropper({
             pixelCrop.width,
             pixelCrop.height,
         )
-
         return canvas.toDataURL("image/jpeg")
     }
 
@@ -78,7 +108,7 @@ export default function ImageCropper({
 
     return (
         <Box sx={{ width: "100%", height: "500px", position: "relative" }}>
-            {!imageSrc ? (
+            {isLoading || !imageSrc ? (
                 <Box
                     sx={{
                         display: "flex",
@@ -91,8 +121,9 @@ export default function ImageCropper({
                         borderRadius: 1,
                     }}
                 >
-                    <Typography variant="h6" gutterBottom>
-                        جاري تحميل الصورة...
+                    <CircularProgress />
+                    <Typography variant="h6" sx={{ mt: 2 }}>
+                        {t("profile.loadingImage")}
                     </Typography>
                 </Box>
             ) : (
@@ -127,5 +158,5 @@ export default function ImageCropper({
                 </>
             )}
         </Box>
-    )
+    );
 }
