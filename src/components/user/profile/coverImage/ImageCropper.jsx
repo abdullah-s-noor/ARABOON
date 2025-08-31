@@ -20,6 +20,7 @@ export default function ImageCropper({
     aspectRatio = 1250 / 463,
     onCancel,
     existingImage,
+    loading
 }) {
     const [imageSrc, setImageSrc] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -150,7 +151,7 @@ export default function ImageCropper({
                             <Button variant="outlined" onClick={onCancel}>
                                 {t("profile.cancel")}
                             </Button>
-                            <Button variant="contained" onClick={handleSave}>
+                            <Button loading={loading} variant="contained" onClick={handleSave}>
                                 {t("profile.save")}
                             </Button>
                         </Box>

@@ -65,7 +65,7 @@ function Profile() {
                         <Box sx={style.container}>
                             <Box sx={{ maxWidth: '1200px', mx: 'auto' }}>
                                 <CoverImage originalImage={profileData.coverImage.originalImage} croppedImage={profileData.coverImage.croppedImage} />
-                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '600px', mx: "auto", mt: -12 }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '600px', mx: "auto", mt:{xs:-7,md: -12} }}>
                                     <ProfileImage originalImage={profileData.profileImage.originalImage} cropInfo={profileData.profileImage.cropData} />
                                     {/* full name & usename & Bio */}
                                     <Box sx={{ textAlign: 'center' }} >

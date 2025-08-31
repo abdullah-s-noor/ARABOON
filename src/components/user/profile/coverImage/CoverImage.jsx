@@ -32,6 +32,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
     const fileInputRef = useRef(null)
     const { isPhone } = usePhone()
     const { t, i18n } = useTranslation()
+    const[loading,setLoading]=useState(false)
 
     const handleEditCoverClick = (event) => {
         setMenuAnchorEl(event.currentTarget)
@@ -65,14 +66,21 @@ export default function ProfilePage({ originalImage, croppedImage }) {
 
     const handleConfirmDelete = async () => {
         try {
-            await api.delete("/users/cover-image") // Example API call to delete the image
+            setLoading(true)
+            const {data} =await api.delete("/users/cover-image")
             setCoverImage(null)
             setOriginalCoverImage(null)
-            toast.success("Cover image removed successfully!")
+            toast.success(data.message)
         } catch (error) {
-            toast.error("Failed to delete the image.")
+            console.log(error)
+            if(error?.response?.data?.message){
+                toast.error(error?.response?.data?.message)
+            }else{
+                toast.error("something went wrong")
+            }
         } finally {
             setShowDeleteConfirm(false)
+            setLoading(false)
         }
     }
 
@@ -90,6 +98,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
     }
 
     const handleCropComplete = useCallback(async (croppedImage, originalImage) => {
+        setLoading(true)
         const payloadOriginalImage = await handleImageBeforeSave(originalImage)
         try {
             const formData = new FormData()
@@ -106,6 +115,8 @@ export default function ProfilePage({ originalImage, croppedImage }) {
         } catch (error) {
             const errorMessage = error?.response?.data?.Errors?.['OriginalImage.Length']?.[0] || "An error occurred."
             toast.error(errorMessage)
+        }finally{
+            setLoading(false)
         }
     }, [])
 
@@ -205,6 +216,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
                         aspectRatio={1250 / 463}
                         onCancel={handleCancelCrop}
                         existingImage={tempImageForCrop}
+                        loading={loading}
                     />
                 </DialogContent>
             </Dialog>
@@ -214,6 +226,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
                 setOpen={setShowDeleteConfirm}
                 handleDelete={handleConfirmDelete}
                 type={"cover_image"}
+                loading={loading}
             />
 
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />

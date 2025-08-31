@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-function AlertProfileImage({handleDelete,type, open,setOpen }) {
+function AlertProfileImage({handleDelete,type, open,setOpen,loading }) {
     const dialogText = {
         en: {
             removeTitle: "Remove Profile Image",
@@ -20,7 +20,6 @@ function AlertProfileImage({handleDelete,type, open,setOpen }) {
     }
     const { i18n } = useTranslation()
     const lang = i18n.language
-    const [loading, setLoading] = useState(false)
     const handleClose = () => {
         setOpen(false)
     };

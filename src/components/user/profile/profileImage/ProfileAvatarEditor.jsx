@@ -17,16 +17,17 @@ import AvatarEditor from "react-avatar-editor"
 import { api } from "../../../../services/api"
 import { handleImageBeforeSave } from "../handleImageBeforeSave"
 import { useTranslation } from "react-i18next"
+import { toast } from "react-toastify"
 //onDelete=true  open the confirmation delete dialog
 //originalProfileImage => the origin image that stored in database
 //image =>this image take the initial value from the originalProfileimage and create some edition on this useState image not on the original direcly
-export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData, onSave }) {
+export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData, onSave,loading,setLoading }) {
     const initialCropData = { scale: 1.2, rotate: 0, position: { x: .5, y: .5 } }
     const [image, setImage] = useState(originalProfileImage || null)
     const editorRef = useRef(null)
     const fileInputRef = useRef(null)
     const [tempCropData, setTempCropData] = useState(cropData)
-    const { t ,i18n} = useTranslation()
+    const { t, i18n } = useTranslation()
     useEffect(() => {
         setImage(originalProfileImage || null)
         setTempCropData(cropData)
@@ -51,6 +52,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
         fileInputRef.current?.click()
     }
     const handleSave = async () => {
+        setLoading(true)
         const payloadImage = await handleImageBeforeSave(image); // لازم await هنا
         console.log(payloadImage);
         if (editorRef.current && image) {
@@ -62,16 +64,20 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                 formData.append("CropData.Scale", tempCropData.scale)
                 formData.append("CropData.Rotate", tempCropData.rotate)
 
-                const response = await api.put("/users/upload/profile-image", formData)
-                console.log(response)
+                const { data } = await api.put("/users/upload/profile-image", formData)
+                toast.success(data.message)
                 setCropData(tempCropData)
                 setOriginalProfileImage(image)
                 onSave(false)
 
             } catch (error) {
-                console.log(error)
+                if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                } else {
+                    toast.error("something went wrong")
+                }
             } finally {
-
+                setLoading(false)
             }
         }
     }
@@ -119,7 +125,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                                         <RotateLeft />
                                     </IconButton>
                                     <Button variant="outlined" onClick={handleUploadClick}>
-                                        {t("profile.addNewProfileImage")}<CloudUpload sx={{mx:1}}/>
+                                        {t("profile.addNewProfileImage")}<CloudUpload sx={{ mx: 1 }} />
                                     </Button>
                                     <IconButton onClick={handleRotateRight} size="small">
                                         <RotateRight />
@@ -132,7 +138,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                                 <Typography variant="h6" gutterBottom>{t("profile.uplaod_profile_picture")}
                                 </Typography>
                                 <Button variant="contained" onClick={handleUploadClick}>
-                                    {t("profile.choose_image")}<CloudUpload sx={{mx:1}}/>
+                                    {t("profile.choose_image")}<CloudUpload sx={{ mx: 1 }} />
                                 </Button>
                             </Box>
                         )}
@@ -142,7 +148,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                     <Button onClick={() => { onClose(true) }}>{t("profile.cancel")}</Button>
                     <Box>
                         {originalProfileImage && <Button onClick={() => { onDelete(true) }} sx={{ mr: 1 }}>{t("profile.delete")}</Button>}
-                        {image && <Button onClick={() => { handleSave() }} variant="contained">{t("profile.save")}</Button>}
+                        {image && <Button loading={loading} onClick={() => { handleSave() }} variant="contained">{t("profile.save")}</Button>}
                     </Box>
                 </DialogActions>
             </Dialog>

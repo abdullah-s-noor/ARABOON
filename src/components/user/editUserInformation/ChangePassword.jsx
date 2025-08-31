@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Dialog, DialogContent, DialogTitle, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Typography, useTheme } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,11 +7,12 @@ import RenderFields from '../../auth/shared/RenderFields';
 import { changePasswordFields } from '../../auth/shared/formFields';
 import { api } from '../../../services/api';
 import { toast } from 'react-toastify';
+import { Close } from '@mui/icons-material';
 function ChangePassword({ open, setOpen }) {
     const theme = useTheme()
-    const { t } = useTranslation()
+    const { t,i18n } = useTranslation()
     const [serverError, setServerError] = useState(null)
-    const [loading,setLoading]=useState(false)
+    const [loading, setLoading] = useState(false)
     const style = {
         dialogPaper: {
             border: theme.palette.mode === 'dark' ? "1px solid rgba(183, 28, 28, 0.30)" : "1px solid rgba(12, 112, 122, 0.30)",
@@ -63,16 +64,16 @@ function ChangePassword({ open, setOpen }) {
         }
         console.log(payload)
         try {
-            const { data } =await api.patch('/Users/change-password',payload)
+            const { data } = await api.patch('/Users/change-password', payload)
             toast.success(data.message)
             handleClose()
         } catch (error) {
             console.log(error)
-            if(error?.response?.data?.Errors){
+            if (error?.response?.data?.Errors) {
                 setServerError(error?.response?.data?.Errors?.CurrentPassword[0])
-            }else if(error?.response?.data?.message){
+            } else if (error?.response?.data?.message) {
                 setServerError(error?.response?.data?.message)
-            }else{
+            } else {
                 setServerError("somthing went wrong")
             }
         } finally {
@@ -99,6 +100,9 @@ function ChangePassword({ open, setOpen }) {
             PaperProps={{ sx: style.dialogPaper }}
         >
             <DialogContent>
+                <IconButton onClick={() => { handleClose()}} sx={{ position: 'absolute', top: 5, ...(i18n.language === 'en' ? { right: 5 } : { left: 5 }) }}>
+                    <Close />
+                </IconButton>
                 <Typography sx={style.title}>{t("profile.change_password")}</Typography>
                 <Box component="form" onSubmit={formik.handleSubmit} sx={style.form}>
                     {serverError && (
@@ -107,7 +111,7 @@ function ChangePassword({ open, setOpen }) {
                         </Alert>
                     )}
                     <RenderFields formik={formik} fields={changePasswordFields} />
-                    <Button  loading={loading} type="submit" sx={{...style.submitButton,}}>{t('profile.change_password')}</Button>
+                    <Button loading={loading} type="submit" sx={{ ...style.submitButton, }}>{t('profile.change_password')}</Button>
 
                 </Box>
             </DialogContent>
