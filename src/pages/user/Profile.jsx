@@ -8,6 +8,7 @@ import LibraryStats from '../../components/user/profile/LibraryStats'
 import EditUserInformation from '../../components/user/editUserInformation/EditUserInformation'
 import { api } from '../../services/api'
 import { useTranslation } from 'react-i18next'
+import FavoritesCategories from '../../components/user/profile/FavoritesCategories'
 
 function Profile() {
     const {i18n}=useTranslation()
@@ -37,7 +38,6 @@ function Profile() {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log(11111111111)
             try {
                 const { data } = await api.get("/users/profile/darxx03eh")
                 console.log(data.data)
@@ -94,13 +94,10 @@ function Profile() {
                         </Box>
                         <LibraryStats librariesCount={profileData.library} />
                         <EditUserInformation userInfo={userInfo} setUserInfo={setUserInfo} />
-
+                        <FavoritesCategories favoritesCategories={profileData.favoritesCategories}/>
                     </>
             }
         </>
-
-
-
     )
 }
 

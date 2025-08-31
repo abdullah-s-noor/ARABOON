@@ -18,28 +18,26 @@ export const useInfoOnSubmit = async (values, getModifiedFields, setIsEdit, setU
     let urlBio = "/users/change-bio";
 
     try {
-        let promises = [];
 
         if (modifiedFields.includes("firstName") || modifiedFields.includes("lastName")) {
-            promises.push(api.patch(urlFullName, {
+            await(api.patch(urlFullName, {
                 firstName: values.firstName,
                 lastName: values.lastName
             }));
         }
 
         if (modifiedFields.includes("userName")) {
-            promises.push(api.patch(urlUserName, { userName: values.userName }));
+            await(api.patch(urlUserName, { userName: values.userName }));
         }
 
         if (modifiedFields.includes("email")) {
-            promises.push(api.patch(urlEmail, { email: values.email }));
+            await(api.patch(urlEmail, { email: values.email }));
         }
 
         if (modifiedFields.includes("bio")) {
-            promises.push(api.patch(urlBio, { bio: values.bio }));
+            await (api.patch(urlBio, { bio: values.bio }));
         }
 
-        await Promise.all(promises);
         setUserInfo(values)
 
         toast.success("Profile updated successfully!");

@@ -86,6 +86,7 @@
         "save":"Save",
         "addNewProfileImage":"Upload a new profile photo",
         "choose_image":"Choose Image",
-        "uplaod_profile_picture":"Upload Profile Picture"
+        "uplaod_profile_picture":"Upload Profile Picture",
+        "favorites_categories":"Favorites Catergories"
     }
 }
