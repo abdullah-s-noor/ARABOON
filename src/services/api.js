@@ -21,3 +21,11 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+
+/*
+interceptors.request:بشتغل زي معترض او حارس  
+so before call the request ,will check the authorization or language
+ف بشكلعامل قبل لا يطلع الريكويس بوقفو وبعدل على الريكويست قبل لا يطلع
+
+*/

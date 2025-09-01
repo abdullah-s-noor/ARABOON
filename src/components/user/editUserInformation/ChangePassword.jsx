@@ -69,8 +69,8 @@ function ChangePassword({ open, setOpen }) {
             handleClose()
         } catch (error) {
             console.log(error)
-            if (error?.response?.data?.Errors) {
-                setServerError(error?.response?.data?.Errors?.CurrentPassword[0])
+            if (error?.response?.data?.errors) {
+                setServerError(error?.response?.data?.errors?.CurrentPassword[0])
             } else if (error?.response?.data?.message) {
                 setServerError(error?.response?.data?.message)
             } else {

@@ -29,13 +29,13 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
             setMode('sendcode')
         } catch (error) {
             console.log(error)
-            const Errors = error.response?.data?.Errors;
-            if (Errors) {
-                const userNameError = Errors?.UserName?.[0];
-                const emailError = Errors?.Email?.[0];
-                const passwordError = Errors?.Password?.[0];
+            const errors = error.response?.data?.errors;
+            if (errors) {
+                const userNameError = errors?.UserName?.[0];
+                const emailError = errors?.Email?.[0];
+                const passwordError = errors?.Password?.[0];
                 setServerError(userNameError || emailError || passwordError || 'Something went wrong.');
-                console.log('Errors from server:', Errors);
+                console.log('errors from server:', errors);
             } else if (error.response?.data?.message) {
                 setServerError(error.response.data.message);
             } else {

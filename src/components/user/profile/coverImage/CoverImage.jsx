@@ -113,7 +113,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
             setTempImageForCrop(null)
             toast.success("Cover image updated successfully!")
         } catch (error) {
-            const errorMessage = error?.response?.data?.Errors?.['OriginalImage.Length']?.[0] || "An error occurred."
+            const errorMessage = error?.response?.data?.errors?.['OriginalImage.Length']?.[0] || "An error occurred."
             toast.error(errorMessage)
         }finally{
             setLoading(false)
