@@ -25,6 +25,8 @@
     "popularity score": "Popularity Score",
     "sort": "Sort",
     "genres": "Genres",
+    "hottest":"Hottest",
+    "view_all":"View All",
     "formFields": {
         "firstName": "First Name",
         "lastName": "Last Name",

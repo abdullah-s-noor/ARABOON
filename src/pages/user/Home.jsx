@@ -4,11 +4,19 @@ import PromoBannerSwiper from "../../components/user/promoBannerSwiper/PromoBann
 import MediaCardSwiper from "../../components/user/mediaCardSwiper/MediaCardSwiper";
 import useIsPhone from "../../hooks/usePhone";
 import HottestHomePage from "../../components/user/hottestHomePage/HottestHomePage";
+import { useEffect, useState } from "react";
+import { api } from "../../services/api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
     const count = [1, 2, 3];
     const theme = useTheme()
-    const {isPhone} = useIsPhone()
+    const {i18n}=useTranslation()
+    const { isPhone } = useIsPhone()
+    const [loading, setLoading] = useState(true)
+    const [categoriesMangas, setCategoriesMangas] = useState(null)
+    const [hottestMangas, setHottestMangas] = useState([])
     const styles = (theme) => ({
         container: {
             backgroundColor: 'background.default',
@@ -52,35 +60,61 @@ const Home = () => {
 
     })
     const style = styles(theme)
+    useEffect(() => {
+        const fetchAllHomePageMangas = async () => {
+            try {
+                setLoading(true);
+                const [categoriesData, hottestData] = await Promise.all([
+                    api.get("/Manga/GetCategoriesHomePageMangas"),
+                    api.get("/Manga/GetHottestMangas"),
+                ]);
+                setHottestMangas(hottestData.data.data)
+                console.log("Categories:", categoriesData.data.data);
+                console.log("Hottest Mangas:", hottestData.data.data);
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchAllHomePageMangas();
+    }, [i18n.language]);
     return (
-        <Box sx={style.container}>
-            <PromoBannerSwiper />
-            <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
-                {/* media card */}
-                <Box component={'div'} sx={style.mediaCardWrapper}>
-                    {count.map((index, key) => (
-                        <>
-                            <Box key={index} component={'div'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                <Typography
-                                    sx={style.categoryTitle}
-                                >
-                                    Drama
-                                </Typography>
-                                <Typography
-                                    variant='body2'
-                                    sx={style.viewAllText}
-                                >
-                                    View All
-                                </Typography>
-                            </Box>
-                            <MediaCardSwiper />
-                        </>
-                    ))}
-                </Box>
-                {/* hottest sidebar for pc display */}
-                <HottestHomePage />
-            </Box>
-        </Box >
+        <>
+            {
+                loading?<Typography>loading homepage...</Typography>:
+                <Box sx={style.container}>
+                    <PromoBannerSwiper />
+                    <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
+                        {/* media card */}
+                        <Box component={'div'} sx={style.mediaCardWrapper}>
+                            {count.map((index, key) => (
+                                <>
+                                    <Box key={index} component={'div'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                                        <Typography
+                                            sx={style.categoryTitle}
+                                        >
+                                            Drama
+                                        </Typography>
+                                        <Typography
+                                            variant='body2'
+                                            sx={style.viewAllText}
+                                        >
+                                            View All
+                                        </Typography>
+                                    </Box>
+                                    <MediaCardSwiper />
+                                </>
+                            ))}
+                        </Box>
+                        {/* hottest sidebar for pc display */}
+                        <HottestHomePage hottestMangas={hottestMangas}/>
+                    </Box>
+                </Box >
+            }
+
+        </>
+
     );
 
 };

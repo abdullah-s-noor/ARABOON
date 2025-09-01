@@ -1,10 +1,9 @@
 import { Box, Button, Typography, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next';
 import styles from './style'
-function HottestHomeCard() {
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+function HottestHomeCard({hottestMangas}) {
     const theme = useTheme();
-    const { i18n } = useTranslation()
+    const { i18n,t } = useTranslation()
     const style=styles(theme,i18n)
     return (
         <Box component={'div'}
@@ -12,36 +11,36 @@ function HottestHomeCard() {
             <Typography
                 sx={style.hottestTitle}
             >
-                Hottest
+                {t("hottest")}
             </Typography>
 
             <Button
                 sx={style.hottestButton}
             >
-                View All
+                {t("view_all")}
             </Button>
-            {cards.map((n) => (
-                <Box key={n} component={'div'} sx={style.cardWrapper}>
+            {hottestMangas.map((manga,index) => (
+                <Box key={index} component={'div'} sx={style.cardWrapper}>
                     <Box
                         sx={style.medalWrapper}
                     >
-                        {[1, 2, 3].includes(n) ? (
+                        {[1, 2, 3].includes(index+1) ? (
                             <Box
                                 component={'img'}
-                                src={`/image/medal/${n}.svg`}
+                                src={`/image/medal/${index+1}.svg`}
                                 sx={{
                                     width: '100%',
                                     margin: 'auto',
                                 }}
                             />
                         ) : (
-                            <Typography sx={{ textAlign: 'center', fontSize: '1.3rem' }}>{n}</Typography>
+                            <Typography sx={{ textAlign: 'center', fontSize: '1.3rem' }}>{index+1}</Typography>
                         )}
 
                     </Box>
                     <Box
                         component="img"
-                        src={`/image/mediaCard/${n}.jpg`}
+                        src={manga.mangaImageUrl}
                         alt={`Promo `}
                         sx={{
                             width: '100px'
@@ -52,12 +51,12 @@ function HottestHomeCard() {
                         <Typography
                             sx={style.cardTitle}
                         >
-                            The Creepy and Freaky
+                            {manga.mangaName}
                         </Typography>
                         <Typography
                             sx={style.cardSubtitle}
                         >
-                            Masashi Kishimoto / Mikio Ikemoto
+                            {manga.authorName}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, pr: 1, }}>
                             <Box
@@ -68,7 +67,7 @@ function HottestHomeCard() {
                                     display: 'block'
                                 }}
                             />
-                            1000
+                            {manga.popularityScore}
                         </Box>
                     </Box>
                 </Box>

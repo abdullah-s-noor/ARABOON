@@ -24,6 +24,8 @@
     "popularity score": "درجة الشهرة",
     "sort": "ترتيب",
     "genres": "النوع",
+    "hottest":"الأكثر شعبية",
+    "view_all":"عرض الكل",
     "formFields": {
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",
