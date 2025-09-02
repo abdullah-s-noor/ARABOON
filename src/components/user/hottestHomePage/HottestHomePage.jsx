@@ -58,7 +58,7 @@ function HottestHomeCard({hottestMangas}) {
                         >
                             {manga.authorName}
                         </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, pr: 1, }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, }}>
                             <Box
                                 component={'img'}
                                 src='/image/hottest/1.svg'

@@ -10,17 +10,23 @@ import GeneralPreviewCards from '../../components/common/GeneralPreviewCards'
 function ViewAll() {
     const { i18n, t } = useTranslation()
     const theme = useTheme()
-    const navigate=useNavigate()
-    const location=useLocation()
+    const navigate = useNavigate()
+    const location = useLocation()
     const categoryName = location?.state?.categoryName
     const baseUrl = `/Manga/GetMangaByCategoryName?category=${categoryName}`
     const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl });
-    useEffect(()=>{
-        console.log(1)
-        if(!categoryName){
+    useEffect(() => {
+        if (!categoryName) {
             navigate('/not-found')
         }
-    },[location])
+    }, [location])
+    useEffect(() => {
+        const fetchData = async () => {
+            fetchMangas(1);
+            setPageNumber(1);
+        }
+        fetchData();
+    }, [i18n.language])
     const style = {
         headerWrapper: {
             p: '30px 50px 30px 25px',
