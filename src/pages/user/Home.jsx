@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const count = [1, 2, 3];
+    const navigate=useNavigate()
     const theme = useTheme()
     const {i18n}=useTranslation()
     const { isPhone } = useIsPhone()
@@ -99,6 +101,7 @@ const Home = () => {
                                         <Typography
                                             variant='body2'
                                             sx={style.viewAllText}
+                                            onClick={()=>{navigate(`/viewall`,{state:{categoryName:'action'}})}}
                                         >
                                             View All
                                         </Typography>

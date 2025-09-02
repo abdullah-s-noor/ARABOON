@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
 import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
-import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound,Profile } from "../pages";
+import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound,Profile ,ViewAll} from "../pages";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -37,13 +37,19 @@ export const router = createBrowserRouter([
                 element: <TestPage />
             },
             {
+                path:"/profile",
+                element:<Profile/>
+            },
+            {
+                path:"/viewall",
+                element:<ViewAll/>
+            },
+
+            
+            {
                 path: '/not-found',
                 element: <NotFound />
             },
-            {
-                path:"/profile",
-                element:<Profile/>
-            }
 
         ],
     },

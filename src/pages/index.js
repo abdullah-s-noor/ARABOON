@@ -5,6 +5,7 @@ import MangaList from './user/MangaList'
 import MangaRanking from './user/MangaRanking'
 import TestPage from './user/TestPage'
 import Profile from './user/Profile'
+import ViewAll from './user/ViewAll';
 import NotFound from '../components/common/NotFound';
 
 export {
@@ -15,5 +16,6 @@ export {
   MangaRanking,
   TestPage,
   Profile,
+  ViewAll,
   NotFound
 };
