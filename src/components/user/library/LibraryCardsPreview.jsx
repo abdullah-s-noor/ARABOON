@@ -8,6 +8,7 @@ import usePhone from '../../../hooks/usePhone';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import GeneralMangaCard from '../../common/GeneralMangaCard';
 import AlertDialog from '../dialog/AlertDialog';
+import GeneralPreviewCards from '../../common/GeneralPreviewCards';
 
 function LibraryCardsPreview({ librarySection }) {
   const navigate = useNavigate();
@@ -48,45 +49,8 @@ function LibraryCardsPreview({ librarySection }) {
         </Box>
       )}
       {/* loading when open the page */}
-      {loading && pageNumber === 1 ? (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center', }}>
-          <MySkeleton
-            SkeletonCount={isMobile ? 6 : isTablet ? 10 : 12}
-            pd={skeletonStyle.pd} h={skeletonStyle.h} w={skeletonStyle.w}
-          />
-        </Box>
-      ) :
-        // if mangas doesnot empty use a pagination
-        mangas && mangas.length > 0 ?
-          (<InfiniteScroll
-            dataLength={mangas.length}
-            next={() => setPageNumber(prev => prev + 1)} // زيادة الصفحة عند تحميل المزيد
-            hasMore={hasNextPage} // true أو false حسب وجود صفحات إضافية
-            loader={
-              <MySkeleton
-                SkeletonCount={Math.min(pageSize, count - pageSize * (pageNumber - 1))}
-                pd={skeletonStyle.pd} h={skeletonStyle.h} w={skeletonStyle.w}
-              />
-            }
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '10px',
-            }}
-          >
-            {
-              mangas?.map((manga, index) => (
-                <GeneralMangaCard key={index} mangaData={manga} setSelectedForDeletion={setSelectedForDeletion} />
-              ))
-            }
-          </InfiniteScroll>
-          ) :
-          //if the mangas array is empty
-          (<Typography sx={{ fontSize: { xs: 18, sm: 22, md: 25 } }}>
-            {t("noData")}
-          </Typography>)
-      }
+      <GeneralPreviewCards mangas={mangas} loading={loading} pageNumber={pageNumber} 
+      count={count} setPageNumber={setPageNumber} hasNextPage={hasNextPage} pageSize={pageSize}/>
     </>
   )
 }

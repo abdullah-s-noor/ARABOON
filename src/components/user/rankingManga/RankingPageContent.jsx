@@ -46,7 +46,6 @@ function RankingPageContent() {
                     style={{
                         display: 'flex',
                         justifyContent: 'center',
-
                         flexWrap: 'wrap',
                         gap: 2
                     }}
