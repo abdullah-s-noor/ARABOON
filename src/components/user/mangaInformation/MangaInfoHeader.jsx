@@ -3,8 +3,8 @@ import { Box, Button, Divider, Rating, Typography, useTheme } from '@mui/materia
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next'
 import styles from './style'
-function MangaInfoHeader() {
-    const { i18n } = useTranslation();
+function MangaInfoHeader({ mangaInfo }) {
+    const { t,i18n } = useTranslation();
     const theme = useTheme()
     const [value, setValue] = useState(2)
     const style = styles(theme, i18n)
@@ -20,7 +20,7 @@ function MangaInfoHeader() {
                 {/* Manga image */}
                 <Box
                     component={'img'}
-                    src='/image/mediaCard/1.jpg'
+                    src={mangaInfo.mangaImageUrl}
                     alt='mediaCard'
                     sx={style.mangaImage}
                 />
@@ -35,15 +35,15 @@ function MangaInfoHeader() {
                     >
                         <Box sx={{ p: 0, m: 0 }}>
                             <Typography sx={style.title}>
-                                The Creepy and Freaky
+                                {mangaInfo.mangaName}
                             </Typography>
                             <Typography sx={style.subtitle}>
-                                Masashi Kishimoto / Mikio Ikemoto
+                                {mangaInfo.author}
                             </Typography>
                         </Box>
                         <Rating
                             name="read-only"
-                            value={value}
+                            value={mangaInfo.rate}
                             readOnly
                             size="large"
                             emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
@@ -55,25 +55,26 @@ function MangaInfoHeader() {
                         sx={style.infoGrid}
                     >
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            {/* <InfoItem text="Category: Drama, Fantasy, Action" /> */}
+                            <InfoItem text={t("categories")+':'+mangaInfo.categories.map((category, index) => { return (' '+category) })} />
 
-                            <InfoItem text="Category: Drama, Fantasy, Action" />
-                            <InfoItem text="Status: Ongoing" />
-                            <InfoItem text="Type: Manga" />
+                            <InfoItem text={t("status")+": "+mangaInfo.status} />
+                            <InfoItem text={t("type")+": "+mangaInfo.type} />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <InfoItem text="Published on: July 16, 2025" />
-                            <InfoItem text="Updated on: July 16, 2025" />
+                            <InfoItem text={t("published_on") + ": " + mangaInfo.publishedOn} />
+                            <InfoItem text={t("updated_on") + ": " + mangaInfo.updatedOn} />
                         </Box>
                     </Box>
                     {/* Summary of Manga */}
                     <Box component={'div'} sx={{ color: 'text.primary', }}
                     >
                         <Typography sx={style.descriptionTitle}>
-                            DESCRIPTION
+                            {t('description')}
                         </Typography>
                         <Divider sx={{ textAlign: 'center', my: { xs: 1, md: 2 }, borderColor: 'text.secondary', width: '100%' }} />
                         <Typography sx={style.descriptionText}>
-                            Denji harbors a chainsaw devil within him. The world is introduced to Chainsaw Man, but...?!
+                            {mangaInfo.description}
                         </Typography>
 
                     </Box>

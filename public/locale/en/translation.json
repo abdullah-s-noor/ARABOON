@@ -28,6 +28,12 @@
     "hottest":"Hottest",
     "view_all":"View All",
     "last_chapter":"Last Chapter",
+    "categories":"Catergories",
+    "type":"Type",
+    "published_on":"Published on",
+    "updated_on":"Updated on",
+    "status":"Status",
+    "description":"Description",
     "formFields": {
         "firstName": "First Name",
         "lastName": "Last Name",

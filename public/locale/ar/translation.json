@@ -27,6 +27,12 @@
     "hottest":"الأكثر شعبية",
     "view_all":"عرض الكل",
     "last_chapter":"اخر موسم",
+    "categories":"الفئات",
+    "type":"نوع",
+    "published_on":"تاريخ النشر",
+    "updated_on":"تاريخ التحديث",
+    "status":"الحالة",
+    "description":"الوصف",
     "formFields": {
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",

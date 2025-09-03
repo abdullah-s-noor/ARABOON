@@ -12,7 +12,7 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
     //style
     const style = {
         card: {
-            backgroundColor:'background.default',
+            background:'transparent',
             position: "relative",
             maxWidth: { xs: 100, sm: 150, md: 230 },
             boxShadow: "none",
