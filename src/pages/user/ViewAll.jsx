@@ -13,7 +13,7 @@ function ViewAll() {
     const navigate = useNavigate()
     const location = useLocation()
     const categoryName = location?.state?.categoryName
-    const baseUrl = `/Manga/GetMangaByCategoryName?category=${categoryName}`
+    const baseUrl = `/Manga/GetMangaByCategoryName?category=${categoryName.en}`
     const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl });
     useEffect(() => {
         if (!categoryName) {
@@ -72,7 +72,7 @@ function ViewAll() {
                 <Box sx={{ display: 'flex', alignItems: "center", pt: "8px" }}>
                     <Link to="/" style={style.link}>{t("home").toLowerCase()}</Link>
                     {i18n.language === "en" ? <KeyboardArrowRight sx={{ display: 'block', fontSize: '20px' }} /> : <KeyboardArrowLeft sx={{ display: 'block', fontSize: '20px' }} />}
-                    <Link to="" style={style.link}>{t("action")}</Link>
+                    <Link to="" style={style.link}>{categoryName?.[i18n.language]}</Link>
                 </Box>
             </Box>
             <GeneralPreviewCards mangas={mangas} loading={loading} pageNumber={pageNumber}

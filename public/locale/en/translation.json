@@ -27,6 +27,7 @@
     "genres": "Genres",
     "hottest":"Hottest",
     "view_all":"View All",
+    "last_chapter":"Last Chapter",
     "formFields": {
         "firstName": "First Name",
         "lastName": "Last Name",

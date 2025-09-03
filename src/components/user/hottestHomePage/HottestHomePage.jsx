@@ -1,10 +1,12 @@
 import { Box, Button, Typography, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next';
 import styles from './style'
+import { useNavigate } from 'react-router-dom';
 function HottestHomeCard({hottestMangas}) {
     const theme = useTheme();
     const { i18n,t } = useTranslation()
     const style=styles(theme,i18n)
+    const navigate=useNavigate()
     return (
         <Box component={'div'}
             sx={style.hottestSidebar}>
@@ -16,11 +18,12 @@ function HottestHomeCard({hottestMangas}) {
 
             <Button
                 sx={style.hottestButton}
+                onClick={()=>{navigate('/manga-ranking')}}
             >
                 {t("view_all")}
             </Button>
             {hottestMangas.map((manga,index) => (
-                <Box key={index} component={'div'} sx={style.cardWrapper}>
+                <Box key={index} component={'div'} sx={style.cardWrapper} onClick={()=>{navigate(`/manga/${manga.mangaID}`)}}>
                     <Box
                         sx={style.medalWrapper}
                     >

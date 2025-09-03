@@ -7,7 +7,7 @@ const style = (theme, i18n) => ({
         background:
             theme.palette.mode === 'dark'
                 ? 'linear-gradient(180deg, rgba(220, 9, 20, 0.5), rgba(220, 9, 20, 0))'
-                : '#0c70de',
+                :'linear-gradient(180deg, rgba(12, 112, 222, 1), rgba(12, 112, 222, 0.5))',
         position: 'relative',
     },
     hottestTitle: {

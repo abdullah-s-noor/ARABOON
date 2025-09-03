@@ -26,6 +26,7 @@
     "genres": "النوع",
     "hottest":"الأكثر شعبية",
     "view_all":"عرض الكل",
+    "last_chapter":"اخر موسم",
     "formFields": {
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",

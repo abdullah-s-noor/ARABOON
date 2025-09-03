@@ -18,10 +18,10 @@ import { useNavigate } from 'react-router-dom';
 import useIsPhone from '../../../hooks/usePhone';
 
 
-export default function MediaCardSwiper() {
+export default function MediaCardSwiper({ mangas }) {
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-   const {isPhone}=useIsPhone()
-    const { i18n } = useTranslation();
+    const { isPhone } = useIsPhone()
+    const {t, i18n } = useTranslation();
     const imageStyle = {
         width: '100%',
         display: 'block',
@@ -48,8 +48,8 @@ export default function MediaCardSwiper() {
 
                 style={{ marginBottom: 50 }}
             >
-                {cards.map((n) => (
-                    <SwiperSlide key={n} style={{ borderRadius: '10px' }}>
+                {mangas.map((manga, index) => (
+                    <SwiperSlide key={index} style={{ borderRadius: '10px' }}>
                         <Box
                             sx={{
                                 position: 'relative',
@@ -65,12 +65,11 @@ export default function MediaCardSwiper() {
                         >
                             <Box
                                 component="img"
-                                src={`/image/mediaCard/${n}.jpg`}
-                                alt={`Promo ${n}`}
+                                src={manga.mangaImageUrl}
+                                alt={`Promo ${index + 1}`}
                                 sx={imageStyle}
                                 onClick={() => {
-                                    console.log(`Banner ${n} clicked`)
-                                    navigate('manga-information')
+                                    navigate(`/manga/${manga.mangaID}`)
                                 }}
                             />
 
@@ -93,7 +92,7 @@ export default function MediaCardSwiper() {
                                         fontSize: { xs: 10, sm: 12, md: 16 }
                                     }}
                                 >
-                                    The Creepy and Freaky
+                                    {manga.mangaName}
                                 </Typography>
                                 <Divider sx={{ textAlign: 'center', my: 2, borderColor: '#bebebe', width: '100%' }} />
                                 <Box sx={{
@@ -102,18 +101,16 @@ export default function MediaCardSwiper() {
                                 }}>
                                     <Typography sx={{
                                         fontSize: { xs: 8, sm: 12, md: 16 }
-                                    }}>Last Chapter:4 </Typography>
+                                    }}>{t("last_chapter")}:{manga.lastChapter.chapterNo} </Typography>
 
                                     <Typography sx={{ display: 'flex', alignItems: 'center', gap: 0.3, pr: 1, fontSize: { xs: 10, sm: 12, md: 16 } }}>
-                                        <Visibility sx={{ fontSize: '1rem' }} />  1000
+                                        <Visibility sx={{ fontSize: '1rem' }} />  {manga.lastChapter.views}
                                     </Typography>
 
                                 </Box>
                             </Box>
                         </Box>
                     </SwiperSlide>
-
-
                 ))}
             </Swiper>
         </>

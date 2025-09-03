@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
                 element: <UserHomePage />,
             },
             {
-                path: '/manga-information',
+                path: '/manga/:mangaID',
                 element: <MangaInformation />
             },
             {

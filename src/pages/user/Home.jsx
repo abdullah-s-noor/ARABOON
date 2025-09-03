@@ -4,7 +4,7 @@ import PromoBannerSwiper from "../../components/user/promoBannerSwiper/PromoBann
 import MediaCardSwiper from "../../components/user/mediaCardSwiper/MediaCardSwiper";
 import useIsPhone from "../../hooks/usePhone";
 import HottestHomePage from "../../components/user/hottestHomePage/HottestHomePage";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const count = [1, 2, 3];
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const theme = useTheme()
-    const {i18n}=useTranslation()
+    const { i18n, t } = useTranslation()
     const { isPhone } = useIsPhone()
     const [loading, setLoading] = useState(true)
     const [categoriesMangas, setCategoriesMangas] = useState(null)
@@ -71,6 +71,7 @@ const Home = () => {
                     api.get("/Manga/GetHottestMangas"),
                 ]);
                 setHottestMangas(hottestData.data.data)
+                setCategoriesMangas((categoriesData.data.data))
                 console.log("Categories:", categoriesData.data.data);
                 console.log("Hottest Mangas:", hottestData.data.data);
             } catch (error) {
@@ -81,39 +82,42 @@ const Home = () => {
         };
         fetchAllHomePageMangas();
     }, [i18n.language]);
+    const capitalizeFirst = (str) => {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <>
             {
-                loading?<Typography>loading homepage...</Typography>:
-                <Box sx={style.container}>
-                    <PromoBannerSwiper />
-                    <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
-                        {/* media card */}
-                        <Box component={'div'} sx={style.mediaCardWrapper}>
-                            {count.map((index, key) => (
-                                <>
-                                    <Box key={index} component={'div'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                        <Typography
-                                            sx={style.categoryTitle}
-                                        >
-                                            Drama
-                                        </Typography>
-                                        <Typography
-                                            variant='body2'
-                                            sx={style.viewAllText}
-                                            onClick={()=>{navigate(`/viewall`,{state:{categoryName:'action'}})}}
-                                        >
-                                            View All
-                                        </Typography>
-                                    </Box>
-                                    <MediaCardSwiper />
-                                </>
-                            ))}
+                loading ? <Typography>loading homepage...</Typography> :
+                    <Box sx={style.container}>
+                        <PromoBannerSwiper />
+                        <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
+                            {/* media card */}
+                            <Box component={'div'} sx={style.mediaCardWrapper}>
+                                {categoriesMangas.map((category, index) => (
+                                    <Fragment key={index}>
+                                        <Box component={'div'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                                            <Typography sx={style.categoryTitle}>
+                                                {capitalizeFirst(category?.category?.[i18n.language])}
+                                            </Typography>
+                                            <Typography
+                                                variant='body2'
+                                                sx={style.viewAllText}
+                                                onClick={() => { navigate(`/viewall`, { state: { categoryName: category?.category } }) }}
+                                            >
+                                                {t("view_all")}
+                                            </Typography>
+                                        </Box>
+                                        <MediaCardSwiper mangas={category.mangas} />
+                                    </Fragment>
+                                ))}
+                            </Box>
+                            {/* hottest sidebar for pc display */}
+                            <HottestHomePage hottestMangas={hottestMangas} />
                         </Box>
-                        {/* hottest sidebar for pc display */}
-                        <HottestHomePage hottestMangas={hottestMangas}/>
-                    </Box>
-                </Box >
+                    </Box >
             }
 
         </>
