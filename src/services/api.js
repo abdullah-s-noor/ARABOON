@@ -6,6 +6,7 @@ const api = axios.create({
   baseURL: import.meta.env.PROD
     ? 'https://araboon.runasp.net/Api/V1'
     : '/api/V1',
+    withCredentials: true,
 });
 
 // refreshApi: مخصص للـ refresh request (بدون interceptors)
