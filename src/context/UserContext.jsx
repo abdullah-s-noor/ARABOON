@@ -1,44 +1,93 @@
-import { createContext, useEffect, useState } from "react";
+// src/contexts/UserContext.jsx
+
+import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { api } from "../services/api";
+import { api, setApiAccessToken, clearApiAccessToken } from "../services/api";
+import { toast } from "react-toastify";
 
 // @ts-ignore
 export const UserContext = createContext();
 
 export default function UserContextProvider({ children }) {
-    const [userToken, setUserToken] = useState(
-        localStorage.getItem("userToken") || null
-    );
+    const [userToken, setUserToken] = useState(null);
     const [userData, setUserData] = useState(null);
-    
-    useEffect(() => {
+    const [contextLoading, setContextLoading] = useState(true);
 
-        if (userToken) {
-            getUserData();
-        } else {
-            localStorage.removeItem("userToken")
-            setUserData(null)
-        }
-    }, [userToken]);
-
-    const getUserData = async () => {
+    // Function to check for a valid session on page load
+    const checkUserSession = async () => {
+        setContextLoading(true);
         try {
-            const decoded = jwtDecode(userToken);
-            console.log(decoded)
+            const { data } = await api.post("/Authentication/GenerateRefreshToken");
+            const newAccessToken = data.data.access;
+
+            // Update the access token in state and API instance
+            setUserToken(newAccessToken);
+            setApiAccessToken(newAccessToken);
+            decodeUserData(newAccessToken);
+        } catch (error) {
+            // Session is not valid, clear any old tokens
+            logout();
+        } finally {
+            setContextLoading(false);
+        }
+    };
+
+    const decodeUserData = (token) => {
+        try {
+            const decoded = jwtDecode(token);
             setUserData(decoded);
         } catch (error) {
             console.error("Invalid token:", error);
             setUserData(null);
         }
     };
-    const logout = () => {
-        setUserToken(null)
-        localStorage.removeItem("userToken")
-        setUserData(null)
-    }
+
+    const login = (token) => {
+        setUserToken(token);
+        setApiAccessToken(token);
+        decodeUserData(token);
+    };
+
+    const logout = async () => {
+        try {
+            setContextLoading(true)
+            const { data } = await api.post('/Authentication/LogOut')
+            toast.success(data.message)
+            setUserToken(null);
+            setUserData(null);
+            clearApiAccessToken();
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setContextLoading(false)
+        }
+    };
+
+    useEffect(() => {
+        checkUserSession();
+    }, []);
+
+    useEffect(() => {
+        if (userToken) {
+            decodeUserData(userToken);
+            setApiAccessToken(userToken);
+        }
+    }, [userToken]);
+
+    const value = {
+        userToken,
+        userData,
+        isAuthenticated: !!userToken,
+        contextLoading,
+        setContextLoading,
+        login,
+        logout,
+    };
+
 
     return (
-        <UserContext.Provider value={{ userToken, setUserToken, userData, logout }}>
+        <UserContext.Provider value={value}>
             {children}
         </UserContext.Provider>
     );

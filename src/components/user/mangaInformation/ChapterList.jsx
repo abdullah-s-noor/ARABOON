@@ -36,14 +36,7 @@ function ChapterList() {
     return (
         <>
             {/* chapters list */}
-            <Box
-                sx={{
-                    width: '70%',
-                    '@media (max-width:750px)': {
-                        width: '100% !important'
-                    },
-                }}
-            >
+            <Box>
                 <Typography
                     sx={{
                         fontFamily: '"Roboto", sans-serif',

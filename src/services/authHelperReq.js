@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { api } from './api';
 
-export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode,setUserToken=null }) => {
+export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode,login }) => {
     setServerError(null);
     try {
         const { data } = await api.post(endpoint, payload);
@@ -9,8 +9,7 @@ export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setS
         toast.success(data.message);
         setMode(nextMode)
         if(nextMode==='close'){
-            setUserToken(data.data.accessToken)
-            localStorage.setItem("userToken",data.data.accessToken)
+            login(data.data.access)
         }
         return data;
     } catch (error) {

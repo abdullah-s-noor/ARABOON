@@ -96,7 +96,7 @@ const Home = () => {
                         <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
                             {/* media card */}
                             <Box component={'div'} sx={style.mediaCardWrapper}>
-                                {categoriesMangas.map((category, index) => (
+                                {categoriesMangas?.map((category, index) => (
                                     <Fragment key={index}>
                                         <Box component={'div'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                                             <Typography sx={style.categoryTitle}>

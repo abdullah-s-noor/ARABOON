@@ -34,6 +34,7 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
+        console.log(22222222222222)
         setOpen(selectedForDeletion ? true : false)
     }, [selectedForDeletion])
 

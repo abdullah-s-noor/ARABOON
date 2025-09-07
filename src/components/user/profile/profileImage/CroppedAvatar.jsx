@@ -11,7 +11,7 @@ function CroppedAvatar({ originalImage, cropData }) {
     if (isXs) avatarSize = 120
     if (isSm) avatarSize = 120
     if (isMd) avatarSize = 180
-
+    console.log(originalImage)
     if (!originalImage) {
         return <Avatar sx={{ width: avatarSize , height: avatarSize  }} />
     }
