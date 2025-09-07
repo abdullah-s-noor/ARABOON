@@ -21,6 +21,7 @@ function MangaInformation() {
                     api.get(`/Manga/GetMangaByID/${mangaID}`),
                     // api.get(`/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID=${mangaID}&Language=arabic`),
                 ]);
+                console.log(`/Manga/GetMangaByID/${mangaID}`)
                 console.log(mangaInfoData.data.data)
                 setMangaInfo(mangaInfoData.data.data)
                 setLibraryStatus({
@@ -64,7 +65,7 @@ function MangaInformation() {
                                     marginTop: '40px',
                                     display:'flex',flexDirection:'column',gap:2
                                 }}>
-                                <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus}/>
+                                <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} mangaID={mangaID}/>
                                 <ChapterList />
                             </Box>
 

@@ -4,10 +4,15 @@ import App from './App.jsx'
 import './index.css'
 import "./utils/i18n.js"; 
 import ThemeModeContextProvider from './context/darkMode.jsx';
+import UserContextProvider from "./context/UserContext.jsx"
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <UserContextProvider>
+
     <ThemeModeContextProvider>
     <App />
     </ThemeModeContextProvider>
+    </UserContextProvider>
   </StrictMode>,
 )

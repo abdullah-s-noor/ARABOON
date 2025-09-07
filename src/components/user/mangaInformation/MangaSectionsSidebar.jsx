@@ -7,7 +7,7 @@ import { blue, green, grey, red, yellow } from '@mui/material/colors'
 import { api } from '../../../services/api'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-function MangaSectionsSidebar({libraryStatus,setLibraryStatus}) {
+function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
     const theme = useTheme()
     const { i18n } = useTranslation()
     const [keyLoading, setKeyLoading] = useState(null)
@@ -56,13 +56,13 @@ function MangaSectionsSidebar({libraryStatus,setLibraryStatus}) {
             setKeyLoading(key)
             if (libraryStatus[key]) {
                 console.log(`delete from ${key}`)
-                const baseUrl = `/${key}/RemoveFrom${key}/70`
+                const baseUrl = `/${key}/RemoveFrom${key}/${mangaID}`
                 console.log(baseUrl)
                 const { data } = await api.delete(baseUrl)
                 console.log(data)
             } else {
                 console.log(`add to ${key}`)
-                const baseUrl = `/${key}/AddTo${key}/70`
+                const baseUrl = `/${key}/AddTo${key}/${mangaID}`
                 console.log(baseUrl)
                 const { data } = await api.post(baseUrl)
                 console.log(data)
