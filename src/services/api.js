@@ -47,7 +47,9 @@ api.interceptors.request.use(
     console.log(accessToken)
     const temp=`Bearer ${accessToken?accessToken:''}`
     console.log(temp)
-    config.headers.Authorization = accessToken?`Bearer ${accessToken}`:'';
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
     return config;
   },
