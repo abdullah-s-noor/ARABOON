@@ -34,8 +34,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { userToken, logout, userData } = useContext(UserContext)
   useEffect(() => {
-    console.log("userToken from navbar", userToken)
-    console.log("userData from navbar", userData)
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

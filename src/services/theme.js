@@ -10,6 +10,10 @@ const theme = (darkMode) =>
       secondary: {
         main: darkMode ? '#191919' : '#d7dad8', // BG of all pages
       },
+      // @ts-ignore
+      thirdly: {
+        main: darkMode ? '#d32f2f' : '#5aa1f0'
+      },
       background: {
         default: darkMode ? '#191919' : '#d7dad8', // Page background
         paper: darkMode ? '#000000' : '#ffffff',   // Cards, modals, etc.

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
 import { UserContext } from '../../context/UserContext';
 function Login({ setMode }) {
-    const { userToken, setUserToken, userData } = useContext(UserContext)
+    const { userToken, login, userData,contextLoading } = useContext(UserContext)
     const { t } = useTranslation()
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -26,7 +26,7 @@ function Login({ setMode }) {
             setServerError,
             setSubmitting,
             successMessage: 'Signin successful!.',
-            setMode, nextMode: 'close', setUserToken
+            setMode, nextMode: 'close', login:login
         });
         console.log("userToken",userToken)
         console.log("userData",userData)
