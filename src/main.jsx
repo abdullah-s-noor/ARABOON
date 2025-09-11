@@ -7,12 +7,11 @@ import ThemeModeContextProvider from './context/darkMode.jsx';
 import UserContextProvider from "./context/UserContext.jsx"
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <>
     <UserContextProvider>
-
     <ThemeModeContextProvider>
     <App />
     </ThemeModeContextProvider>
     </UserContextProvider>
-  </StrictMode>,
+  </>,
 )
