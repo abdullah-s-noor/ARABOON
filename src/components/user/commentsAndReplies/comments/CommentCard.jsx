@@ -18,7 +18,6 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-    const [showReplies, setShowReplies] = useState(false);
     const [tempComment, setTempComment] = useState(comment);
     const [newText, setNewText] = useState(tempComment.content);
     // for case when update and canele the edit to restore the old content but in tempComment not in comment
@@ -26,7 +25,14 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
         setNewText(tempComment.content);
     }, [tempComment])
     const [loading, setLoading] = useState(false);
-    useEffect(() => { console.log(loading) }, [loading])
+    //this is for replies
+    const [showReplies, setShowReplies] = useState(false);
+    const [replies, setReplies] = useState(null); // null = not loaded yet
+    const [paginatedReplies, setPaginatedReplies] = useState({
+        pageNumber: 0,
+        hasNextPage: true,
+    });
+    const [replyingToUser, setReplyingToUser] = useState(null);
     return (
         <>
             <Box sx={{ p: 2, backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#f5f5f5", borderRadius: 2 }}>
@@ -50,7 +56,7 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                     </Box>
 
 
-                    {/* actions like edit delete and like on the right side*/}
+                    {/* actions like edit delete and lik on the right side*/}
                     {<Box sx={{ display: "flex", flexDirection: 'column', gap: 0.5 }}>
                         {<IconButton onClick={handleMenuClick} sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", p: 0.5 }}>
                             <MoreHoriz />
@@ -94,7 +100,8 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                         {tempComment?.since || 'just now'}
                     </Typography>
 
-                    {<Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    {<Button size="small"  sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
+                        onClick={()=>{setReplyingToUser(comment.user)}}>
                         <Reply sx={{ fontSize: 16 }} /> Reply
                     </Button>}
 
@@ -106,7 +113,17 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                         </Button>
                     )}
                 </Box>
-                {showReplies && (<RepliesList commentId={comment.id} />)}
+                {showReplies && (
+                <RepliesList
+                    commentId={comment.id}
+                    replies={replies}
+                    setReplies={setReplies}
+                    paginatedReplies={paginatedReplies}
+                    setPaginatedReplies={setPaginatedReplies}
+                    replyingToUser={replyingToUser}
+                    setReplyingToUser={setReplyingToUser}
+                />
+            )}
             </Box>
 
         </>

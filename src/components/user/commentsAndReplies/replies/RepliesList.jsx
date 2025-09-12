@@ -1,56 +1,58 @@
-import { UserContext } from '../../../../context/UserContext'
-import React, { useContext, useEffect, useRef } from 'react'
-import CommentInput from '../MessageInput'
-import usePaginatedReplies from '../../../../hooks/usePaginatedReplies';
-import { Box, Typography } from '@mui/material';
-import MessageInput from '../MessageInput';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { motion, AnimatePresence } from "framer-motion";
+import { Box, Button, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../../../services/api.js';
+import ReplieCard from './ReplieCard.jsx';
+import useReplies from '../../../../hooks/useReplies.js';
+import MessageInput from './MessageInput.jsx';
 
-function RepliesList({ commentId }) {
-    const containerRef = useRef(null);
-    const {
-        replies,
-        setReplies,
-        paginationLoading,
-        count,
-        pageNumber,
-        setPageNumber,
-        hasNextPage,
-        totalPages,
-        fetchReplies,
-        pageSize,
-    } = usePaginatedReplies({ baseUrl: `/comments/${commentId}/replies?` });
-    useEffect(() => { fetchReplies(1); }, [commentId])
+function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPaginatedReplies,replyingToUser, setReplyingToUser }) {
+    const { deleteReply, likeReply, editReply } = useReplies();
+    const fetchNextPage = async () => {
+        if (!paginatedReplies.hasNextPage) return;
 
+        const nextPage = paginatedReplies.pageNumber + 1;
+        try {
+            const response = await api.get(`/comments/${commentId}/replies?PageNumber=${nextPage}&pageSize=20`);
+            const data = response.data.data;
+
+            setReplies(prev => prev ? [...prev, ...data.data] : data.data);
+
+            setPaginatedReplies({
+                pageNumber: nextPage,
+                hasNextPage: data.hasNextPage,
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        if (!replies) fetchNextPage();
+    }, []);
+
+    if (!replies) return <Typography>Loading replies...</Typography>;
     return (
-        <>
-            {paginationLoading && pageNumber === 1 ?
-                <Typography variant="body1" sx={{ mt: 2 }}>Loading replies...</Typography>  
-                :
-                <Box mt={2} ref={containerRef}>
-                    <AnimatePresence>
-                        {replies.map((replie) => (
-                            <motion.div
-                                key={replie.id}
-                                layout
-                                initial={{ opacity: 0, y: 20 }}   // بداية
-                                animate={{ opacity: 1, y: 0 }}    // دخول
-                                exit={{ opacity: 0, y: -20 }}     // خروج
-                                transition={{ duration: 0.3 }}
-                            >
-                                <Box mb={2} data-id={replie.id}>
-                                    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                                </Box>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+        <Box mt={2} sx={{ pl: 4, borderLeft: '2px solid', borderColor: 'divider' }}>
+            <MessageInput
+                placeholder="Write a new comment..."
+                commentId={commentId}
+                setReplies={setReplies}
+                replyingToUser={replyingToUser}
+                setReplyingToUser={setReplyingToUser}
+            />
+            {replies.map(r => (
+                <Box key={r.id} mb={1} data-reply-id={r.id}>
+                    <ReplieCard replie={r} deleteReply={deleteReply} likeReply={likeReply} editReply={editReply} />
                 </Box>
-                }
-</>
+            ))}
 
-
-)
+            {paginatedReplies.hasNextPage && (
+                <Button onClick={fetchNextPage} sx={{ mt: 1 }} >
+                    Show more replies
+                </Button>
+            )}
+        </Box>
+    );
 }
 
-export default RepliesList
+export default RepliesList;

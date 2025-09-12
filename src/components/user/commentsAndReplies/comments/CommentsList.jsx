@@ -1,10 +1,10 @@
 import { UserContext } from '../../../../context/UserContext'
 import React, { useContext, useEffect, useRef } from 'react'
-import CommentInput from '../MessageInput'
+import CommentInput from './MessageInput'
 import usePaginatedComments from '../../../../hooks/usePaginatedComments';
 import { Box, Typography } from '@mui/material';
 import SkeletonMessage from './SkeletonMessage';
-import MessageInput from '../MessageInput';
+import MessageInput from './MessageInput';
 import CommentCard from './CommentCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { motion, AnimatePresence } from "framer-motion";
