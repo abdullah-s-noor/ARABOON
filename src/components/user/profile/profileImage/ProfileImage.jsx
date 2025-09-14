@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import ProfileAvatarEditor from "./ProfileAvatarEditor"
 import { Box, IconButton } from '@mui/material'
 import { Edit } from '@mui/icons-material'
@@ -6,8 +6,10 @@ import AlertProfileImage from './AlertProfileImage'
 import CroppedAvatar from './CroppedAvatar'
 import { toast } from 'react-toastify'
 import { api } from '../../../../services/api'
+import { UserContext } from '../../../../context/UserContext'
 
 function ProfileImage({ originalImage, cropInfo }) {
+  const {userData,checkUserSession}=useContext(UserContext)
   const [originalProfileImage, setOriginalProfileImage] = useState(originalImage)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
   const [deleteConfirmation, setDeleteConfirmation] = useState(false)
@@ -28,6 +30,7 @@ function ProfileImage({ originalImage, cropInfo }) {
       setOriginalProfileImage(null)      // مسح النسخة الأصلية
       setDeleteConfirmation(false)
       toast.success(data.message)
+      checkUserSession()
     } catch (error) {
       console.log(error)
       if (error?.response?.data?.message) {
@@ -69,7 +72,8 @@ function ProfileImage({ originalImage, cropInfo }) {
         onDelete={setDeleteConfirmation}
         onSave={setIsEditingProfile}
         cropData={cropData} setCropData={setCropData}
-        loading={loading} setLoading={setLoading}
+        loading={loading} setLoading={setLoading} 
+        checkUserSession={checkUserSession}
 
       />
       <AlertProfileImage

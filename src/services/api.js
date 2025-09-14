@@ -44,10 +44,7 @@ const processQueue = (error, token = null) => {
 api.interceptors.request.use(
   config => {
     const language = Cookies.get('i18next') || 'en';
-    config.headers['Accept-Language'] = language;
-    console.log(accessToken)
-    const temp=`Bearer ${accessToken?accessToken:''}`
-    console.log(temp)
+    config.headers['Accept-Language'] = language
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

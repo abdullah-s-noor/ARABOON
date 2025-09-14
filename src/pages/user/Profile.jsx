@@ -1,6 +1,6 @@
 import { Avatar, Box, Chip, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import CoverImage from '../../components/user/profile/coverImage/CoverImage'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MyAvatar from '../../components/common/MyAvatar'
 import ProfileImage from '../../components/user/profile/profileImage/ProfileImage'
 import { DateRange } from '@mui/icons-material'
@@ -9,10 +9,16 @@ import EditUserInformation from '../../components/user/editUserInformation/EditU
 import { api } from '../../services/api'
 import { useTranslation } from 'react-i18next'
 import FavoritesCategories from '../../components/user/profile/FavoritesCategories'
+import { useNavigate, useParams } from 'react-router-dom'
+import { UserContext } from '../../context/UserContext'
 
 function Profile() {
+    const navigate=useNavigate()
     const {i18n}=useTranslation()
     const theme=useTheme() 
+    const {userData,checkUserSession}=useContext(UserContext)
+    const currentUsername=useParams().username
+    const isMyAccount=userData?.UserName===currentUsername
     const style = {
         container: { bgcolor:theme.palette.mode==='dark'?"#000 !important":"#fff !important", borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px', pb: 4, background: 'linear-gradient(rgba(255, 255, 255, 0.051), rgba(255, 255, 255, 0.051))' },
 
@@ -31,26 +37,29 @@ function Profile() {
             fontWeight: 400,
         },
     }
-
     const [profileData, setProfileData] = useState(null)
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(true)
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await api.get("/users/profile/darxx03eh")
+                const { data } = await api.get(`/users/profile/${currentUsername}`)
                 console.log(data.data)
                 setProfileData(data.data)
                 setUserInfo({
                     firstName: data.data.firstName,
                     lastName: data.data.lastName,
                     userName: data.data.userName,
-                    email: data.data.email,
+                    email: data.data?.email,
                     bio: data.data.bio,
                 })
             } catch (error) {
-                console.log(error)
+                if(error.response.status===404){
+                    navigate('/not-found')
+                }else{
+                    console.log(error)
+                }
+                
             } finally {
                 setLoading(false)
             }
@@ -93,7 +102,7 @@ function Profile() {
                             </Box>
                         </Box>
                         <LibraryStats librariesCount={profileData.library} />
-                        <EditUserInformation userInfo={userInfo} setUserInfo={setUserInfo} />
+                        {isMyAccount&&<EditUserInformation userInfo={userInfo} setUserInfo={setUserInfo} />}
                         <FavoritesCategories favoritesCategories={profileData.favoritesCategories}/>
                     </>
             }

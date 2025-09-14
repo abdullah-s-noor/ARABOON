@@ -21,7 +21,7 @@ import { toast } from "react-toastify"
 //onDelete=true  open the confirmation delete dialog
 //originalProfileImage => the origin image that stored in database
 //image =>this image take the initial value from the originalProfileimage and create some edition on this useState image not on the original direcly
-export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData, onSave,loading,setLoading }) {
+export default function ProfileAvatarEditor({ open, onClose, originalProfileImage, setOriginalProfileImage, onDelete, cropData, setCropData, onSave,loading,setLoading,checkUserSession }) {
     const initialCropData = { scale: 1.2, rotate: 0, position: { x: .5, y: .5 } }
     const [image, setImage] = useState(originalProfileImage || null)
     const editorRef = useRef(null)
@@ -68,6 +68,7 @@ export default function ProfileAvatarEditor({ open, onClose, originalProfileImag
                 toast.success(data.message)
                 setCropData(tempCropData)
                 setOriginalProfileImage(image)
+                checkUserSession()
                 onSave(false)
 
             } catch (error) {

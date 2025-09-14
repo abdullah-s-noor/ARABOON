@@ -1,10 +1,10 @@
-import { Dialog, DialogContent,Typography, useTheme } from '@mui/material';
-import  { useEffect, useRef } from 'react';
+import { Dialog, DialogContent, Typography, useTheme } from '@mui/material';
+import { useEffect, useRef } from 'react';
 import CommentsList from './comments/CommentsList';
 
 function CommentsAndRepliesDialog({ open, setOpen }) {
     const theme = useTheme();
-   
+
     useEffect(() => {
         if (open) {
             document.body.style.overflow = 'hidden !important';
@@ -19,7 +19,7 @@ function CommentsAndRepliesDialog({ open, setOpen }) {
             overflow: "hidden !important",
             height: "460px",
             maxWidth: "700px",
-            width:'100%',
+            width: '100%',
             m: 0,
             p: 0,
         },
@@ -36,7 +36,8 @@ function CommentsAndRepliesDialog({ open, setOpen }) {
             fullWidth
             PaperProps={{ sx: style.dialogPaper }}
         >
-            <DialogContent id="scrollableDialog" sx={{ p: 2, overflowY: 'auto',
+            <DialogContent id="scrollableDialog" sx={{
+                p: 2, overflowY: 'auto',
                 '&::-webkit-scrollbar': {
                     width: '15px',
                 },
@@ -44,15 +45,15 @@ function CommentsAndRepliesDialog({ open, setOpen }) {
                     borderRadius: '8px',
                     backgroundColor: 'background.default',
                     // @ts-ignore
-                    border: `1px solid ${theme.palette.thirdly.main}` ,
+                    border: `1px solid ${theme.palette.thirdly.main}`,
                 },
                 '&::-webkit-scrollbar-thumb': {
                     borderRadius: '8px',
                     backgroundColor: theme.palette.primary.main,
                 },
-             }}>
+            }}>
                 <Typography variant="h5" >Comments</Typography>
-                <CommentsList open={open}/>
+                <CommentsList open={open} />
             </DialogContent>
         </Dialog>
     );

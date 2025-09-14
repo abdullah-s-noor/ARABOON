@@ -84,6 +84,7 @@ export default function UserContextProvider({ children }) {
         setContextLoading,
         login,
         logout,
+        checkUserSession,
     };
 
 
