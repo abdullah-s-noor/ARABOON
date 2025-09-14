@@ -83,6 +83,7 @@
         "return_to_signin": "Return to sign in"
     },
     "profile":{
+        "profile":"Profile",
         "edit_cover": "Edit Cover",
         "addNewCoverImage": "Upload a new cover photo",
         "reposition": "Reposition",

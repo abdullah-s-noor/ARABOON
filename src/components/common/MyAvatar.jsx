@@ -18,15 +18,17 @@ import { Logout } from "@mui/icons-material";
 import { Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AvatarEditor from "react-avatar-editor";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileMenu() {
+    const navigate=useNavigate()
     const theme = useTheme()
-    const { i18n } = useTranslation()
+    const { i18n,t } = useTranslation()
     const [anchorEl, setAnchorEl] = useState(null);
     const { isPhone } = usePhone()
     const { contextLoading, logout, userData } = useContext(UserContext)
     const profileImage = JSON.parse(userData.ProfileImage)
-    console.log(profileImage.OriginalImage)
+    console.log(profileImage)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -35,6 +37,7 @@ export default function ProfileMenu() {
         setAnchorEl(null);
     };
     const CroppedAvatar = (originalImage, cropData, avatarSize, b = 0) => {
+        const position={x:cropData.Position.X,y:cropData.Position.Y}
         console.log(originalImage)
         if (!originalImage) {
             return <Avatar sx={{ width: avatarSize, height: avatarSize }} />
@@ -49,7 +52,7 @@ export default function ProfileMenu() {
                 borderRadius={avatarSize / 2} // دائري
                 scale={cropData.scale}
                 rotate={cropData.rotate}
-                position={cropData.position}
+                position={position}
                 style={{ border: `${b}px solid ${theme.palette.primary.main}`, borderRadius: "50%", }}
             />
         )
@@ -104,7 +107,7 @@ export default function ProfileMenu() {
             >
                 {/* Profile Header */}
                 <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                    {CroppedAvatar(profileImage.OriginalImage, profileImage.CropData, 100,3)}
+                    {CroppedAvatar(profileImage.OriginalImage, profileImage.CropData, 100, 3)}
 
                     <Box sx={{
                         marginRight: i18n.language === "en" ? 0 : 2,
@@ -121,17 +124,17 @@ export default function ProfileMenu() {
 
                 <Divider sx={{ my: 1 }} />
                 {/* Menu Items */}
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={()=>{handleClose(),navigate(`/${userData.UserName}`)}}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
-                    Settings
+                    {t('profile.profile')}
                 </MenuItem>
                 <MenuItem onClick={() => { handleClose(), logout() }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    {t("logout")}
                 </MenuItem>
             </Menu>
         </>

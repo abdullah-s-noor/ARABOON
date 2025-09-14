@@ -1,16 +1,19 @@
 import { Box, Button, IconButton, Menu, MenuItem, TextField, Typography, useTheme } from '@mui/material'
-import React, { memo, useContext, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useRef, useState } from 'react'
 import UserAvatar from '../UserAvatar';
 import { Delete, Edit, ExpandLess, ExpandMore, MoreHoriz, Reply, ThumbUp, ThumbUpOutlined } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../../../context/UserContext';
 import RepliesList from '../replies/RepliesList';
+import MessageInput from '../replies/MessageInput';
+import { useNavigate } from 'react-router-dom';
 
 function CommentCard({ comment, deleteComment, likeComment, editComment }) {
+    const navigate=useNavigate()
     const theme = useTheme();
     const { i18n } = useTranslation()
+    const {userToken}=useContext(UserContext)
     const [anchorEl, setAnchorEl] = useState(null);
-    console.log(comment.id)
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -33,9 +36,47 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
         hasNextPage: true,
     });
     const [replyingToUser, setReplyingToUser] = useState(null);
+    useEffect(() => {
+        setShowReplies(replies && replies.length > 0);
+    }, [replies])
+    const [newReplyCount, setNewReplyCount] = useState(0);
+
+    // for smooth scroll to the reply field when click on reply button for reply
+    const replyInputRef = useRef(null);
+
+    // Function to handle reply click, scroll, and focus
+    const [startScroll, setStartScroll] = useState(false);
+    const handleReplyClick = (user) => {
+        setReplyingToUser(user);
+        setStartScroll(true);
+    };
+    useEffect(() => {
+        if (startScroll && replyInputRef.current) {
+             const elem = document.querySelector(`[data-id='${comment.id}']`);
+        if (elem) {
+            elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        if (replyInputRef.current) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        replyInputRef.current.focus();
+                        observer.disconnect(); // وقف المراقبة بعد ما يركز
+                        elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }, { threshold: .99 });
+
+            observer.observe(replyInputRef.current);
+        }
+            setStartScroll(false);
+        }
+    }, [startScroll])
+
     return (
         <>
-            <Box sx={{ p: 2, backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#f5f5f5", borderRadius: 2 }}>
+            <Box sx={{ p: {xs:1,sm:2}, backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#f5f5f5", borderRadius: 2 }}>
                 {/* name, comment content,like,delete and edit  */}
                 <Box sx={{ display: "flex", gap: 2, }}>
                     {/* avatarUrl */}
@@ -43,12 +84,12 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
 
                     {/* username and the content comment */}
                     <Box sx={{ flex: 1 }}>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>{comment.user.name}</Typography>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5,cursor:'pointer' }} onClick={()=>{navigate(`/${comment.user.userName}`)}}>{comment.user.name}</Typography>
                         {isEditing ? (<>
                             <TextField fullWidth multiline size="small" value={newText} onChange={(e) => setNewText(e.target.value)} /*onKeyPress={(e) => e.key === "Enter" && editComment(tempComment.id, newText, setIsEditing,setTempComment)} */ />
                             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                                 <Button variant="outlined" size="small" sx={{ mt: 1 }} onClick={() => { setIsEditing(false); setNewText(tempComment.content); }}>Cancel</Button>
-                                <Button disabled={newText.trim() === tempComment.content || loading} variant="contained" size="small" sx={{ mt: 1 }} onClick={() => { editComment(tempComment.id, newText, setIsEditing, setTempComment, setLoading); }}>Save</Button>
+                                <Button disabled={newText.trim() === tempComment.content || loading||newText.trim()===''} variant="contained" size="small" sx={{ mt: 1 }} onClick={() => { editComment(tempComment.id, newText, setIsEditing, setTempComment, setLoading); }}>Save</Button>
                             </Box>
                         </>
                         ) : (
@@ -57,7 +98,7 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
 
 
                     {/* actions like edit delete and lik on the right side*/}
-                    {<Box sx={{ display: "flex", flexDirection: 'column', gap: 0.5 }}>
+                    {userToken&&<Box sx={{ display: "flex", flexDirection: 'column', gap: 0.5 }}>
                         {<IconButton onClick={handleMenuClick} sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", p: 0.5 }}>
                             <MoreHoriz />
                         </IconButton>}
@@ -100,30 +141,41 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                         {tempComment?.since || 'just now'}
                     </Typography>
 
-                    {<Button size="small"  sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
-                        onClick={()=>{setReplyingToUser(comment.user)}}>
+                    {userToken&&<Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
+                        onClick={() => { handleReplyClick(comment.user) }}>
                         <Reply sx={{ fontSize: 16 }} /> Reply
                     </Button>}
 
-                    {comment?.replyCount > 0 && (
+                    {(comment?.replyCount + newReplyCount) > 0 && (
                         <Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
                             onClick={() => setShowReplies(!showReplies)}
                         >
-                            {showReplies ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}{`${comment.replyCount} ${comment.replyCount === 1 ? "Reply" : "Replies"}`}
+                            {showReplies ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}{`${comment.replyCount + newReplyCount} ${comment.replyCount + newReplyCount === 1 ? "Reply" : "Replies"}`}
                         </Button>
                     )}
                 </Box>
-                {showReplies && (
-                <RepliesList
-                    commentId={comment.id}
-                    replies={replies}
-                    setReplies={setReplies}
-                    paginatedReplies={paginatedReplies}
-                    setPaginatedReplies={setPaginatedReplies}
-                    replyingToUser={replyingToUser}
-                    setReplyingToUser={setReplyingToUser}
-                />
-            )}
+                <Box mt={2} sx={{ pl: {xs:1,sm:4}, borderLeft: '2px solid', borderColor: 'divider' }}>
+                    {replyingToUser &&userToken&&
+                        <MessageInput
+                            placeholder="Write a new comment..."
+                            commentId={comment.id}
+                            setReplies={setReplies}
+                            replyingToUser={replyingToUser}
+                            setReplyingToUser={setReplyingToUser}
+                            setNewReplyCount={setNewReplyCount}
+                            replyInput={replyInputRef}
+                        />}
+                    {showReplies && (
+                        <RepliesList
+                            commentId={comment.id}
+                            replies={replies}
+                            setReplies={setReplies}
+                            paginatedReplies={paginatedReplies}
+                            setPaginatedReplies={setPaginatedReplies}
+                            handleReplyClick={handleReplyClick}
+                        />
+                    )}
+                </Box>
             </Box>
 
         </>

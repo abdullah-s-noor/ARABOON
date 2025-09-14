@@ -81,6 +81,7 @@
         "return_to_signin": "العودة إلى تسجيل الدخول"
     },
     "profile":{
+        "profile":"الملف الشخصي",
         "edit_cover":"تحرير الغلاف",
         "addNewCoverImage":"تحميل صورة غلاف جديدة",
         "reposition":"إعاده تغيير الموضع",

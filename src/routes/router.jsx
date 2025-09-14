@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
                 element: <TestPage />
             },
             {
-                path:"/profile",
+                path:"/:username",
                 element:<Profile/>
             },
             {

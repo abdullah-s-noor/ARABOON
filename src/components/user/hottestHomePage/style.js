@@ -19,7 +19,7 @@ const style = (theme, i18n) => ({
         background:
             theme.palette.mode === 'dark'
                 ? 'linear-gradient(00deg, rgba(220, 9, 20, 0.5), rgba(220, 9, 20, 0))'
-                : 'linear-gradient(00deg, rgba(12, 112, 222, 0.5), rgba(12, 112, 222, 0))',
+                : 'linear-gradient(00deg, rgba(15, 122, 236, 0.75), rgba(12, 112, 222, 0))',
     },
     hottestButton: {
         width: { md: 70, lg: 100 },
