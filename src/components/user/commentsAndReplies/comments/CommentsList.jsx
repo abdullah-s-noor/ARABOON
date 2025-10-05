@@ -19,13 +19,11 @@ function CommentsList({ open }) {
         pageNumber,
         setPageNumber,
         hasNextPage,
-        fetchComments,
-        serverError,
         deleteComment,
         likeComment,
         editComment,
     } = usePaginatedComments({ baseUrl: "/Manga/1/comments?" });
-
+    
     return (
         <>
             {(paginationLoading && pageNumber === 1) ?
