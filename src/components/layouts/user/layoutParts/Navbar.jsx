@@ -14,13 +14,14 @@ import styles from "./style";
 import SelectLanguage from "../../../common/SelectLanguage";
 import { ThemeModeContext } from "../../../../context/darkMode";
 import useIsPhone from "../../../../hooks/usePhone";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthDialog } from "../../../../pages/auth/AuthDialog";
 import { Palette } from "lucide-react";
 import { UserContext } from "../../../../context/UserContext";
 import MyAvatar from "../../../../components/common/MyAvatar";
 
 export default function Navbar() {
+  const navigate=useNavigate()
   const theme = useTheme()
   const { isPhone } = useIsPhone()
   const style = styles(theme, isPhone)
@@ -132,7 +133,7 @@ export default function Navbar() {
                     <Brightness4 sx={{ color: 'white' }} fontSize="medium" />}
                 </Box>
                 {/* Search Icon Only */}
-                <Box sx={style.menuIcons}>
+                <Box sx={style.menuIcons} onClick={() => { navigate('/search') }}>
                   <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
                 </Box>
 
