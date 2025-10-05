@@ -39,9 +39,9 @@ function MangaInfoHeader({ mangaInfo }) {
                         <Box sx={{ p: 0, m: 0 }}>
                             <Typography sx={{ ...style.title, display: 'flex', alignItems: 'center', gap: 1 }}>
                                 {mangaInfo.mangaName} 
-                                {/* <Badge badgeContent={5} color="primary" sx={{mt:.5}}>
+                                <Badge badgeContent={5} color="primary" sx={{mt:.5}}>
                                     <Comment onClick={() => { setOpenCommentDaialog(true) }} />
-                                </Badge> */}
+                                </Badge>
                             </Typography>
                             <Typography sx={style.subtitle}>
                                 {mangaInfo.author}

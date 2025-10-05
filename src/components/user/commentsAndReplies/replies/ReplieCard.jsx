@@ -9,11 +9,7 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
     const { userToken } = useContext(UserContext)
     const [tempReply, setTempReply] = useState(reply)
     // for case when update and canele the edit to restore the old content but in tempReply not in comment
-    console.log(1111)
     console.log(tempReply)
-    useEffect(() => {
-        console.log(22222)
-    }, [])
     return (
         <>
             <Box sx={{
@@ -26,6 +22,7 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
                     {/* avatarUrl */}
                     <UserAvatar originalImage={reply.user.profileImage.originalImage} cropData={reply.user.profileImage.cropData} />
                     <CommentAndRepliesActions
+                        item={tempReply}
                         tempItem={tempReply}
                         setTempItem={setTempReply}
                         onEdit={editReply}

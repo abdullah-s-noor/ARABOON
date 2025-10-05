@@ -8,7 +8,7 @@ import UserAvatar from '../UserAvatar';
 import { api } from '../../../../services/api';
 import CommentCard from './CommentCard';
 import { createRoot } from 'react-dom/client';
-import { useParams } from 'react-router-dom';
+import { BrowserRouter, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,editComment }) => {
@@ -34,13 +34,15 @@ const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,edi
             // 3. استخدم ReactDOM.createRoot لعمل render للـ CommentCard داخل div
             const root = createRoot(div);
             root.render(
+                <BrowserRouter>
                 <UserContextProvider>
                     <ThemeProvider theme={theme}>
-                        <Box sx={{ mb: 2 }} data-id={newComment.id}>
+                        <Box sx={{ mb: 2 }} data-id={newComment.id} >
                             <CommentCard comment={newComment} deleteComment={deleteComment} likeComment={likeComment} editComment={editComment}/>
                         </Box>
                     </ThemeProvider>
                 </UserContextProvider>
+                </BrowserRouter>
             );
 
             // 5. prepend الـ div مباشرة للحاوية => O(1)

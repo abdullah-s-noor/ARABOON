@@ -5,9 +5,9 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-function CommentAndRepliesActions({ onLike, onDelete,onEdit,tempItem,setTempItem }) {
+function CommentAndRepliesActions({ item, onLike, onDelete, onEdit, tempItem, setTempItem, isReply = false }) {
     //tempItem,setTempReply  it is come from reply card because there is a since also changed when use api
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const theme = useTheme();
     const { i18n } = useTranslation()
     const [anchorEl, setAnchorEl] = useState(null);
@@ -19,13 +19,13 @@ function CommentAndRepliesActions({ onLike, onDelete,onEdit,tempItem,setTempItem
     };
     // for case when update and canele the edit to restore the old content but in tempItem not in comment
     const [loading, setLoading] = useState(false);
-    const {userToken}=useContext(UserContext)
+    const { userToken } = useContext(UserContext)
     const [isEditing, setIsEditing] = useState(false);
     const [newText, setNewText] = useState(tempItem.content);
 
     return (
         <>
-    {/* to edit and write a new content either comment or reply */}
+            {/* to edit and write a new content either comment or reply */}
             <Box sx={{ flex: 1 }}>
                 <Typography onClick={() => { navigate(`/${tempItem.user.userName}`) }} variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5, cursor: "pointer" }}>{tempItem.user.name}</Typography>
                 {isEditing ? (<>
@@ -36,10 +36,13 @@ function CommentAndRepliesActions({ onLike, onDelete,onEdit,tempItem,setTempItem
                     </Box>
                 </>
                 ) : (
-                    <Typography variant="body2" sx={{ mb: 1, lineHeight: 1.4, }}><Chip color='primary' sx={{ height: "20px", fontSize: "10px", cursor: 'pointer', mr: .5 }} label={tempItem?.replyToUser.name} onClick={() => { navigate(`/${tempItem?.replyToUser.userName}`) }} />{tempItem.content}</Typography>)}
+                    <Typography variant="body2" sx={{ mb: 1, lineHeight: 1.4, }}>
+                        {isReply && <Chip color='primary' sx={{ height: "20px", fontSize: "10px", cursor: 'pointer', mr: .5 }} label={tempItem?.replyToUser.name} onClick={() => { navigate(`/${tempItem?.replyToUser.userName}`) }} />}
+                        {tempItem.content}
+                    </Typography>)}
             </Box>
             {/* this is menu for enable edit or delete also for put link or unlike */}
-            {userToken&&<Box sx={{ display: "flex", flexDirection: 'column', gap: 0.5 }}>
+            {userToken && <Box sx={{ display: "flex", flexDirection: 'column', gap: 0.5 }}>
                 {<IconButton onClick={handleMenuClick} sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", p: 0.5 }}>
                     <MoreHoriz />
                 </IconButton>}
