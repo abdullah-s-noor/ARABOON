@@ -20,11 +20,11 @@ const usePaginatedMangaList = ({ baseUrl }) => {
     setMangas([]);
   }, [baseUrl, i18n.language]);
 
-  const fetchMangas = async (page = pageNumber) => {
+  const fetchMangas = async (url=baseUrl,page = pageNumber) => {
     try {
       setServerError(null)
       setLoading(true);
-      const urlWithPagination = `${baseUrl}&PageNumber=${page}&pageSize=${pageSize}`;
+      const urlWithPagination = `${url}&PageNumber=${page}&pageSize=${pageSize}`;
       console.log("Fetching from URL:", urlWithPagination);
       const response = await api.get(urlWithPagination);
       const data = response.data.data;
@@ -35,8 +35,8 @@ const usePaginatedMangaList = ({ baseUrl }) => {
       setMangas(prev => (page === 1 ? data.data : [...prev, ...data.data]));
       setPageNumber(page);
     } catch (error) {
-      if(error?.response?.data?.Message){
-        setServerError(error?.response?.data?.Message)
+      if(error?.response?.data?.message){
+        setServerError(error?.response?.data?.message)
       }
     } finally {
       setLoading(false);
@@ -44,8 +44,8 @@ const usePaginatedMangaList = ({ baseUrl }) => {
   };
 
   useEffect(() => {
-    fetchMangas(pageNumber);
-  }, [pageNumber]);
+  fetchMangas(baseUrl, pageNumber);
+}, [ pageNumber]);
 
   return {
     mangas,

@@ -7,6 +7,7 @@ import TestPage from './user/TestPage'
 import Profile from './user/Profile'
 import ViewAll from './user/ViewAll';
 import NotFound from '../components/common/NotFound';
+import Search from './user/Search';
 
 export {
   UserHomePage,
@@ -17,5 +18,6 @@ export {
   TestPage,
   Profile,
   ViewAll,
-  NotFound
+  NotFound,
+  Search
 };

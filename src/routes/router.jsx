@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
 import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
-import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound,Profile ,ViewAll} from "../pages";
+import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound,Profile ,ViewAll,Search} from "../pages";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -44,7 +44,10 @@ export const router = createBrowserRouter([
                 path:"/viewall",
                 element:<ViewAll/>
             },
-
+            {
+                path:"/search",
+                element:<Search/>
+            },
             
             {
                 path: '/not-found',
