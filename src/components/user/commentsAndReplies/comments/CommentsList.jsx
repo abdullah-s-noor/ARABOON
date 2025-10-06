@@ -8,10 +8,15 @@ import MessageInput from './MessageInput';
 import CommentCard from './CommentCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { motion, AnimatePresence } from "framer-motion";
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function CommentsList({ open }) {
     const { userToken, userData } = useContext(UserContext)
     const containerRef = useRef(null);
+    const {t}=useTranslation()
+    const params = useParams()
+    const mangaId = params.mangaID
     const {
         comments,
         setComments,
@@ -22,8 +27,8 @@ function CommentsList({ open }) {
         deleteComment,
         likeComment,
         editComment,
-    } = usePaginatedComments({ baseUrl: "/Manga/1/comments?" });
-    
+    } = usePaginatedComments({ baseUrl: `/Manga/${mangaId}/comments?` });
+
     return (
         <>
             {(paginationLoading && pageNumber === 1) ?
@@ -32,16 +37,18 @@ function CommentsList({ open }) {
                 <>
                     {userToken &&
                         <MessageInput
-                            placeholder="Write a new comment..."
+                            placeholder={t("commentAndReply.commentPlaceholder")}
                             containerRef={containerRef}
                             deleteComment={deleteComment}
                             likeComment={likeComment}
                             editComment={editComment}
+                            comments={comments}
+                            setComments={setComments}
                         />
                     }
                     {
                         comments.length === 0 ?
-                            <Typography variant="body1" sx={{ mt: 2 }}>No comments yet. Be the first to comment!</Typography>
+                            <Typography variant="body1" sx={{ mt: 2 }}>{t("commentAndReply.emptyComment")}</Typography>
                             :
                             <InfiniteScroll
                                 dataLength={comments.length}
@@ -64,7 +71,7 @@ function CommentsList({ open }) {
                                                 transition={{ duration: 0.3 }}
                                             >
 
-                                                <Box  mb={2} data-id={comment.id}>
+                                                <Box mb={2} data-id={comment.id}>
                                                     <CommentCard comment={comment} deleteComment={deleteComment} likeComment={likeComment} editComment={editComment} />
                                                 </Box>
                                             </motion.div>

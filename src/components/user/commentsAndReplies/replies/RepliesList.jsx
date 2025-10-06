@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../../../../services/api.js';
 import ReplieCard from './ReplieCard.jsx';
 import useReplies from '../../../../hooks/useReplies.js';
+import Loader from '../../../common/Loader.jsx';
 
 function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPaginatedReplies, handleReplyClick,showReplies,repliesBoxRef,initFetch }) {
     const { deleteReply, likeReply, editReply } = useReplies();
@@ -45,7 +46,7 @@ function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPagi
         }
     }, [initFetch]);
 
-    if (!replies) return <Typography>Loading replies...</Typography>;
+    if (!replies) return <Typography><Loader/></Typography>;
     return (
         <>
             {replies.map(r => (
