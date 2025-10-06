@@ -21,6 +21,10 @@ const usePaginatedMangaList = ({ baseUrl }) => {
   }, [baseUrl, i18n.language]);
 
   const fetchMangas = async (url=baseUrl,page = pageNumber) => {
+    if (typeof url === "number") {
+    page = url;
+    url = baseUrl;
+  }
     try {
       setServerError(null)
       setLoading(true);

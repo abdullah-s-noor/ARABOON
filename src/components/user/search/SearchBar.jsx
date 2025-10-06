@@ -5,14 +5,22 @@ import style from '../hottestHomePage/style';
 import { api } from '../../../services/api';
 import usePaginatedMangaList from '../../../hooks/usePaginatedMangaList';
 import GeneralPreviewCards from '../../common/GeneralPreviewCards';
+import { useTranslation } from 'react-i18next';
 
 function SearchBarMUI() {
+  const {i18n,t}=useTranslation()
   const [focused, setFocused] = useState(false);
   const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl: '/Manga?search=' });
   const theme = useTheme()
+  const [value,setValue]=useState("")
+  
   const handleChange = (value) => {
+    setValue(value)
     fetchMangas(`/Manga?search=${value}`, 1)
   }
+  useEffect(()=>{
+    fetchMangas(`/Manga?search=${value}`, 1)
+  },[i18n.language])
   useEffect(() => {
     if (serverError) {
       setMangas(null)
@@ -54,7 +62,7 @@ function SearchBarMUI() {
         <TextField
           fullWidth
           variant="standard"
-          placeholder="Search by title or author"
+          placeholder={t("searchPlaceholder")}
           onChange={(e) => { handleChange(e.target.value) }}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
