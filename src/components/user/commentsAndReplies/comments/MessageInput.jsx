@@ -11,8 +11,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,editComment }) => {
-    const{i18n}=useTranslation()
+const MessageInput = ({ placeholder, containerRef, deleteComment, likeComment, editComment, comments, setComments }) => {
+    const { i18n } = useTranslation()
     const theme = useTheme();
     const { userData } = useContext(UserContext)
     const profileImage = JSON.parse(userData.ProfileImage)
@@ -20,6 +20,12 @@ const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,edi
     const [loading, setLoading] = useState(false);
     const params = useParams()
     const mangaId = params.mangaID
+     const cropData={
+        scale:profileImage.CropData.Scale,
+        rotate:profileImage.CropData.Rotate,
+        position:{x:profileImage.CropData.Position.X,y:profileImage.CropData.Position.Y},
+    }
+    console.log(userData.UserName)
     const addCommentDirectly = async () => {
 
         try {
@@ -27,26 +33,30 @@ const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,edi
             if (!value.trim()) return;
             const { data } = await api.post('comments', { mangaId, content: value });
             const newComment = data.data;
+            if (comments.length === 0) {
+                setComments([newComment])
+            } else {
+                // 2. أنشئ div فارغ
+                const div = document.createElement('div');
 
-            // 2. أنشئ div فارغ
-            const div = document.createElement('div');
+                // 3. استخدم ReactDOM.createRoot لعمل render للـ CommentCard داخل div
+                const root = createRoot(div);
+                root.render(
+                    <BrowserRouter>
+                        <UserContextProvider>
+                            <ThemeProvider theme={theme}>
+                                <Box sx={{ mb: 2 }} data-id={newComment.id} >
+                                    <CommentCard comment={newComment} deleteComment={deleteComment} likeComment={likeComment} editComment={editComment} />
+                                </Box>
+                            </ThemeProvider>
+                        </UserContextProvider>
+                    </BrowserRouter>
+                );
 
-            // 3. استخدم ReactDOM.createRoot لعمل render للـ CommentCard داخل div
-            const root = createRoot(div);
-            root.render(
-                <BrowserRouter>
-                <UserContextProvider>
-                    <ThemeProvider theme={theme}>
-                        <Box sx={{ mb: 2 }} data-id={newComment.id} >
-                            <CommentCard comment={newComment} deleteComment={deleteComment} likeComment={likeComment} editComment={editComment}/>
-                        </Box>
-                    </ThemeProvider>
-                </UserContextProvider>
-                </BrowserRouter>
-            );
+                // 5. prepend الـ div مباشرة للحاوية => O(1)
+                containerRef.current.prepend(div);
+            }
 
-            // 5. prepend الـ div مباشرة للحاوية => O(1)
-            containerRef.current.prepend(div);
             setValue('');
         } catch (err) {
             console.error(err);
@@ -57,7 +67,7 @@ const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,edi
 
     return (
         <Box sx={{ mb: 3, display: "flex", gap: 2, alignItems: "flex-start" }}>
-            <UserAvatar originalImage={profileImage.OriginalImage} cropData={profileImage.CropData} />
+            <UserAvatar originalImage={profileImage.OriginalImage} cropData={cropData} profileUsername={userData.UserName}/>
             <Box sx={{ flex: 1, display: "flex", gap: 1 }}>
                 <TextField
                     fullWidth
@@ -82,7 +92,7 @@ const MessageInput = ({ placeholder, containerRef, deleteComment,likeComment,edi
                     onClick={!loading && addCommentDirectly}
                     disabled={!value.trim() || loading}
                     color="primary"
-                    sx={{ alignSelf: "flex-start" ,transform: i18n.language==='ar'&&"rotate(180deg)" }}
+                    sx={{ alignSelf: "flex-start", transform: i18n.language === 'ar' && "rotate(180deg)" }}
                 >
                     <Send />
                 </IconButton>

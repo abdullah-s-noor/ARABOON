@@ -14,7 +14,7 @@ const usePaginatedComments = ({ baseUrl }) => {
   const [paginationLoading, setPaginationLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const [count, setCount] = useState(0);
   const { i18n } = useTranslation();
   const [serverError, setServerError] = useState(null);
@@ -39,8 +39,8 @@ const usePaginatedComments = ({ baseUrl }) => {
       setComments(prev => (page === 1 ? data.data : [...prev, ...data.data]));
       setPageNumber(page);
     } catch (error) {
-      if (error?.response?.data?.Message) {
-        setServerError(error?.response?.data?.Message)
+      if (error?.response?.data?.message) {
+        setServerError(error?.response?.data?.message)
       }
     } finally {
       setPaginationLoading(false);

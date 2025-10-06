@@ -4,6 +4,7 @@ import { Reply, ExpandLess, ExpandMore } from '@mui/icons-material'
 import UserAvatar from '../UserAvatar'
 import CommentAndRepliesActions from '../CommentAndRepliesActions'
 import { UserContext } from '../../../../context/UserContext'
+import { useTranslation } from 'react-i18next'
 
 function CommentActions({
     comment,
@@ -15,6 +16,7 @@ function CommentActions({
     showReplies,
     setShowReplies
 }) {
+    const {t}=useTranslation()
     const theme = useTheme()
     const [tempComment, setTempComment] = useState(comment)
     const { userToken } = useContext(UserContext)
@@ -24,7 +26,7 @@ function CommentActions({
         <>
             <Box sx={{ display: "flex", gap: 2, }}>
                 {/* avatarUrl */}
-                <UserAvatar originalImage={comment.user.profileImage.originalImage} cropData={comment.user.profileImage.cropData} />
+                <UserAvatar originalImage={comment.user.profileImage.originalImage} cropData={comment.user.profileImage.cropData} profileUsername={comment.user.userName}/>
                 {/* like unlike delete and edit the comment */}
                 <CommentAndRepliesActions
                     item={comment}
@@ -43,14 +45,14 @@ function CommentActions({
 
                 {userToken && <Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
                     onClick={() => { handleReplyClick(comment.user) }}>
-                    <Reply sx={{ fontSize: 16 }} /> Reply
+                    <Reply sx={{ fontSize: 16 }} /> {t("commentAndReply.reply")}
                 </Button>}
 
                 {(comment?.replyCount + newReplyCount) > 0 && (
                     <Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }}
                         onClick={() => setShowReplies(!showReplies)}
                     >
-                        {showReplies ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}{`${comment.replyCount + newReplyCount} ${comment.replyCount + newReplyCount === 1 ? "Reply" : "Replies"}`}
+                        {showReplies ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}{`${comment.replyCount + newReplyCount} ${comment.replyCount + newReplyCount === 1 ? t("commentAndReply.reply") : t("commentAndReply.replies")}`}
                     </Button>
                 )}
             </Box>

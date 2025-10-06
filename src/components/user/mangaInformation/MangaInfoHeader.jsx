@@ -9,6 +9,8 @@ function MangaInfoHeader({ mangaInfo }) {
     const theme = useTheme()
     const style = styles(theme, i18n)
     const [openCommentDaialog, setOpenCommentDaialog] = useState(false)
+    console.log(mangaInfo)
+    const [commentCount,setCommentCount]=useState(mangaInfo.commentsCount)
     const InfoItem = ({ text }) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: .1 }}>
             <Brightness1 sx={{ color: 'primary.main', fontSize: 18 }} />
@@ -18,7 +20,7 @@ function MangaInfoHeader({ mangaInfo }) {
 
     return (
         <>
-            <CommentsAndRepliesDialog open={openCommentDaialog} setOpen={setOpenCommentDaialog} />
+            <CommentsAndRepliesDialog open={openCommentDaialog} setOpen={setOpenCommentDaialog} setCommentCount={setCommentCount}/>
             <Box sx={style.container}>
                 {/* Manga image */}
                 <Box
@@ -39,7 +41,7 @@ function MangaInfoHeader({ mangaInfo }) {
                         <Box sx={{ p: 0, m: 0 }}>
                             <Typography sx={{ ...style.title, display: 'flex', alignItems: 'center', gap: 1 }}>
                                 {mangaInfo.mangaName} 
-                                <Badge badgeContent={5} color="primary" sx={{mt:.5}}>
+                                <Badge badgeContent={commentCount} color="primary" sx={{mt:.5}}>
                                     <Comment onClick={() => { setOpenCommentDaialog(true) }} />
                                 </Badge>
                             </Typography>

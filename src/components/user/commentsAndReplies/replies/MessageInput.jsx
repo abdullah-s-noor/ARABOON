@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../../../services/api';
 
-const MessageInput = ({ placeholder, commentId, setReplies, replyingToUser, setReplyingToUser, setNewReplyCount, replyInput}) => {
-    const { i18n } = useTranslation();
+const MessageInput = ({ commentId, setReplies, replyingToUser, setReplyingToUser, setNewReplyCount, replyInput }) => {
+    const { i18n, t } = useTranslation();
     const theme = useTheme();
     const { userData } = useContext(UserContext);
     const profileImage = JSON.parse(userData.ProfileImage);
@@ -45,19 +45,23 @@ const MessageInput = ({ placeholder, commentId, setReplies, replyingToUser, setR
         setValue('');
         setReplyingToUser(null);
     };
-
+    const cropData = {
+        scale: profileImage.CropData.Scale,
+        rotate: profileImage.CropData.Rotate,
+        position: { x: profileImage.CropData.Position.X, y: profileImage.CropData.Position.Y },
+    }
     return (
-        <Box sx={{ mb: 3, display: "flex", gap: {xs:.5,sm:2}, alignItems: "flex-start" }}>
-            <UserAvatar originalImage={profileImage.OriginalImage} cropData={profileImage.CropData} />
+        <Box sx={{ mb: 3, display: "flex", gap: { xs: .5, sm: 2 }, alignItems: "flex-start" }}>
+            <UserAvatar originalImage={profileImage.OriginalImage} cropData={cropData} profileUsername={userData.ID} />
 
-            <Box sx={{ flex: 1, display: {sm:"flex"}, gap: {xs:.5,sm:1}, alignItems: "center" }}>
+            <Box sx={{ flex: 1, display: { sm: "flex" }, gap: { xs: .5, sm: 1 }, alignItems: "center" }}>
                 <TextField
                     reply-input-id={commentId}
                     inputRef={replyInput}
                     fullWidth
                     multiline
                     size="small"
-                    placeholder={replyingToUser ? `Replying to @${replyingToUser.name}` : placeholder}
+                    placeholder={t("commentAndReply.replyPlaceholder")+` @${replyingToUser.name}`}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onKeyPress={(e) => {
@@ -75,7 +79,7 @@ const MessageInput = ({ placeholder, commentId, setReplies, replyingToUser, setR
                 />
                 {replyingToUser && (
                     <Button onClick={handleCancelReply} variant="text" color="inherit" sx={{ alignSelf: "flex-start", textTransform: 'none' }}>
-                        Cancel
+                        {t("commentAndReply.cancel")}
                     </Button>
                 )}
 
@@ -90,7 +94,7 @@ const MessageInput = ({ placeholder, commentId, setReplies, replyingToUser, setR
                         textTransform: 'none'
                     }}
                 >
-                    Send
+                    {t("commentAndReply.send")}
                 </Button>
             </Box>
         </Box>

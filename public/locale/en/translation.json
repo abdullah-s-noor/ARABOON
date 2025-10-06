@@ -103,5 +103,17 @@
         "uplaod_profile_picture":"Upload Profile Picture",
         "favorites_categories":"Favorites Catergories",
         "change_password":"Change Password"
+    },
+    "commentAndReply":{
+        "comments":"Comments",
+        "commentPlaceholder":"write a new comment...",
+        "replyPlaceholder":"Replying to",
+        "emptyComment":"No comments yet. Be the first to comment!",
+        "replies":"Replies",
+        "reply":"Reply",
+        "edit":"Edit",
+        "delete":"Delete",
+        "send":"Send",
+        "cancel":"Cancel"
     }
 }

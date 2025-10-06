@@ -1,10 +1,16 @@
-import { Dialog, DialogContent, Typography, useTheme } from '@mui/material';
+import { Box, Dialog, DialogContent, IconButton, Typography, useTheme } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import CommentsList from './comments/CommentsList';
+import { useParams } from 'react-router-dom';
+import { api } from '../../../services/api';
+import { Close } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
-function CommentsAndRepliesDialog({ open, setOpen }) {
+function CommentsAndRepliesDialog({ open, setOpen,setCommentCount }) {
     const theme = useTheme();
-
+    const {i18n,t}=useTranslation()
+    const param =useParams()
+    const mangaId=param.mangaID
     useEffect(() => {
         if (open) {
             document.body.style.overflow = 'hidden !important';
@@ -24,7 +30,14 @@ function CommentsAndRepliesDialog({ open, setOpen }) {
             p: 0,
         },
     };
-    const handleClose = () => {
+    const handleClose = async() => {
+        try{
+            const {data}=await api.get(`/Manga/${mangaId}/comments-count`)
+            console.log("comment count: ",data);
+            setCommentCount(data.data.commentsCount)
+        }catch(error){
+            console.log(error)
+        }
         setOpen(false);
     };
     return (
@@ -52,8 +65,11 @@ function CommentsAndRepliesDialog({ open, setOpen }) {
                     backgroundColor: theme.palette.primary.main,
                 },
             }}>
-                <Typography variant="h5" >Comments</Typography>
-                <CommentsList open={open} />
+                <IconButton onClick={() => { handleClose()}} sx={{ position: 'absolute', top: 5, ...(i18n.language === 'en' ? { right: 10 } : { left: 10 }) }}>
+                    <Close />
+                </IconButton>
+                <Typography variant="h5" >{t("commentAndReply.comments")}</Typography>
+                <CommentsList open={open}/>
             </DialogContent>
         </Dialog>
     );

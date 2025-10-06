@@ -4,9 +4,11 @@ import { UserContext } from '../../../../context/UserContext';
 import RepliesList from '../replies/RepliesList';
 import MessageInput from '../replies/MessageInput';
 import CommentActions from './CommentActions';
+import { useTranslation } from 'react-i18next';
 
 function CommentCard({ comment, deleteComment, likeComment, editComment }) {
     const theme = useTheme()
+    const {i18n}=useTranslation()
     const [replies, setReplies] = useState(null); // null = not loaded yet
     const [paginatedReplies, setPaginatedReplies] = useState({
         pageNumber: 0,
@@ -99,16 +101,16 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                     showReplies={showReplies}
                     setShowReplies={setShowReplies}
                 />
-                <Box mt={2} sx={{ pl: { xs: 1, sm: 4 }, borderLeft: '2px solid', borderColor: 'divider' }}>
+                <Box mt={2} sx={{ ...(i18n.language==="en"?{pl: { xs: 1, sm: 4 }, borderLeft: '2px solid'}:{pr: { xs: 1, sm: 4 }, borderRight: '2px solid'}), borderColor: 'divider' }}>
                     {replyingToUser && userToken &&
                         <MessageInput
-                            placeholder="Write a new comment..."
                             commentId={comment.id}
                             setReplies={setReplies}
                             replyingToUser={replyingToUser}
                             setReplyingToUser={setReplyingToUser}
                             setNewReplyCount={setNewReplyCount}
                             replyInput={replyInputRef}
+                            
                         />}
                     {<Box ref={repliesBoxRef}>
                         {repliesBox}

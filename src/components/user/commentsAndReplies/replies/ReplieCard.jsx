@@ -4,8 +4,10 @@ import UserAvatar from '../UserAvatar';
 import { Reply } from '@mui/icons-material';
 import { UserContext } from '../../../../context/UserContext';
 import CommentAndRepliesActions from '../CommentAndRepliesActions';
+import { useTranslation } from 'react-i18next';
 function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick }) {
     const theme = useTheme();
+    const {t}=useTranslation()
     const { userToken } = useContext(UserContext)
     const [tempReply, setTempReply] = useState(reply)
     // for case when update and canele the edit to restore the old content but in tempReply not in comment
@@ -20,7 +22,7 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
                 {/* name, comment content,like,delete and edit  */}
                 <Box sx={{ display: "flex", gap: { xs: 1, sm: 2 }, }}>
                     {/* avatarUrl */}
-                    <UserAvatar originalImage={reply.user.profileImage.originalImage} cropData={reply.user.profileImage.cropData} />
+                    <UserAvatar originalImage={reply.user.profileImage.originalImage} cropData={reply.user.profileImage.cropData} profileUsername={reply.user.userName} />
                     <CommentAndRepliesActions
                         item={tempReply}
                         tempItem={tempReply}
@@ -28,6 +30,7 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
                         onEdit={editReply}
                         onLike={likeReply}
                         onDelete={deleteReply}
+                        isReply={true}
                     />
 
                 </Box>
@@ -36,8 +39,8 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
                     <Typography variant="caption" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem" }}>
                         {tempReply?.since || 'just now'}
                     </Typography>
-                    {userToken && <Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }} onClick={() => { handleReplyClick(reply.replyToUser) }}>
-                        <Reply sx={{ fontSize: 16 }} /> Reply
+                    {userToken && <Button size="small" sx={{ color: theme.palette.mode === "dark" ? "#888" : "#666", fontSize: "0.75rem", minWidth: "auto", p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5 }} onClick={() => { handleReplyClick(reply.user) }}>
+                        <Reply sx={{ fontSize: 16 }} /> {t("commentAndReply.reply")}
                     </Button>}
                 </Box>
             </Box>
