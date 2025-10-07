@@ -3,24 +3,27 @@ import { Badge, Box, Button, Divider, Rating, Typography, useTheme } from '@mui/
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next'
 import styles from './style'
-import CommentsAndRepliesDialog from '../commentsAndReplies/CommentsAndRepliesDialog';
+import { Star as S } from 'lucide-react';
+import MangaCommentIcon from './MangaCommentIcon';
+import { toast } from 'react-toastify';
 function MangaInfoHeader({ mangaInfo }) {
     const { t, i18n } = useTranslation();
     const theme = useTheme()
     const style = styles(theme, i18n)
-    const [openCommentDaialog, setOpenCommentDaialog] = useState(false)
     console.log(mangaInfo)
-    const [commentCount,setCommentCount]=useState(mangaInfo.commentsCount)
+    const [rating, setRating] = useState({ avgRate: mangaInfo.rate, myRate: 0 })
     const InfoItem = ({ text }) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: .1 }}>
             <Brightness1 sx={{ color: 'primary.main', fontSize: 18 }} />
             <Typography variant="body2">{text}</Typography>
         </Box>
     );
-
+    const handleRate = (newValue) => {
+        setRating(prev => ({ ...prev, myRate: newValue }))
+        toast.success("Thanks for your feedback.")
+    }
     return (
         <>
-            <CommentsAndRepliesDialog open={openCommentDaialog} setOpen={setOpenCommentDaialog} setCommentCount={setCommentCount}/>
             <Box sx={style.container}>
                 {/* Manga image */}
                 <Box
@@ -40,23 +43,18 @@ function MangaInfoHeader({ mangaInfo }) {
                     >
                         <Box sx={{ p: 0, m: 0 }}>
                             <Typography sx={{ ...style.title, display: 'flex', alignItems: 'center', gap: 1 }}>
-                                {mangaInfo.mangaName} 
-                                <Badge badgeContent={commentCount} color="primary" sx={{mt:.5}}>
-                                    <Comment onClick={() => { setOpenCommentDaialog(true) }} />
-                                </Badge>
+                                {mangaInfo.mangaName}
+                                <MangaCommentIcon count={mangaInfo.commentsCount} />
                             </Typography>
                             <Typography sx={style.subtitle}>
                                 {mangaInfo.author}
                             </Typography>
 
                         </Box>
-                        <Rating
-                            name="read-only"
-                            value={mangaInfo.rate}
-                            readOnly
-                            size="large"
-                            emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
-                        />
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, border: "none" }}>
+                            <S fill="#faaf00" stroke="#faaf00" />
+                            <Typography variant="body1" color="text.secondary">4.5</Typography>
+                        </Box>
                     </Box>
                     {/* info list about manga */}
                     <Box
@@ -86,6 +84,21 @@ function MangaInfoHeader({ mangaInfo }) {
                             {mangaInfo.description}
                         </Typography>
 
+                    </Box>
+                    {/* my rate */}
+                    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                        <Typography sx={style.descriptionText}>
+                            Tap to Rate:
+                        </Typography>
+                        <Rating
+                            name="user-rate"
+                            precision={0.5}
+                            value={rating.myRate}
+                            onChange={(e, newValue) => {
+                                if (newValue !== null) handleRate(newValue);
+                            }}
+                            emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
+                        />
                     </Box>
                 </Box>
             </Box>
