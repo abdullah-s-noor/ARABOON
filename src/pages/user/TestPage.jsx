@@ -123,7 +123,7 @@ const activeCount = Object.values(libraryStatus).filter(Boolean).length
         {libraryItems.map((item, index) => {
           const isActive = libraryStatus[item.key]
           return (
-            <Button disabled={keyLoading ? true : false} sx={{ bgcolor: isActive ? "primary.main" : 'background.default', width: '100%', display: 'flex', justifyContent: 'space-between', borderRadius: '7px', p: "16px", ":hover": { bgcolor: isActive ? 'thirdly.main' : "primary.main" } }}
+            <Button key={index} disabled={keyLoading ? true : false} sx={{ bgcolor: isActive ? "primary.main" : 'background.default', width: '100%', display: 'flex', justifyContent: 'space-between', borderRadius: '7px', p: "16px", ":hover": { bgcolor: isActive ? 'thirdly.main' : "primary.main" } }}
               onClick={() => { toggleItemStatus(item.key) }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', }}>
                 <Box sx={{ p: 1, borderRadius: '6px', display: "flex", alignItems: 'center', background: isActive ? theme.palette.mode === 'dark' ? red[300] : blue[300] : theme.palette.mode === 'dark' ? "#000" : "#fff" }}>

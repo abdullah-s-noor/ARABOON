@@ -1,26 +1,43 @@
 import { Brightness1, Comment, Star } from '@mui/icons-material';
 import { Badge, Box, Button, Divider, Rating, Typography, useTheme } from '@mui/material'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next'
 import styles from './style'
 import { Star as S } from 'lucide-react';
 import MangaCommentIcon from './MangaCommentIcon';
 import { toast } from 'react-toastify';
+import { api } from '../../../services/api';
+import { UserContext } from '../../../context/UserContext';
 function MangaInfoHeader({ mangaInfo }) {
     const { t, i18n } = useTranslation();
     const theme = useTheme()
     const style = styles(theme, i18n)
-    console.log(mangaInfo)
-    const [rating, setRating] = useState({ avgRate: mangaInfo.rate, myRate: 0 })
+    const [rating, setRating] = useState({ avgRate: mangaInfo.rate, myRate: mangaInfo.myRate, myRateID: mangaInfo.myRateID })
+    const { userToken } = useContext(UserContext)
+    console.log(rating)
     const InfoItem = ({ text }) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: .1 }}>
             <Brightness1 sx={{ color: 'primary.main', fontSize: 18 }} />
             <Typography variant="body2">{text}</Typography>
         </Box>
     );
-    const handleRate = (newValue) => {
-        setRating(prev => ({ ...prev, myRate: newValue }))
-        toast.success("Thanks for your feedback.")
+    const handleRate = async (newValue) => {
+        try {
+            if (newValue) {
+                const { data } = await api.put("/ratings", { mangaId: mangaInfo.mangaId, rate: newValue })
+                toast.success(data.message)
+                setRating(prev => ({ avgRate: data.data.newRate, myRate: newValue, myRateID: data.data.id }))
+            } else {
+                const { data } = await api.delete(`/ratings/${rating.myRateID}`)
+                toast.success(data.message)
+                setRating(prev => ({ avgRate: data.data.newRate, myRate: 0, myRateID: null }))
+                console.log(data)
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+
+        }
     }
     return (
         <>
@@ -53,7 +70,7 @@ function MangaInfoHeader({ mangaInfo }) {
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, border: "none" }}>
                             <S fill="#faaf00" stroke="#faaf00" />
-                            <Typography variant="body1" color="text.secondary">4.5</Typography>
+                            <Typography variant="body1" color="text.secondary">{rating.avgRate}</Typography>
                         </Box>
                     </Box>
                     {/* info list about manga */}
@@ -86,20 +103,23 @@ function MangaInfoHeader({ mangaInfo }) {
 
                     </Box>
                     {/* my rate */}
-                    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                        <Typography sx={style.descriptionText}>
-                            Tap to Rate:
-                        </Typography>
-                        <Rating
-                            name="user-rate"
-                            precision={0.5}
-                            value={rating.myRate}
-                            onChange={(e, newValue) => {
-                                if (newValue !== null) handleRate(newValue);
-                            }}
-                            emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
-                        />
-                    </Box>
+                    {userToken &&
+                        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                            <Typography sx={style.descriptionText}>
+                                Tap to Rate:
+                            </Typography>
+                            <Rating
+                                name="user-rate"
+                                precision={0.5}
+                                defaultValue={0}
+                                value={rating.myRate}
+                                onChange={(e, newValue) => {
+                                    handleRate(newValue);
+                                }}
+                                emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
+                            />
+                        </Box>
+                    }
                 </Box>
             </Box>
         </>

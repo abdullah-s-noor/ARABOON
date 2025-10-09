@@ -125,7 +125,7 @@ function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
                     {libraryItems.map((item, index) => {
                         const isActive = libraryStatus[item.key]
                         return (
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid key={index} size={{ xs: 12, sm: 6 }}>
                                 <Button disabled={keyLoading ? true : false} sx={{ bgcolor: isActive ? "primary.main" : 'background.default', width: '100%', display: 'flex', justifyContent: 'space-between', borderRadius: '7px', p: "16px", ":hover": { bgcolor: isActive ? 'thirdly.main' : "primary.main" } }}
                                     onClick={() => { toggleItemStatus(item.key) }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', }}>

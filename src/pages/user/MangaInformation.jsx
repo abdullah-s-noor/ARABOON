@@ -17,13 +17,13 @@ function MangaInformation() {
         const fetchMangaInfo = async () => {
             try {
                 setLoading(true)
-                const [mangaInfoData/*, chaptersData*/] = await Promise.all([
+                const [mangaInfoData, myRate] = await Promise.all([
                     api.get(`/Manga/GetMangaByID/${mangaID}`),
-                    // api.get(`/Chapters/ViewChaptersForSpecificMangaByLanguage?MangaID=${mangaID}&Language=arabic`),
+                    api.get(`/ratings/manga/${mangaID}`)
+                        .catch(err => (err.response?.status === 404||err.response?.status === 401 ? null : Promise.reject(err)))
                 ]);
-                console.log(`/Manga/GetMangaByID/${mangaID}`)
-                console.log(mangaInfoData.data.data)
-                setMangaInfo(mangaInfoData.data.data)
+                console.log({ ...mangaInfoData.data.data, myRate: myRate?.data.data.rate, myRateID: myRate?.data.data.id })
+                setMangaInfo({ ...mangaInfoData.data.data, myRate: myRate?.data.data.rate, myRateID: myRate?.data.data.id })
                 setLibraryStatus({
                     Favorites: mangaInfoData.data.data.isFavorite,
                     Notifications: mangaInfoData.data.data.isNotification,
@@ -31,7 +31,7 @@ function MangaInformation() {
                     CompletedReads: mangaInfoData.data.data.isCompletedReading,
                     CurrentlyReading: mangaInfoData.data.data.isCurrentlyReading,
                 })
-                
+
             } catch (error) {
                 console.log(error)
             } finally {
@@ -63,9 +63,9 @@ function MangaInformation() {
                             <Box
                                 sx={{
                                     marginTop: '40px',
-                                    display:'flex',flexDirection:'column',gap:2
+                                    display: 'flex', flexDirection: 'column', gap: 2
                                 }}>
-                                <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} mangaID={mangaID}/>
+                                <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} mangaID={mangaID} />
                                 <ChapterList />
                             </Box>
 

@@ -12,7 +12,6 @@ export default function UserContextProvider({ children }) {
     const [userToken, setUserToken] = useState(null);
     const [userData, setUserData] = useState(null);
     const [contextLoading, setContextLoading] = useState(true);
-
     // Function to check for a valid session on page load
     const checkUserSession = async () => {
         setContextLoading(true);
@@ -24,9 +23,13 @@ export default function UserContextProvider({ children }) {
             setUserToken(newAccessToken);
             setApiAccessToken(newAccessToken);
             decodeUserData(newAccessToken);
-        } catch (error) {
+        } catch (error) {//Refresh token not found// لم يتم العثور على رمز التحديث
             // Session is not valid, clear any old tokens
-            logout();
+            if (error.response.data.message === "لم يتم العثور على رمز التحديث" || error.response.data.message === "Refresh token not found") {
+                return
+            } else {
+                logout();
+            }
         } finally {
             setContextLoading(false);
         }
