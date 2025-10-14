@@ -32,9 +32,8 @@ export function AuthDialog({ open, onOpenChange }) {
         >
             <DialogContent sx={style.dialogContent}>
                 {/* close dialog button */}
-                <IconButton onClick={()=>{onOpenChange(false)}} sx={{ position: 'absolute', top: 5,...(i18n.language==='en'?{right:5}:{left:5}) }}>
-                    <Close />
-                </IconButton>
+                
+                
                 {/* Left side - Character Image */}
                 <Box sx={style.leftSide}>
                     {/* Overlay gradient for smooth blending */}

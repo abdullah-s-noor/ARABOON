@@ -1,3 +1,4 @@
+
 const style = (theme, isPhone) => ({
     appBar: {
         //put background image here and make the navbar transparent
@@ -6,6 +7,7 @@ const style = (theme, isPhone) => ({
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#111", borderTop: `6px solid ${theme.palette.primary.main}`, boxShadow: "none",
+        zIndex: 10,
     },
     toolbar: { justifyContent: "space-between", px: 3, position: "relative" },
     yellowBar: {
