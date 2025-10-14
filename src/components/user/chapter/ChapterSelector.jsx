@@ -1,12 +1,18 @@
 import { FormControl, MenuItem, Select, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-function ChapterSelector() {
-  const chapters = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-const theme =useTheme()
+function ChapterSelector({ chaptersCount }) {
+  const theme = useTheme()
   const sm = useMediaQuery('(min-width:600px)');
-  const {i18n}=useTranslation()
+  const { i18n } = useTranslation()
+  const navigate = useNavigate()
+  const param = useParams()
+  const mangaID = param.mangaID
+  const chapterID = param.chapterID
+  const [searchParams] = useSearchParams();
+  const lang = searchParams.get("lang");
   return (
     <FormControl
       sx={{
@@ -14,12 +20,12 @@ const theme =useTheme()
         borderRadius: 2,
         overflow: "hidden",
         backgroundColor: "rgba(0, 0, 0, 0.2)",
-        ...(i18n.language==="en"?{mr:sm?"0px":"35px"}:{ml:sm?"0px":"35px"})
+        ...(i18n.language === "en" ? { mr: sm ? "0px" : "35px" } : { ml: sm ? "0px" : "35px" })
       }}
       size="small"
     >
       <Select
-        value={1}
+        value={chapterID}
         displayEmpty
         sx={{
           py: 0.5,
@@ -42,9 +48,11 @@ const theme =useTheme()
           },
         }}
       >
-        {chapters.map((chapter) => (
-          <MenuItem key={chapter} value={chapter}>
-            {chapter}
+        {[...Array(chaptersCount)].map((_, index) => (
+          <MenuItem key={index + 1} value={index + 1} onClick={() => {
+            navigate(`/manga/${mangaID}/chapter/${index + 1}?lang=${lang}`)
+          }}>
+            {index + 1}
           </MenuItem>
         ))}
       </Select>

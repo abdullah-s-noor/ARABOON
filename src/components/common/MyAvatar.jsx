@@ -124,7 +124,7 @@ export default function ProfileMenu() {
 
                 <Divider sx={{ my: 1 }} />
                 {/* Menu Items */}
-                <MenuItem onClick={()=>{handleClose(),navigate(`/${userData.UserName}`)}}>
+                <MenuItem onClick={()=>{handleClose();navigate(`/${userData.UserName}`)}}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>

@@ -9,6 +9,7 @@ import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import LogoLoader from "../../components/common/LogoLoader";
 
 const Home = () => {
     const count = [1, 2, 3];
@@ -90,8 +91,9 @@ const Home = () => {
     return (
         <>
             {
-                loading ? <Typography>loading homepage...</Typography> :
+                loading ?  <LogoLoader />:
                     <Box sx={style.container}>
+                       
                         <PromoBannerSwiper />
                         <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
                             {/* media card */}

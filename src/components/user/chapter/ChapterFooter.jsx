@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material'
 import React from 'react'
 
-function ChapterFooter({currentPage,totalPages}) {
+function ChapterFooter({ currentPage, totalPages }) {
   const theme = useTheme()
   return (
     <Box
@@ -22,7 +22,12 @@ function ChapterFooter({currentPage,totalPages}) {
 
       }}
     >
-      <Typography sx={{ m: "auto", color: "white" }}><Typography sx={{ fontWeight: "bold", display: "inline", fontSize: "20px" }}>{currentPage}</Typography>/{totalPages}</Typography>
+      <Typography sx={{ m: "auto", color: "white" }}>
+        <Typography component="span" sx={{ fontWeight: "bold", display: "inline", fontSize: "20px" }}>
+          {currentPage}
+        </Typography>
+        /{totalPages}
+      </Typography>
     </Box>
   )
 }

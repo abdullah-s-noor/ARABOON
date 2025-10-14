@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 import ChapterSelector from './ChapterSelector';
 import LanguageIcon from './LanguageIcons';
 import LanguageSelector from './LanguageSelector';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function ChapterNav() {
+function ChapterNav({selectedLanguage,mangaName,chaptersCount}) {
   const sm = useMediaQuery('(min-width:600px)');
   const theme = useTheme()
+  const navigate=useNavigate()
   const { i18n } = useTranslation()
-  const Logo = () => (<Box sx={{ display: "flex", alignItems: "center", position: 'relative' }}>
+  const Logo = () => (<Box sx={{ display: "flex", alignItems: "center", position: 'relative', cursor: 'pointer' }} onClick={() =>{navigate('/')}}>
     <img src={`/image/logo/${theme.palette.mode === 'dark' ? 6 : 5}.png`} alt="Logo" style={{ height: sm ? 96 : 64, marginRight: 8 }} />
     <img src="/image/logo/7.gif" style={{ height: sm ? 82.5 : 55, position: 'absolute', bottom: '0', ...(i18n.language === 'ar' && { left: 0 }) }} />
   </Box>)
@@ -43,19 +45,19 @@ function ChapterNav() {
               lineHeight: 1.2,
             }}
           >
-            Demon Slayer
+            {mangaName}
           </Typography>
-          <ChapterSelector />
+          <ChapterSelector chaptersCount={chaptersCount}/>
         </Box>
       </Box> :
         <>
           <Logo />
-          <ChapterSelector />
+          <ChapterSelector chaptersCount={chaptersCount}/>
         </>
       }
 
       {/* Right: Language Icon */}
-      <LanguageSelector />
+      <LanguageSelector  selectedLanguage={selectedLanguage}/>
     </Box>
 
   )

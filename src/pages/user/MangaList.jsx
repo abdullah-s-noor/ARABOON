@@ -4,6 +4,7 @@ import MangaListCardsPreview from '../../components/user/mangaList/MangaListCard
 import useMangaListFilter from '../../hooks/useMangaListFilter';
 import { useEffect } from 'react';
 import { api } from '../../services/api';
+import LogoLoader from '../../components/common/LogoLoader';
 
 function MangaList() {
   const {
@@ -20,7 +21,7 @@ function MangaList() {
   } = useMangaListFilter();
 
   if (isLoading) {
-    return <Box>Loading filters...</Box>
+    return <LogoLoader />;
   }
 
   return (
