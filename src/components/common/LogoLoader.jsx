@@ -8,7 +8,7 @@ export default function LoadingScreen() {
             sx={{
                 position: "fixed",
                 inset: 0,
-                zIndex: -11,
+                zIndex: 1,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

@@ -28,7 +28,7 @@ const Home = () => {
         },
         mediaCardWrapper: {
             width: { xs: '100%', md: '70%' },
-            height: '2000px',
+            height: "auto",
             p: '0px 20px',
             bgcolor: 'background.paper',
         },

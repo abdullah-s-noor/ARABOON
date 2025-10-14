@@ -113,5 +113,31 @@
         "delete": "حذف",
         "send": "إرسال",
         "cancel": "إلغاء"
+    },
+    "footer": {
+        "company": "الشركة",
+        "about_us": "عنّا",
+        "careers": "الوظائف",
+        "press": "الصحافة",
+        "contact": "تواصل معنا",
+        "legal": "الشؤون القانونية",
+        "privacy_policy": "سياسة الخصوصية",
+        "terms_of_service": "شروط الاستخدام",
+        "content_ratings": "تصنيفات المحتوى",
+        "copyrights": "حقوق النشر",
+        "support": "الدعم",
+        "help_center": "مركز المساعدة",
+        "community_guidelines": "إرشادات المجتمع",
+        "news_events": "الأخبار والفعاليات",
+        "documentation": "التوثيق",
+        "products": "المنتجات",
+        "services": "الخدمات",
+        "features": "الميزات",
+        "pricing": "الأسعار",
+        "api": "واجهة API",
+        "visit_us": "قم بزيارتنا على",
+        "all_rights_reserved": "جميع الحقوق محفوظة.",
+        "trademark": "علامة ARABOON هي علامة تجارية مسجلة لشركة Araboon Inc.",
+        "serviceDescription": "تشير هذه الخدمة إلى أنها منصة توزيع معتمدة حصلت على إذن رسمي من أصحاب حقوق النشر."
     }
 }
