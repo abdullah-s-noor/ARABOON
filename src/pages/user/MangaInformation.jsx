@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { api } from '../../services/api'
 import { useTranslation } from 'react-i18next'
+import LogoLoader from '../../components/common/LogoLoader'
 function MangaInformation() {
     const { i18n } = useTranslation()
     const params = useParams()
@@ -43,7 +44,7 @@ function MangaInformation() {
     return (
         <>
             {
-                loading ? <Typography>loading mangaInfo ....</Typography> :
+                loading ? <LogoLoader /> :
                     <Box
                         component={'div'}
                         sx={{

@@ -1,7 +1,6 @@
 import { Avatar, Box, Chip, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import CoverImage from '../../components/user/profile/coverImage/CoverImage'
 import React, { useContext, useEffect, useState } from 'react'
-import MyAvatar from '../../components/common/MyAvatar'
 import ProfileImage from '../../components/user/profile/profileImage/ProfileImage'
 import { DateRange } from '@mui/icons-material'
 import LibraryStats from '../../components/user/profile/LibraryStats'
@@ -11,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import FavoritesCategories from '../../components/user/profile/FavoritesCategories'
 import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
+import LogoLoader from '../../components/common/LogoLoader'
 
 function Profile() {
     const navigate=useNavigate()
@@ -43,6 +43,7 @@ function Profile() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true)
                 const { data } = await api.get(`/users/profile/${currentUsername}`)
                 console.log(data.data)
                 setProfileData(data.data)
@@ -65,11 +66,11 @@ function Profile() {
             }
         }
         fetchData()
-    }, [i18n.language])
+    }, [i18n.language,useParams().username])
     return (
         <>
             {
-                loading ? <Typography>loading profile data</Typography> :
+                loading ? <LogoLoader /> :
                     <>
                         <Box sx={style.container}>
                             <Box sx={{ maxWidth: '1200px', mx: 'auto' }}>
