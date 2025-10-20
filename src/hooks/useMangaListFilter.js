@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 const useMangaListFilter = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-
+    
     // State to hold the available genre options.
     const [genreOptions, setGenreOptions] = useState([]);
 
@@ -80,6 +80,7 @@ const useMangaListFilter = () => {
 
     // This effect syncs the state changes back to the URL.
     useEffect(() => {
+        
         // Only update the URL if not in a loading state.
         if (!isLoading) {
             const params = {
@@ -89,7 +90,7 @@ const useMangaListFilter = () => {
             };
             setSearchParams(params);
         }
-    }, [selectedStatus, selectedGenre, selectedSort, isLoading, setSearchParams]);
+    }, [selectedStatus, selectedGenre, selectedSort, isLoading]);
 
     return {
         isLoading, // Return the loading state for conditional rendering

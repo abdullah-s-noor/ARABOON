@@ -2,7 +2,7 @@ import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { validations } from './shared/validations';
+import { getValidations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { registerFields } from './shared/formFields';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
 function Register({ setMode }) {
   const { t } = useTranslation()
+  const validations=getValidations(t)
   const theme = useTheme()
   const [serverError, setServerError] = useState(null);
   const style = styles(theme)
@@ -29,7 +30,7 @@ function Register({ setMode }) {
       setServerError,
       setSubmitting,
       successMessage: 'Registration successful! Please log in.',
-      setMode,nextMode:'login'
+      setMode,nextMode:'login',login:null
     });
   };
 

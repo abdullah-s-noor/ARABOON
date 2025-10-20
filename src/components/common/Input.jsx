@@ -11,8 +11,8 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
     const { i18n, t } = useTranslation()
-    const {userToken}=useContext(UserContext)
-    const theme =useTheme()
+    const { userToken } = useContext(UserContext)
+    const theme = useTheme()
     //to change the color of icons in dark&light in disable
     const getIconColor = () => {
         if (disabled) {
@@ -31,10 +31,20 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
     return (
         <>
             <Box>
-                <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: disabled?"text.primary":"text.secondary"  }}>
+                <InputLabel htmlFor="email" sx={{ mb: .5, fontSize: '14px', color: disabled ? "text.primary" : "text.secondary" }}>
                     {t(`formFields.${name}`)}
                 </InputLabel>
                 <TextField
+                    autoComplete={
+                        type === "password"
+                            ? (name === "password" || name === "newPassword" || name === "confirmPassword" ? "new-password" : "current-password")
+                            : type === "email"
+                                ? "email"
+                                : name === "userName"
+                                    ? "userName"
+                                    : undefined
+                    }
+
                     type={type === 'password' && showPassword ? 'text' : type}
                     id={id}
                     name={name}
@@ -67,9 +77,11 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                     sx={{
                         "& .MuiFormLabel-root.Mui-error": {
                             color: "#f87171", // أحمر فاتح للـ label error
+
                         },
                         "& .MuiFormHelperText-root.Mui-error": {
                             color: "#f87171", // نفس اللون للـ error text
+                            textAlign: i18n.language === "en" ? "left" : "right"
                         },
 
                         "& .MuiOutlinedInput-root": {
@@ -105,8 +117,9 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                             color: "#94a3b8",
                         },
                         boxSizing: "border-box",
-                        "& .MuiOutlinedInput-input": { padding: userToken?"18px 0px" :"6px 0px" },
+                        "& .MuiOutlinedInput-input": { padding: userToken ? "18px 0px" : "6px 0px" },
                     }}
+
 
                 />
             </Box>

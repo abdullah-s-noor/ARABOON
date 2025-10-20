@@ -1,53 +1,53 @@
 // src/components/auth/validationSchemas.js
 import * as yup from "yup";
 
-// common rules
-const firstName = yup
+export const getValidations = (t) => {
+  // common rules
+  const firstName = yup
     .string()
-    .required("First name is required")
-    .min(2, "First name must be at least 2 characters")
-    .max(30, "First name cannot exceed 30 characters");
+    .required(t("authValidation.first_name_required"))
+    .min(2, t("authValidation.first_name_min"))
+    .max(30, t("authValidation.first_name_max"));
 
-const lastName = yup
+  const lastName = yup
     .string()
-    .required("Last name is required")
-    .min(2, "Last name must be at least 2 characters")
-    .max(30, "Last name cannot exceed 30 characters");
+    .required(t("authValidation.last_name_required"))
+    .min(2, t("authValidation.last_name_min"))
+    .max(30, t("authValidation.last_name_max"));
 
-const userName = yup
+  const userName = yup
     .string()
-    .required("Username is required")
-    .min(3, "Username must be at least 3 characters")
-    .max(30, "Username cannot exceed 30 characters");
+    .required(t("authValidation.username_required"))
+    .min(3, t("authValidation.username_min"))
+    .max(30, t("authValidation.username_max"));
 
-
-const email = yup
+  const email = yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required");
+    .email(t("authValidation.email_invalid"))
+    .required(t("authValidation.email_required"));
 
-const currentPassword = yup
+  const currentPassword = yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters");
+    .required(t("authValidation.current_password_required"))
+    .min(8, t("authValidation.current_password_min"));
 
-
-const password = yup
+  const password = yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters");
+    .required(t("authValidation.password_required"))
+    .min(8, t("authValidation.password_min"));
 
-const confirmPassword = yup
+  const confirmPassword = yup
     .string()
-    .required("Confirm Password is required")
-    .oneOf([yup.ref("password"), null], "Passwords must match");
+    .required(t("authValidation.confirm_password_required"))
+    .oneOf([yup.ref("password"), null], t("authValidation.confirm_password_match"));
 
-// schemas
-export const validations = {
+  // schemas
+  return {
     login: yup.object({ userName, password }),
     register: yup.object({ firstName, lastName, userName, email, password, confirmPassword }),
     forgetPassword: yup.object({ email }),
     resetPassword: yup.object({ password, confirmPassword }),
-    userInformation:yup.object({ firstName, lastName, userName, email }),
-    changePassword:yup.object({currentPassword,password,confirmPassword})
+    userInformation: yup.object({ firstName, lastName, userName, email }),
+    changePassword: yup.object({ currentPassword, password, confirmPassword }),
+  };
 };

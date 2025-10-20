@@ -5,10 +5,15 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import GeneralMangaCard from './GeneralMangaCard';
 import { useTranslation } from 'react-i18next';
 import usePhone from '../../hooks/usePhone';
+import NoDataBox from './NoDataBox';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function GeneralPreviewCards({ mangas, loading, pageNumber,count,setPageNumber,hasNextPage ,pageSize}) {
+function GeneralPreviewCards({ mangas, loading, pageNumber, count, setPageNumber, hasNextPage, pageSize, setSelectedForDeletion = null }) {
     const { t } = useTranslation();
     const { isMobile, isTablet } = usePhone();
+
+
+    const navigate = useNavigate();
     const skeletonStyle = {
         h: { xs: "150px", sm: "225px", md: "345px" },
         w: { xs: "100px", sm: "150px", md: "230px" },
@@ -44,14 +49,14 @@ function GeneralPreviewCards({ mangas, loading, pageNumber,count,setPageNumber,h
                         >
                             {
                                 mangas?.map((manga, index) => (
-                                    <GeneralMangaCard key={index} mangaData={manga} />
+                                    <GeneralMangaCard key={index} mangaData={manga} setSelectedForDeletion={setSelectedForDeletion} />
                                 ))
                             }
                         </InfiniteScroll>
                         ) :
-                        (<Typography sx={{ fontSize: { xs: 18, sm: 22, md: 25 } }}>
-                            {t("noData")}
-                        </Typography>)
+                        (
+                            <NoDataBox/>
+                        )
             }
         </>
 

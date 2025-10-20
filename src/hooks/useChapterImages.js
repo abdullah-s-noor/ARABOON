@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { api } from "../services/api";
 import { useMediaQuery } from "@mui/material";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -12,14 +12,9 @@ const useChapterImages = ({ baseUrl }) => {
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams();
     const selectedLanguage = searchParams.get("lang") || "en"
-    const [chapterInfo, setChapterInfo] = useState({
-        totalPages: 0,
-        pages: [],
-        mangaName: "",
-        chaptersCount: 0,
-        chapterId:-1,
-    });
-
+    const [chapterData, setChapterData] = useState(null);
+    const chapterInfo=useMemo(()=>(chapterData?chapterData:null),[chapterData])
+    const [view,setView]=useState(null)
     useEffect(() => {
         if (loading) return;
         const observer = new IntersectionObserver(
@@ -56,8 +51,9 @@ const useChapterImages = ({ baseUrl }) => {
                 setLoading(true)
                 const { data } = await api.get(`${baseUrl}&Language=${selectedLanguage}`);
                 console.log(data)
-                setChapterInfo({ pages: data.data.images, totalPages: data.meta.imagesCount, chaptersCount: data.meta.chaptersCount, mangaName: data.meta.mangaName,chapterId:data.data.chapterId });
-
+                
+                setChapterData({ pages: data.data.images, totalPages: data.meta.imagesCount, chaptersCount: data.meta.chaptersCount, mangaName: data.meta.mangaName,chapterId:data.data.chapterId,languageAvailable:{isArabic:data.data.isArabic,isEnglish:data.data.isEnglish} });
+                setView({markAsRead:data.data.isView,isView:false})
             } catch (error) {
                 if (error?.response?.status === 404) {
                     navigate('/not-found')
@@ -73,7 +69,7 @@ const useChapterImages = ({ baseUrl }) => {
             if (elem) elem.style.display = "flex";
         }
     }, [searchParams,useParams().chapterID]);
-    return { currentPage, chapterInfo, loading, containerRef, selectedLanguage };
+    return { currentPage, chapterInfo, loading, containerRef, selectedLanguage,view,setView };
 
 }
 export default useChapterImages

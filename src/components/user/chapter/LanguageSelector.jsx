@@ -12,12 +12,13 @@ import LanguageIcon from './LanguageIcons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const languages = [
-  { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦" },
-  { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
-];
 
-export default function LanguageSelector({ selectedLanguage }) {
+export default function LanguageSelector({ selectedLanguage ,languageAvailable}) {
+  const languages = [
+  languageAvailable.isArabic && { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦" },
+  languageAvailable.isEnglish && { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
+].filter(Boolean);
+  console.log(languages)
   const {i18n,t}=useTranslation()
   const navigate = useNavigate()
   const param = useParams()
@@ -30,7 +31,7 @@ export default function LanguageSelector({ selectedLanguage }) {
   const currentLanguage = languages.find((lang) => lang.code === selectedLanguage) || languages[0];
 
   const onLanguageChange = (code) => {
-    navigate(`/manga/${mangaID}/chapter/${chapterID}?lang=${code}`)
+    navigate(`/manga/${mangaID}/chapter/${1}?lang=${code}`)
   };
 
   const handleClick = (event) => {

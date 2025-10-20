@@ -1,21 +1,22 @@
 import { Box, useMediaQuery } from '@mui/material';
 import ChapterFooter from '../../components/user/chapter/ChapterFooter';
 import ChapterNav from '../../components/user/chapter/ChapterNav';
-import React, { use, useContext, useEffect, useRef, useState } from 'react'
+import React, { use, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { api } from '../../services/api';
 import useChapterImages from '../../hooks/useChapterImages';
 import LogoLoader from '../../components/common/LogoLoader';
 import { UserContext } from '../../context/UserContext';
+import ChapterPagesPreview from '../../components/user/chapter/ChapterPagesPreview';
 
 function Chapter() {
-    const {userToken}=useContext(UserContext)
+    const { userToken } = useContext(UserContext)
     const param = useParams()
     const sm = useMediaQuery('(min-width:600px)');
     const mangaID = param.mangaID;
     const chapterNum = param.chapterID;
     const [open, setOpen] = useState(false)
-    const { currentPage, loading, containerRef, chapterInfo, selectedLanguage } = useChapterImages({ baseUrl: `/Chapters/images?MangaId=${mangaID}&ChapterNo=${chapterNum}` });
+    const { currentPage, loading, containerRef, chapterInfo, selectedLanguage, view, setView } = useChapterImages({ baseUrl: `/Chapters/images?MangaId=${mangaID}&ChapterNo=${chapterNum}` });
     useEffect(() => {
         const navElem = document.querySelector('[navbar-name="chapter-nav"]');
         const footerElem = document.querySelector('[footer-name="chapter-footer"]');
@@ -35,20 +36,23 @@ function Chapter() {
         }
     }, [open, sm, loading])
     useEffect(() => {
-        const markAsRead = async () => {
-            try {
-                const { data } = await api.post('/ChapterView/MarkAsRead', {
+        const handleLastPage = async () => {
+            const [icreaseView, markAsRead] = await Promise.all([
+                (!view.isView ? api.post(`/Chapters/read`, { chapterId: chapterInfo.chapterId }) : null),
+                ((!view.markAsRead && userToken) ? api.post('/ChapterView/MarkAsRead', {
                     mangaID: mangaID,
                     chapterID: chapterInfo.chapterId
-                })
-                console.log(data)
-            } catch (error) {
-                console.error("Failed to mark chapter as read", error);
+                }) : null)
+            ]);
+            console.log(icreaseView)
+            console.log(markAsRead)
+            if (markAsRead || icreaseView) {
+                setView({ markAsRead: true, isView: true })
             }
         }
-        console.log(currentPage, " ", chapterInfo.totalPages)
-        if (currentPage === chapterInfo.totalPages &&userToken) {
-            markAsRead();
+        console.log(currentPage, " ", chapterInfo?.totalPages)
+        if (!loading && currentPage === chapterInfo?.totalPages) {
+            handleLastPage();
         }
     }, [currentPage])
     if (loading) {
@@ -66,33 +70,9 @@ function Chapter() {
                     overflow: "hidden"
                 }}
             >
-                <ChapterNav selectedLanguage={selectedLanguage} mangaName={chapterInfo.mangaName} chaptersCount={chapterInfo.chaptersCount} />
+                <ChapterNav languageAvailable={chapterInfo.languageAvailable} selectedLanguage={selectedLanguage} mangaName={chapterInfo.mangaName} chaptersCount={chapterInfo.chaptersCount} />
                 {/* Main Content Area */}
-                <Box
-                    ref={containerRef}
-                    sx={{
-                        flexGrow: 1,
-                        p: 2,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 1,
-                        overflowY: "auto",
-                    }}
-                    onClick={() => setOpen((prev) => !prev)}
-                >
-                    {chapterInfo.pages.map((image, index) => (
-                        <Box
-                            key={index}
-                            component="img"
-                            src={image}
-                            maxWidth="800px"
-                            width="100%"
-                            data-index={index}
-                            loading="lazy"
-                        />
-                    ))}
-                </Box>
+                <ChapterPagesPreview containerRef={containerRef} setOpen={setOpen} pages={chapterInfo.pages}/>
                 <ChapterFooter currentPage={currentPage} totalPages={chapterInfo.totalPages} />
             </Box>
         </>

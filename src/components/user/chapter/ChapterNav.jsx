@@ -6,7 +6,7 @@ import LanguageIcon from './LanguageIcons';
 import LanguageSelector from './LanguageSelector';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function ChapterNav({selectedLanguage,mangaName,chaptersCount}) {
+function ChapterNav({languageAvailable,selectedLanguage,mangaName,chaptersCount}) {
   const sm = useMediaQuery('(min-width:600px)');
   const theme = useTheme()
   const navigate=useNavigate()
@@ -57,10 +57,10 @@ function ChapterNav({selectedLanguage,mangaName,chaptersCount}) {
       }
 
       {/* Right: Language Icon */}
-      <LanguageSelector  selectedLanguage={selectedLanguage}/>
+      <LanguageSelector languageAvailable={languageAvailable}  selectedLanguage={selectedLanguage}/>
     </Box>
 
   )
 }
 
-export default ChapterNav
+export default React.memo(ChapterNav)

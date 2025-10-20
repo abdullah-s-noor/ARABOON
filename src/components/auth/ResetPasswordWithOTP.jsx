@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { useFormik } from 'formik';
-import { validations } from './shared/validations';
+import { getValidations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { resetPasswordFields } from './shared/formFields';
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
 function ResetPasswordWithOTP({ setMode, emailForReset }) {
     const { t, i18n } = useTranslation()
+    const validations=getValidations(t)
     const [tokenForReset, setTokenForReset] = useState(null)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -37,7 +38,7 @@ function ResetPasswordWithOTP({ setMode, emailForReset }) {
             setServerError,
             setSubmitting,
             successMessage: 'Reset password successfully.',
-            setMode,nextMode:'login'
+            setMode,nextMode:'login',login:null,t:t
         });
     };
 
@@ -46,7 +47,7 @@ function ResetPasswordWithOTP({ setMode, emailForReset }) {
             setResendLoading(true)
             setTokenForReset(null)
             const { data } = await api.post('/Authentication/SendForgetPasswordEmail', { email: emailForReset });
-            toast.success("A new code has been sent to your email.")
+            toast.success(t("new_code_sent"));
         } catch (error) {
             console.log(error)
         } finally {
@@ -84,8 +85,8 @@ function ResetPasswordWithOTP({ setMode, emailForReset }) {
                 {/* Bottom text */}
                 {!tokenForReset && <Typography variant="body2" sx={{ textAlign: 'center', color: "#94a3b8", }}
                     onClick={() => { !resendLoading&&handleReset() }}>
-                    {t('forgot.no_code')}{' '}
-                    <Typography component="span" sx={style.resend}>{t('forgot.resend')} </Typography>
+                    {t('reset.no_code')}{' '}
+                    <Typography component="span" sx={style.resend}>{t('reset.resend')} </Typography>
                 </Typography>}
 
                 <MuiLink variant="body2" component={RouterLink} to="" sx={{ ...style.signInBack, mt: 1 }} onClick={() => { setMode('login') }}>

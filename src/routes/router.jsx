@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/manga/:mangaID/chapter/:chapterID",
-                // element:<Chapter/>
+                element:<Chapter/>
             },
             
             {

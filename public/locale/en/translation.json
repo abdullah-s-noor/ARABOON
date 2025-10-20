@@ -1,6 +1,8 @@
 {
+    
     "Welcome to React": "Welcome to React and react-i18next",
     "manga list": "Manga List",
+    "chapter_list": "Chapter List",
     "ranking": "Ranking",
     "about us": "About Us",
     "home": "Home",
@@ -36,6 +38,9 @@
     "updated_on": "Updated on",
     "status": "Status",
     "description": "Description",
+    "tap_to_rate": "Tap to Rate:",
+    "account_not_confirmed": "Your account is not confirmed. Please check your email now to confirm your account.",
+    "new_code_sent": "A new code has been sent to your email.",
     "formFields": {
         "firstName": "First Name",
         "lastName": "Last Name",
@@ -50,6 +55,7 @@
         "confirmPassword": "Confirm Password",
         "enter_confirmPassword": "Enter your Confirm Password",
         "bio": "Bio",
+        "enter_bio": "Enter Bio",
         "currentPassword": "Current Password",
         "enter_currentPassword": "Enter your Current Password"
     },
@@ -82,6 +88,25 @@
         "no_code": "Don’t have a code?",
         "resend": "Resend",
         "return_to_signin": "Return to sign in"
+    },
+    "authValidation": {
+        "first_name_required": "First name is required",
+        "first_name_min": "First name must be at least 2 characters",
+        "first_name_max": "First name cannot exceed 30 characters",
+        "last_name_required": "Last name is required",
+        "last_name_min": "Last name must be at least 2 characters",
+        "last_name_max": "Last name cannot exceed 30 characters",
+        "username_required": "Username is required",
+        "username_min": "Username must be at least 3 characters",
+        "username_max": "Username cannot exceed 30 characters",
+        "email_invalid": "Invalid email format",
+        "email_required": "Email is required",
+        "current_password_required": "Password is required",
+        "current_password_min": "Password must be at least 8 characters",
+        "password_required": "Password is required",
+        "password_min": "Password must be at least 8 characters",
+        "confirm_password_required": "Confirm Password is required",
+        "confirm_password_match": "Passwords must match"
     },
     "profile": {
         "profile": "Profile",
@@ -140,5 +165,77 @@
         "all_rights_reserved": "All rights reserved.",
         "trademark": "ARABOON Mark is a registered trademark of Araboon Inc.",
         "serviceDescription": "Indicating that this service is an authorized distribution service that gained permission to use content from the copyright holder."
+    },
+    "libraryMangaInfo": {
+        "title": "Add to Library",
+        "subtitle": "Manage your reading lists",
+        "active_count": "active {{count}}",
+        "notifications": {
+            "title": "Notifications",
+            "add": "Get notified of updates",
+            "remove": "Stop notifications"
+        },
+        "favorite": {
+            "title": "Favorite",
+            "add": "Add to favorites",
+            "remove": "Remove from favorites"
+        },
+        "completed": {
+            "title": "Completed",
+            "add": "Mark as completed",
+            "remove": "Unmark as completed"
+        },
+        "reading_later": {
+            "title": "Reading Later",
+            "add": "Save for later",
+            "remove": "Remove from saved list"
+        },
+        "currently_reading": {
+            "title": "Currently Reading",
+            "add": "Add to current reads",
+            "remove": "Remove from current reads"
+        }
+    },
+    "no_data": {
+        "search": {
+            "title": "No Manga Found",
+            "subtitle": "Try different keywords or browse HomePage",
+            "action": "Browse HomePage"
+        },
+        "error": {
+            "title": "No Manga Found",
+            "subtitle": "Try different filters or browse all genres",
+            "action": "Browse All Genres"
+        },
+        "favorites": {
+            "title": "No Favorites Yet",
+            "subtitle": "Add mangas to your favorites to see them here",
+            "action": "Return to HomePage"
+        },
+        "reading_later": {
+            "title": "No Reading Later Yet",
+            "subtitle": "Add mangas to your reading later to see them here",
+            "action": "Return to HomePage"
+        },
+        "notifications": {
+            "title": "No Notifications Yet",
+            "subtitle": "Add mangas to your notifications to see them here",
+            "action": "Return to HomePage"
+        },
+        "completed_reads": {
+            "title": "No Completed Reads Yet",
+            "subtitle": "Add mangas to your completed reads to see them here",
+            "action": "Return to HomePage"
+        },
+        "currently_reading": {
+            "title": "No Currently Reading Yet",
+            "subtitle": "Add mangas to your currently reading to see them here",
+            "action": "Return to HomePage"
+        }
+    },
+    "not_found": {
+        "error_code": "Error Code: 404",
+        "title": "Page Not Found",
+        "description": "The page you're looking for doesn't exist or has been moved."
     }
 }

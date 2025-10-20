@@ -21,7 +21,7 @@ import { toast } from "react-toastify"
 import usePhone from "../../../../hooks/usePhone"
 import { useTranslation } from "react-i18next"
 
-export default function ProfilePage({ originalImage, croppedImage }) {
+export default function ProfilePage({isMyAccount, originalImage, croppedImage }) {
     const [coverImage, setCoverImage] = useState(croppedImage || null)
     const [originalCoverImage, setOriginalCoverImage] = useState(originalImage || null)
     const [isEditingCover, setIsEditingCover] = useState(false)
@@ -111,7 +111,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
             
             setIsEditingCover(false)
             setTempImageForCrop(null)
-            toast.success("Cover image updated successfully!")
+            toast.success(i18n.language==="en"?"Cover image updated successfully!":"تم تحديث صورة الغلاف بنجاح!")
         } catch (error) {
             const errorMessage = error?.response?.data?.errors?.['OriginalImage.Length']?.[0] || "An error occurred."
             toast.error(errorMessage)
@@ -151,7 +151,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
                 }}
             />
 
-            <Box sx={{ position: "absolute", top: 16, ...(i18n.language === 'en' ? { left: 16 } : { right: 16 }) }}>
+            {isMyAccount&&<Box sx={{ position: "absolute", top: 16, ...(i18n.language === 'en' ? { left: 16 } : { right: 16 }) }}>
                 <Button
                     variant="contained"
                     size="small"
@@ -168,7 +168,7 @@ export default function ProfilePage({ originalImage, croppedImage }) {
                 >
                     <Camera sx={{ mx: 1 }} /> {t("profile.edit_cover")}
                 </Button>
-            </Box>
+            </Box>}
 
             <Menu
                 anchorEl={menuAnchorEl}
