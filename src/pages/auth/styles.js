@@ -1,13 +1,13 @@
-import { Palette } from "lucide-react";
 
-export const styles = (theme) => ({
+export const styles = (theme,isPhone) => ({
     dialogPaper: {
         border: theme.palette.mode==='dark'?"1px solid rgba(183, 28, 28, 0.30)":"1px solid rgba(12, 112, 122, 0.30)",
         borderRadius: 2,
         overflow: "hidden",
         maxWidth: "90rem",
         width: "900px",
-        maxHeight: "100vh",
+        
+        ...(isPhone?{height:"100%"}:{maxHeight: "100vh"}),
         m: 0,
         p: 0,
     },

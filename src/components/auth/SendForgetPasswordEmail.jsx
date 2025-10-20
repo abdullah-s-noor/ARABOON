@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { useFormik } from 'formik';
-import { validations } from './shared/validations';
+import { getValidations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { forgetPasswordFields } from './shared/formFields';
@@ -12,6 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
     const {t,i18n}=useTranslation()
+    const validations=getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -25,7 +26,7 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
             const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
             console.log("sendEmail",data)
             setEmailForReset(values.email)
-            toast.success('Verification code sent successfully.');
+            toast.success(data.message);
             setMode('sendcode')
         } catch (error) {
             console.log(error)

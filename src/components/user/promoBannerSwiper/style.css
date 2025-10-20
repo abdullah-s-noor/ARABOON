@@ -9,7 +9,6 @@
 }
 
 .promo-banner-swiper .swiper-pagination-bullet {
-    background-color: #444;
     opacity: 1;
     width: 15px;
     height: 15px;
@@ -17,9 +16,18 @@
     transition: all 0.3s ease;
     
 }
+/* English language (LTR) */
+.promo-banner-swiper.dark .swiper-pagination-bullet {
+  background-color: #444 ;
+}
+
+/* Arabic language (RTL) */
+.promo-banner-swiper.light .swiper-pagination-bullet {
+    background-color: #888 ;
+}
 
 .promo-banner-swiper .swiper-pagination-bullet-active {
-    background-color: #FFD700;
+    background-color: #FFD700 !important;
     width: 25px;
     border-radius: 30px;
 }

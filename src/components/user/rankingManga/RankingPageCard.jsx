@@ -2,6 +2,7 @@ import { Whatshot } from '@mui/icons-material'
 import { Box, Card, CardContent, CardMedia, Typography, useTheme } from '@mui/material'
 import useIsPhone from '../../../hooks/usePhone'
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function RankingPageCard({ mangaData,rate }) {
     const {isPhone} = useIsPhone()
@@ -73,9 +74,11 @@ function RankingPageCard({ mangaData,rate }) {
             fontSize: { xs: 10, sm: 13 }
         },
     }
+    const navigate=useNavigate()
     return (
         <Card
             sx={style.card}
+            onClick={()=>{navigate(`/manga/${mangaData.mangaID}`)}}
         >
             <CardMedia
                 component="img"

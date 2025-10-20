@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
 import { api } from "../../../services/api"; 
 import { toast } from "react-toastify";
 
 export const useInfoOnSubmit = async (values, getModifiedFields, setIsEdit, setUserInfo,setServerError,setLoading) => {
     setLoading(true)
     const modifiedFields = getModifiedFields();
-
+    const {i18n}=useTranslation()
     if (modifiedFields.length === 0) {
         setIsEdit(false);
         setServerError(null)
@@ -40,7 +41,7 @@ export const useInfoOnSubmit = async (values, getModifiedFields, setIsEdit, setU
 
         setUserInfo(values)
 
-        toast.success("Profile updated successfully!");
+        toast.success(i18n.language==="en"?"Profile updated successfully!":"تم تحديث الملف الشخصي بنجاح!");
         setIsEdit(false);
         setServerError(null)
     } catch (error) {

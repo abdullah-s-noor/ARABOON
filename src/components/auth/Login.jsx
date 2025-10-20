@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik';
-import { validations } from './shared/validations';
+import { getValidations } from './shared/validations';
 import { styles } from './styles';
 import RenderFields from './shared/RenderFields';
 import { loginFields } from './shared/formFields';
@@ -11,6 +11,7 @@ import { UserContext } from '../../context/UserContext';
 function Login({ setMode }) {
     const { userToken, login, userData,contextLoading } = useContext(UserContext)
     const { t } = useTranslation()
+    const validations=getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -26,7 +27,7 @@ function Login({ setMode }) {
             setServerError,
             setSubmitting,
             successMessage: 'Signin successful!.',
-            setMode, nextMode: 'close', login:login
+            setMode, nextMode: 'close', login:login,t:t
         });
         console.log("userToken",userToken)
         console.log("userData",userData)

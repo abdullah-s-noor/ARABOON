@@ -2,16 +2,18 @@ import { Button, Card, CardActionArea, CardContent, CardMedia, IconButton, Typog
 import useIsPhone from '../../hooks/usePhone'
 import React, { useState } from 'react'
 import { BookmarkRemove, Delete } from '@mui/icons-material'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
     const { isPhone } = useIsPhone()
     const location = useLocation();
+    const navigate=useNavigate();
     //for library page
     const isLibraryPage = location.pathname.startsWith('/library')
     //style
     const style = {
         card: {
+            cursor: 'pointer',
             background:'transparent',
             position: "relative",
             maxWidth: { xs: 100, sm: 150, md: 230 },
@@ -90,17 +92,18 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
     }
     return (
         <>
-            <Card sx={style.card}>
+            <Card sx={style.card} >
                 <IconButton size="small" color="error" className="delete-btn"
                     onClick={() => { setSelectedForDeletion(mangaData) }}
                     sx={style.BookMark}
 
                 >
-                    <Delete fontSize="small" />
+                    <Delete fontSize="small" sx={{zIndex:20}}/>
                 </IconButton>
 
                 <CardActionArea
                     sx={style.cardAction}
+                    onClick={() => {navigate(`/manga/${mangaData.mangaID}`)}}
                 >
                     <CardMedia
                         component="img"
@@ -109,7 +112,9 @@ function GeneralMangaCard({ mangaData, setSelectedForDeletion = null }) {
                         sx={style.img}
                     />
                 </CardActionArea>
-                <CardContent sx={{ bgcolor: 'background.default'  }}>
+                <CardContent sx={{ bgcolor: 'background.default'  }}
+                onClick={() => {navigate(`/manga/${mangaData.mangaID}`)}}
+                >
                     <Typography gutterBottom variant="body1" component="div"
                         sx={style.title}
                         className='title'

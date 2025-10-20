@@ -9,45 +9,45 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
     const theme = useTheme()
-    const { i18n } = useTranslation()
+    const { i18n ,t} = useTranslation()
     const [keyLoading, setKeyLoading] = useState(null)
     const libraryItems = [
-        {
-            key: "Favorites",
-            label: "Favorite",
-            icon: <Heart size="16px" style={{ color: red[500] }} />,
-            descriptionAdd: "Add to favorites",
-            descriptionRemove: "Remove from favorites",
-        },
-        {
-            key: "Notifications",
-            label: "Notifications",
-            icon: <Bell size="16px" style={{ color: blue[500] }} />,
-            descriptionAdd: "Get notified of updates",
-            descriptionRemove: "Stop notifications",
-        },
-        {
-            key: "ReadingLater",
-            label: "Reading Later",
-            icon: <Clock size="16px" style={{ color: yellow[900] }} />,
-            descriptionAdd: "Save for later",
-            descriptionRemove: "Remove from saved list",
-        },
-        {
-            key: "CompletedReads",
-            label: "Completed",
-            icon: <CheckCircle size="16px" style={{ color: green[500] }} />,
-            descriptionAdd: "Mark as completed",
-            descriptionRemove: "Unmark as completed",
-        },
-        {
-            key: "CurrentlyReading",
-            label: "Currently Reading",
-            icon: <BookOpen size="16px" style={{ color: theme.palette.primary.main }} />,
-            descriptionAdd: "Add to current reads",
-            descriptionRemove: "Remove from current reads",
-        },
-    ];
+    {
+      key: "Favorites",
+      label: t("libraryMangaInfo.favorite.title"),
+      icon: <Heart size="16px" style={{ color: red[500] }} />,
+      descriptionAdd: t("libraryMangaInfo.favorite.add"),
+      descriptionRemove: t("libraryMangaInfo.favorite.remove"),
+    },
+    {
+      key: "Notifications",
+      label: t("libraryMangaInfo.notifications.title"),
+      icon: <Bell size="16px" style={{ color: blue[500] }} />,
+      descriptionAdd: t("libraryMangaInfo.notifications.add"),
+      descriptionRemove: t("libraryMangaInfo.notifications.remove"),
+    },
+    {
+      key: "ReadingLater",
+      label: t("libraryMangaInfo.reading_later.title"),
+      icon: <Clock size="16px" style={{ color: yellow[900] }} />,
+      descriptionAdd: t("libraryMangaInfo.reading_later.add"),
+      descriptionRemove: t("libraryMangaInfo.reading_later.remove"),
+    },
+    {
+      key: "CompletedReads",
+      label: t("libraryMangaInfo.completed.title"),
+      icon: <CheckCircle size="16px" style={{ color: green[500] }} />,
+      descriptionAdd: t("libraryMangaInfo.completed.add"),
+      descriptionRemove: t("libraryMangaInfo.completed.remove"),
+    },
+    {
+      key: "CurrentlyReading",
+      label: t("libraryMangaInfo.currently_reading.title"),
+      icon: <BookOpen size="16px" style={{ color: theme.palette.primary.main }} />,
+      descriptionAdd: t("libraryMangaInfo.currently_reading.add"),
+      descriptionRemove: t("libraryMangaInfo.currently_reading.remove"),
+    },
+  ];
 
     const activeCount = Object.values(libraryStatus).filter(Boolean).length
 
@@ -97,7 +97,7 @@ function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
                                 fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                             }}
                         >
-                            Add to Library
+                            {t("libraryMangaInfo.title")}
                         </Typography>
                         <Typography
                             variant="body2"
@@ -107,10 +107,10 @@ function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
                                 mt: 0.5,
                             }}
                         >
-                            Manage your reading lists
+                            {t("libraryMangaInfo.subtitle")}
                         </Typography>
                     </Box>
-                    <Chip label={`${activeCount} active`}
+                    <Chip label={t("libraryMangaInfo.active_count", { count: activeCount })}
                         size="small"
                         sx={{
                             backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#e3f2fd",
@@ -130,7 +130,7 @@ function MangaSectionsSidebar({libraryStatus,setLibraryStatus,mangaID}) {
                                     onClick={() => { toggleItemStatus(item.key) }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', }}>
                                         <Box sx={{ p: 1, borderRadius: '6px', display: "flex", alignItems: 'center', background: isActive ? theme.palette.mode === 'dark' ? red[300] : blue[300] : theme.palette.mode === 'dark' ? "#000" : "#fff" }}>
-                                            {keyLoading === item.key ? <Loader size={'16px'} style={{ color: '#fff', }} /> : (isActive ? <Check size={'16px'} style={{ color: '#fff', }} /> : item.icon)}
+                                            {keyLoading === item.key ? <Loader size={'16px'} style={{ color: theme.palette.mode === 'dark' ? "#fff" : "#000" }} /> : (isActive ? <Check size={'16px'} style={{ color: '#fff', }} /> : item.icon)}
                                         </Box>
                                         <Box sx={{ flexGrow: 1, textAlign: i18n.language === "en" ? 'left' : "right", display: 'flex', flexDirection: 'column' }}>
                                             <Typography

@@ -26,6 +26,7 @@ const dialogText = {
         removing: "جارٍ الحذف...",
     }
 }
+
 export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
     const location = useLocation()
     const pathname = (location.pathname?.split('/')[2])?.split('-')?.join('')
@@ -45,8 +46,8 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
     const handleDelete = async () => {
         try {
             setLoading(true)
-            setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
             const {data} = await api.delete(`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
+            setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
             console.log(data)
             toast.success(data.message)
             handleClose()

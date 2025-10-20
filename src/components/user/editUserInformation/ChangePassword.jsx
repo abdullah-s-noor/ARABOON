@@ -2,7 +2,7 @@ import { Alert, Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Typ
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { validations } from '../../auth/shared/validations';
+import { getValidations } from '../../auth/shared/validations';
 import RenderFields from '../../auth/shared/RenderFields';
 import { changePasswordFields } from '../../auth/shared/formFields';
 import { api } from '../../../services/api';
@@ -11,6 +11,7 @@ import { Close } from '@mui/icons-material';
 function ChangePassword({ open, setOpen }) {
     const theme = useTheme()
     const { t,i18n } = useTranslation()
+    const validations=getValidations(t)
     const [serverError, setServerError] = useState(null)
     const [loading, setLoading] = useState(false)
     const style = {

@@ -106,18 +106,20 @@ function MangaInfoHeader({ mangaInfo }) {
                     {userToken &&
                         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                             <Typography sx={style.descriptionText}>
-                                Tap to Rate:
+                                {t("tap_to_rate")}
                             </Typography>
-                            <Rating
-                                name="user-rate"
-                                precision={0.5}
-                                defaultValue={0}
-                                value={rating.myRate}
-                                onChange={(e, newValue) => {
-                                    handleRate(newValue);
-                                }}
-                                emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
-                            />
+                            <Box sx={{ direction: "ltr" }}>
+                                <Rating
+                                    name="user-rate"
+                                    precision={0.5}
+                                    defaultValue={0}
+                                    value={rating.myRate}
+                                    onChange={(e, newValue) => {
+                                        handleRate(newValue);
+                                    }}
+                                    emptyIcon={<Star style={{ color: '#a9a9a9' }} fontSize="inherit" />}
+                                />
+                            </Box>
                         </Box>
                     }
                 </Box>

@@ -31,6 +31,7 @@ const Home = () => {
             height: "auto",
             p: '0px 20px',
             bgcolor: 'background.paper',
+            background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 100%)`,
         },
         categoryTitle: {
             fontFamily: '"Open Sans", sans-serif',

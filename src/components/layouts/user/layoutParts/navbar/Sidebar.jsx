@@ -1,36 +1,42 @@
 import { useContext, useState } from 'react'
 import Drawer from '@mui/material/Drawer';
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
-import { Menu, Home, Leaderboard, MenuBook, Favorite, Info, Login, PersonAdd, Logout, Brightness7, Brightness4 } from '@mui/icons-material';
+import { Menu, Home, Leaderboard, MenuBook, Favorite, Info, Login, PersonAdd, Logout, Brightness7, Brightness4, Person2 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import styles from './style';
-import SelectLanguage from '../../../common/SelectLanguage';
-import { ThemeModeContext } from '../../../../context/darkMode';
-import useIsPhone from '../../../../hooks/usePhone';
+import SelectLanguage from '../../../../common/SelectLanguage';
+import { ThemeModeContext } from '../../../../../context/darkMode';
+import useIsPhone from '../../../../../hooks/usePhone';
 import { useNavigate } from 'react-router-dom';
-import { AuthDialog } from '../../../../pages/auth/AuthDialog';
+import { AuthDialog } from '../../../../../pages/auth/AuthDialog';
+import { UserContext } from '../../../../../context/UserContext';
 function Sidebar({ language, setLanguage }) {
     const theme = useTheme()
-    const style = styles(theme)
-    const [open, setOpen] = useState(false);
+    const navigate = useNavigate()
+    const { logout, userToken, userData } = useContext(UserContext)
     const { i18n, t } = useTranslation();
+    const style = styles(theme)
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
     const { isPhone } = useIsPhone()
-    const naviage = useNavigate()
-    const [dialogOpen,setDialogOpen]=useState(false)
+    const [open, setOpen] = useState(false);
+    const [openAuthDialog, setOpenAuthDialog] = useState({
+        open: false,
+        mode: null,
+    })
     const menuItems = [
-        { text: t("home"), icon: <Home />, path: '/' },
-        { text: t("ranking"), icon: <Leaderboard />, path: "/manga-ranking" },
-        { text: t("manga list"), icon: <MenuBook />, path: "/manga-list" },
-        { text: t("library"), icon: <Favorite />, path: "/library" },
-        { text: t("login"), icon: <Login />, path: '' },
-        { text: t("sign up"), icon: <PersonAdd />, path: '' },
-        { text: t("logout"), icon: <Logout />, path: '' },
-        { text: t("about us"), icon: <Info />, path: '/' },
-    ]
+        { text: t("home"), icon: <Home />, onActionClick: () => navigate('/') },
+        { text: t("ranking"), icon: <Leaderboard />, onActionClick: () => navigate('/manga-ranking') },
+        { text: t("manga list"), icon: <MenuBook />, onActionClick: () => navigate('/manga-list') },
+        { text: t("library"), icon: <Favorite />, onActionClick: () => navigate('/library') },
+        userToken && { text: t("profile.profile"), icon: <Person2 />, onActionClick: () => navigate(`/${userData.UserName}`) },
+        !userToken && { text: t("login"), icon: <Login />, onActionClick: () => setOpenAuthDialog({ open: true, mode: "login" }) },
+        !userToken && { text: t("sign up"), icon: <PersonAdd />, onActionClick: () => setOpenAuthDialog({ open: true, mode: "register" }) },
+        userToken && { text: t("logout"), icon: <Logout />, onActionClick: () => logout() },
+        { text: t("about us"), icon: <Info />, onActionClick: () => navigate('/') },
+    ].filter(Boolean)
     return (
         <>
-            <AuthDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+            <AuthDialog openAuthDialog={openAuthDialog} onOpenChange={setOpenAuthDialog} />
 
             {/* menu icon */}
             <IconButton onClick={() => { setOpen(true) }}
@@ -83,7 +89,8 @@ function Sidebar({ language, setLanguage }) {
                         {menuItems.map((item, index) => (
                             <ListItem key={index} disablePadding >
                                 <ListItemButton
-                                    onClick={() => { setOpen(false),index===5?setDialogOpen(true):naviage(item.path) }} style={{ textDecoration: "none", color: 'inherit' }}
+                                    onClick={() => { setOpen(false), item.onActionClick() }}
+                                    style={{ textDecoration: "none", color: 'inherit' }}
                                     sx={{
                                         ...(
                                             isPhone ? {

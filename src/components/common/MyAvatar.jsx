@@ -1,142 +1,197 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
-    Avatar,
-    Chip,
-    Menu,
-    MenuItem,
-    Divider,
-    Box,
-    Typography,
-    ListItemIcon,
-    IconButton,
-    useTheme,
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider,
+  Box,
+  Typography,
+  ListItemIcon,
+  IconButton,
+  useTheme,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import usePhone from "../../hooks/usePhone";
-import { UserContext } from "../../context/UserContext";
 import { Logout } from "@mui/icons-material";
 import { Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AvatarEditor from "react-avatar-editor";
 import { useNavigate } from "react-router-dom";
+import usePhone from "../../hooks/usePhone";
+import { UserContext } from "../../context/UserContext";
+
+// Subcomponent for cropped avatar rendering
+function CroppedAvatar({ originalImage, cropData, size = 24, borderSize = 0, ...props }) {
+  const theme = useTheme();
+  if (!originalImage || !cropData) {
+    return <Avatar sx={{ width: size, height: size }} {...props} />;
+  }
+  const position = {
+    x: cropData.Position.X,
+    y: cropData.Position.Y,
+  };
+  return (
+    <AvatarEditor
+      image={originalImage}
+      width={size}
+      height={size}
+      border={0}
+      borderRadius={size / 2}
+      scale={cropData.scale}
+      rotate={cropData.rotate}
+      position={position}
+      style={{
+        border: `${borderSize}px solid ${theme.palette.primary.main}`,
+        borderRadius: "50%",
+        pointerEvents: "none",
+        background: theme.palette.background.paper,
+      }}
+      {...props}
+    />
+  );
+}
 
 export default function ProfileMenu() {
-    const navigate=useNavigate()
-    const theme = useTheme()
-    const { i18n,t } = useTranslation()
-    const [anchorEl, setAnchorEl] = useState(null);
-    const { isPhone } = usePhone()
-    const { contextLoading, logout, userData } = useContext(UserContext)
-    const profileImage = JSON.parse(userData.ProfileImage)
-    console.log(profileImage)
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const navigate = useNavigate();
+  const { i18n, t } = useTranslation();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { isPhone } = usePhone();
+  const { contextLoading, logout, userData } = useContext(UserContext);
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    const CroppedAvatar = (originalImage, cropData, avatarSize, b = 0) => {
-        const position={x:cropData.Position.X,y:cropData.Position.Y}
-        console.log(originalImage)
-        if (!originalImage) {
-            return <Avatar sx={{ width: avatarSize, height: avatarSize }} />
-        }
+  // Defensive checks in case userData is missing
+  if (!userData) return null;
+  let profileImage = {};
+  try {
+    profileImage = JSON.parse(userData.ProfileImage);
+  } catch {
+    profileImage = {};
+  }
 
-        return (
-            <AvatarEditor
-                image={originalImage}
-                width={avatarSize}
-                height={avatarSize}
-                border={0}
-                borderRadius={avatarSize / 2} // دائري
-                scale={cropData.scale}
-                rotate={cropData.rotate}
-                position={position}
-                style={{ border: `${b}px solid ${theme.palette.primary.main}`, borderRadius: "50%", }}
-            />
-        )
+  // Event handlers
+  const handleClick = (event) => {
+    if (!contextLoading) setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => setAnchorEl(null);
 
-    }
-    return (
-        <>
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: "#222",
-                    color: "#ccc",
-                    borderRadius: "20px",
-                    padding: "4px 8px",
-                    cursor: "pointer",
-                    width: "fit-content",
-                    ...(isPhone
-                        ? { "&:active": { backgroundColor: "#333" } }
-                        : { "&:hover": { backgroundColor: "#333" } }),
-                }}
-                onClick={!contextLoading && handleClick}
-            >
-                {CroppedAvatar(profileImage.OriginalImage, profileImage.CropData, 24)}
-                <Typography sx={{
-                    flexGrow: 1,
-                    marginRight: i18n.language === "en" ? 0 : 1,
-                    marginLeft: i18n.language === "en" ? 1 : 0,
-                }}>{userData.FirstName}</Typography>
-                <IconButton sx={{ padding: 0 }}>
-                    <ArrowDropDownIcon sx={{ color: "#ccc" }} />
-                </IconButton>
-            </Box>
+  // Accessibility: ARIA labels and keys for keyboard nav
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#222",
+          color: "#ccc",
+          borderRadius: "20px",
+          padding: "4px 8px",
+          cursor: contextLoading ? "not-allowed" : "pointer",
+          width: "fit-content",
+          opacity: contextLoading ? 0.6 : 1,
+          ...(isPhone
+            ? { "&:active": { backgroundColor: "#333" } }
+            : { "&:hover": { backgroundColor: "#333" } }),
+        }}
+        onClick={handleClick}
+        aria-haspopup="true"
+        aria-controls={anchorEl ? "profile-menu" : undefined}
+        aria-expanded={Boolean(anchorEl)}
+        tabIndex={0}
+        role="button"
+      >
+        <CroppedAvatar
+          originalImage={profileImage.OriginalImage}
+          cropData={profileImage.CropData}
+          size={24}
+        />
+        <Typography
+          sx={{
+            flexGrow: 1,
+            marginRight: i18n.language === "en" ? 0 : 1,
+            marginLeft: i18n.language === "en" ? 1 : 0,
+            fontSize: "1rem",
+            fontWeight: 500,
+          }}
+        >
+          {userData.FirstName}
+        </Typography>
+        <IconButton
+          sx={{ ml: 0.5, p: 0, color: "#ccc" }}
+          aria-label="Open profile menu"
+          tabIndex={-1}
+          disableRipple
+          disableFocusRipple
+        >
+          <ArrowDropDownIcon />
+        </IconButton>
+      </Box>
 
+      <Menu
+        id="profile-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            mt: 1,
+            width: 350,
+            borderRadius: 3,
+            boxShadow: 5,
+            p: 1,
+          },
+        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        MenuListProps={{ "aria-labelledby": "profile-menu" }}
+      >
+        {/* Profile Header */}
+        <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
+          <CroppedAvatar
+            originalImage={profileImage.OriginalImage}
+            cropData={profileImage.CropData}
+            size={100}
+            borderSize={3}
+          />
+          <Box
+            sx={{
+              marginRight: i18n.language === "en" ? 0 : 2,
+              marginLeft: i18n.language === "en" ? 2 : 0,
+            }}
+          >
+            <Typography fontWeight="bold" fontSize={18} sx={{ wordBreak: "break-word" }}>
+              {`${userData.FirstName} ${userData.LastName}`}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              @{userData.UserName}
+            </Typography>
+          </Box>
+        </Box>
+        <Divider sx={{ my: 1 }} />
 
-            {/* Custom Menu */}
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                PaperProps={{
-                    sx: {
-                        mt: 1,
-                        width: 350,
-                        borderRadius: 3,
-                        boxShadow: 5,
-                        p: 1,
-                    },
-                }}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-                {/* Profile Header */}
-                <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                    {CroppedAvatar(profileImage.OriginalImage, profileImage.CropData, 100, 3)}
-
-                    <Box sx={{
-                        marginRight: i18n.language === "en" ? 0 : 2,
-                        marginLeft: i18n.language === "en" ? 2 : 0,
-                    }}>
-                        <Typography fontWeight="bold">
-                            {userData?.FirstName + " " + userData?.LastName}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            @{userData.UserName}
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Divider sx={{ my: 1 }} />
-                {/* Menu Items */}
-                <MenuItem onClick={()=>{handleClose();navigate(`/${userData.UserName}`)}}>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    {t('profile.profile')}
-                </MenuItem>
-                <MenuItem onClick={() => { handleClose(), logout() }}>
-                    <ListItemIcon>
-                        <Logout fontSize="small" />
-                    </ListItemIcon>
-                    {t("logout")}
-                </MenuItem>
-            </Menu>
-        </>
-    );
+        {/* Menu Items */}
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate(`/${userData.UserName}`);
+          }}
+          aria-label={t('profile.profile')}
+        >
+          <ListItemIcon>
+            <Settings size={20} />
+          </ListItemIcon>
+          {t('profile.profile')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            logout();
+          }}
+          aria-label={t('logout')}
+        >
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          {t('logout')}
+        </MenuItem>
+      </Menu>
+    </>
+  );
 }

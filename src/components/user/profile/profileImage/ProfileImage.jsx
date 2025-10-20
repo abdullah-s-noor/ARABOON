@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { api } from '../../../../services/api'
 import { UserContext } from '../../../../context/UserContext'
 
-function ProfileImage({ originalImage, cropInfo }) {
+function ProfileImage({ originalImage, cropInfo,isMyAccount }) {
   const {userData,checkUserSession}=useContext(UserContext)
   const [originalProfileImage, setOriginalProfileImage] = useState(originalImage)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
@@ -50,7 +50,7 @@ function ProfileImage({ originalImage, cropInfo }) {
           originalImage={originalProfileImage}
           cropData={cropData}
         />
-        <IconButton
+        {isMyAccount&&<IconButton
           size="small"
           onClick={handleProfileClick}
           sx={{
@@ -64,7 +64,7 @@ function ProfileImage({ originalImage, cropInfo }) {
           }}
         >
           <Edit fontSize="small" />
-        </IconButton>
+        </IconButton>}
       </Box>
       <ProfileAvatarEditor
         open={isEditingProfile} onClose={() => setIsEditingProfile(false)}

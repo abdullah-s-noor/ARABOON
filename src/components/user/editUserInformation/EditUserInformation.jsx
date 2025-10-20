@@ -3,7 +3,7 @@ import { Alert, Box, Button, Typography, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { validations } from '../../auth/shared/validations';
+import { getValidations } from '../../auth/shared/validations';
 import { styles } from './styles';
 import RenderFields from '../../auth/shared/RenderFields';
 import { userInformationFields } from '../../auth/shared/formFields';
@@ -14,6 +14,7 @@ import ChangePassword from './ChangePassword';
 function EditUserInformation({ userInfo, setUserInfo }) {
     const [isEdit, setIsEdit] = useState(false)
     const { t } = useTranslation()
+    const validations=getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)

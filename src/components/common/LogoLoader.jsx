@@ -1,8 +1,10 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function LoadingScreen() {
     const theme = useTheme();
+    const {i18n} = useTranslation();
     return (
         <Box
             sx={{
@@ -121,7 +123,7 @@ export default function LoadingScreen() {
                         letterSpacing: "0.05em",
                     }}
                 >
-                    Loading...
+                    {i18n.language==="en"?"Loading...":"جارٍ التحميل..."}
                 </Typography>
             </Box>
         </Box>

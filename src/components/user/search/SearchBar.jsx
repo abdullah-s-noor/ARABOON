@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, InputAdornment, IconButton, Box, useTheme, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import style from '../hottestHomePage/style';
-import { api } from '../../../services/api';
 import usePaginatedMangaList from '../../../hooks/usePaginatedMangaList';
 import GeneralPreviewCards from '../../common/GeneralPreviewCards';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 function SearchBarMUI() {
-  const {i18n,t}=useTranslation()
+  const { i18n, t } = useTranslation()
   const [focused, setFocused] = useState(false);
   const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl: '/Manga?search=' });
   const theme = useTheme()
-  const [value,setValue]=useState("")
-  
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [value, setValue] = useState(searchParams.get("q") || "")
+
   const handleChange = (value) => {
     setValue(value)
+    if (value === "") {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete("q");
+      setSearchParams(newParams);
+    } else {
+      setSearchParams({ q: value });
+    }
+
     fetchMangas(`/Manga?search=${value}`, 1)
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchMangas(`/Manga?search=${value}`, 1)
-  },[i18n.language])
+  }, [i18n.language])
   useEffect(() => {
     if (serverError) {
       setMangas(null)
@@ -62,6 +70,7 @@ function SearchBarMUI() {
         <TextField
           fullWidth
           variant="standard"
+          value={value}
           placeholder={t("searchPlaceholder")}
           onChange={(e) => { handleChange(e.target.value) }}
           onFocus={() => setFocused(true)}
@@ -70,7 +79,7 @@ function SearchBarMUI() {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton aria-label="search" sx={{ p: 0, color: 'text.secondary' }}>
-                  <SearchIcon sx={{ fontSize: {xs:"25px",sm:"30px",md:"35px"} }} />
+                  <SearchIcon sx={{ fontSize: { xs: "25px", sm: "30px", md: "35px" } }} />
                 </IconButton>
               </InputAdornment>
             ),

@@ -42,6 +42,7 @@ function MangaList() {
         />
         <MangaListCardsPreview status={selectedStatus} genre={selectedGenre.en} sort={selectedSort} />
       </Box>
+      
     </>
   );
 }

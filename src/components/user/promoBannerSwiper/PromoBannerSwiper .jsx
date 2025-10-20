@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import './style.css';
 import { useTranslation } from 'react-i18next';
 import useIsPhone from '../../../hooks/usePhone';
@@ -10,6 +10,7 @@ import useIsPhone from '../../../hooks/usePhone';
 const PromoBannerSwiper = () => {
   const {isPhone}=useIsPhone()
   const { i18n } = useTranslation();
+  const theme=useTheme()
   const banners = [1, 2, 3, 4, 5];
   const imageStyle = {
     width: '100%',
@@ -40,7 +41,8 @@ const PromoBannerSwiper = () => {
         900: { slidesPerView: 2 },
       }}
       style={{ padding: '20px 20px 30px 20px' }}
-      className="promo-banner-swiper"
+  className={`promo-banner-swiper ${theme.palette.mode === 'dark' ? 'dark' : 'light'} lang-${i18n.language}`}
+
     >
       {banners.map((n) => (
         <SwiperSlide key={n}>

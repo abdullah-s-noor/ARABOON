@@ -50,7 +50,7 @@ function LibraryCardsPreview({ librarySection }) {
       )}
       {/* loading when open the page */}
       <GeneralPreviewCards mangas={mangas} loading={loading} pageNumber={pageNumber} 
-      count={count} setPageNumber={setPageNumber} hasNextPage={hasNextPage} pageSize={pageSize}/>
+      count={count} setPageNumber={setPageNumber} hasNextPage={hasNextPage} pageSize={pageSize} setSelectedForDeletion={setSelectedForDeletion}/>
     </>
   )
 }

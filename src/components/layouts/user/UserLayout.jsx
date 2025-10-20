@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
-import Navbar from './layoutParts/Navbar'
+import Navbar from './layoutParts/navbar/Navbar'
 import Footer from './layoutParts/Footer'
 function UserLayout() {
   return (
@@ -15,7 +15,7 @@ function UserLayout() {
         >
           <Outlet />
         </Box>
-        {/* <Footer /> */}
+        <Footer />
       </Box>
 
     </>
