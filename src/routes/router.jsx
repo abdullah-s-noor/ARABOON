@@ -2,7 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../components/layouts/admin/AdminLayout.jsx";
 import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
-import { UserHomePage, MangaInformation, MangaList, Library, MangaRanking,TestPage,NotFound,Profile ,ViewAll,Search,Chapter} from "../pages";
+import {
+    UserHomePage, MangaInformation, MangaList, Library, MangaRanking, TestPage, NotFound, Profile, ViewAll, Search, Chapter,
+    CategoryManagement
+} from "../pages";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -31,28 +34,28 @@ export const router = createBrowserRouter([
             {
                 path: '/manga-ranking',
                 element: <MangaRanking />
-            }, 
+            },
             {
                 path: '/test-page',
                 element: <TestPage />
             },
             {
-                path:"/:username",
-                element:<Profile/>
+                path: "/:username",
+                element: <Profile />
             },
             {
-                path:"/viewall",
-                element:<ViewAll/>
+                path: "/viewall",
+                element: <ViewAll />
             },
             {
-                path:"/search",
-                element:<Search/>
+                path: "/search",
+                element: <Search />
             },
             {
-                path:"/manga/:mangaID/chapter/:chapterID",
-                element:<Chapter/>
+                path: "/manga/:mangaID/chapter/:chapterID",
+                element: <Chapter />
             },
-            
+
             {
                 path: '/not-found',
                 element: <NotFound />
@@ -68,6 +71,10 @@ export const router = createBrowserRouter([
             {
                 path: "",
                 element: <AdminHomePage />,
+            },
+            {
+                path: "category-management",
+                element: <CategoryManagement />
             }
         ]
     },

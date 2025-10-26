@@ -1,12 +1,14 @@
 import { MenuItem, Select } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 function SelectLanguage({ language, setLanguage }) {
     const { i18n } = useTranslation();
+    const isAdmin=useLocation().pathname.startsWith('/dashboard')
     const style = {
         language: {
-            backgroundColor: "primary.main",
+            backgroundColor: isAdmin?"#222":"primary.main",
             color: "#fff",
             fontWeight: 600,
             fontSize: 13,

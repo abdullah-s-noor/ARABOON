@@ -9,13 +9,14 @@ import {
   ListItemIcon,
   IconButton,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Logout } from "@mui/icons-material";
 import { Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AvatarEditor from "react-avatar-editor";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import usePhone from "../../hooks/usePhone";
 import { UserContext } from "../../context/UserContext";
 
@@ -51,12 +52,14 @@ function CroppedAvatar({ originalImage, cropData, size = 24, borderSize = 0, ...
 }
 
 export default function ProfileMenu() {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const { isPhone } = usePhone();
   const { contextLoading, logout, userData } = useContext(UserContext);
-
+  const isAdmin = useLocation().pathname.startsWith('/dashboard')
   // Defensive checks in case userData is missing
   if (!userData) return null;
   let profileImage = {};
@@ -79,7 +82,7 @@ export default function ProfileMenu() {
         sx={{
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#222",
+          backgroundColor: (isAdmin && isMobile) ?  "primary.main" : "#222",
           color: "#ccc",
           borderRadius: "20px",
           padding: "4px 8px",
@@ -87,8 +90,8 @@ export default function ProfileMenu() {
           width: "fit-content",
           opacity: contextLoading ? 0.6 : 1,
           ...(isPhone
-            ? { "&:active": { backgroundColor: "#333" } }
-            : { "&:hover": { backgroundColor: "#333" } }),
+            ? { "&:active": { backgroundColor: (isAdmin && isMobile) ? "thirdly.main" : "#333" } }
+            : { "&:hover": { backgroundColor:(isAdmin && isMobile) ? "thirdly.main": "#333" } }),
         }}
         onClick={handleClick}
         aria-haspopup="true"
