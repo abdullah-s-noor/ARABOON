@@ -18,10 +18,9 @@ function App() {
   const { i18n } = useTranslation();
   const lng = Cookies.get("i18next") || "en";
   const { contextLoading } = useContext(UserContext);
-
   const [showLoader, setShowLoader] = useState(true);
   const [index, setIndex] = useState(0);
-
+  const direction=i18n.language==="en"?"ltr":"rtl"
   const interval = 700; // 1 seconds
 
   // Set direction based on language
@@ -56,7 +55,7 @@ function App() {
   // ✅ Keep showing loader even after contextLoading finishes until timeout
   if (showLoader) {
     return (
-      <ThemeProvider theme={Theme(darkMode)}>
+      <ThemeProvider theme={Theme(darkMode,direction)}>
         <CssBaseline />
         <LogoLoader  />
       </ThemeProvider>
@@ -65,7 +64,7 @@ function App() {
 
   // ✅ Main App after loader finishes
   return (
-    <ThemeProvider theme={Theme(darkMode)}>
+    <ThemeProvider theme={Theme(darkMode,direction)}>
       <ToastContainer
         position="top-right"
         autoClose={4000}

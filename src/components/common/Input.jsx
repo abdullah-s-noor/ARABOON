@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { TextField, IconButton, InputAdornment, InputLabel, Box, useTheme } from '@mui/material';
-import { Email, Person, Phone, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Category, Email, Person, Phone, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -23,6 +23,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
 
     const getStartIcon = () => {
         const color = getIconColor();
+        if (name === "categoryNameEn" || name === "categoryNameAr")return  <Category sx={{color:color ,fontSize:"16px"}}/>;
         if (type === "email") return <Mail size="16px" color={color} />;
         if (type === "password") return <Lock size="16px" color={color} />;
         if (type === "text") return <User size="16px" color={color} />;

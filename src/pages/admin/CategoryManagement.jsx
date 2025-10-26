@@ -33,7 +33,7 @@ export default function CategoriesPage() {
     message: "",
     severity: "success",
   });
-  const { t } = useTranslation()
+  const {t}=useTranslation()
   // Dialog handlers
   const handleOpenDialog = category => {
     if (category) {
@@ -154,17 +154,19 @@ export default function CategoriesPage() {
           </Button>
         </Box>
         <StatsCards statsCategories={statsCategories} />
-        <CategoriesTable
-          serverError={serverError}
-          categories={categories}
-          handleToggleActive={handleToggleActive}
-          handleOpenDialog={handleOpenDialog}
-          handleDeleteCategory={handleDelete}
-          search={search}
-          handleSearchChange={handleSearchChange}
-          loading={loading}
-          secondaryLoading={secondaryLoading}
-        />
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+          <CategoriesTable
+            serverError={serverError}
+            categories={categories}
+            handleToggleActive={handleToggleActive}
+            handleOpenDialog={handleOpenDialog}
+            handleDeleteCategory={handleDelete}
+            search={search}
+            handleSearchChange={handleSearchChange}
+            loading={loading}
+            secondaryLoading={secondaryLoading}
+          />
+        </Box>
 
       </Stack>
       <CategoryDialog

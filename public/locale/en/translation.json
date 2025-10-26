@@ -1,5 +1,4 @@
 {
-    
     "Welcome to React": "Welcome to React and react-i18next",
     "manga list": "Manga List",
     "chapter_list": "Chapter List",
@@ -57,7 +56,11 @@
         "bio": "Bio",
         "enter_bio": "Enter Bio",
         "currentPassword": "Current Password",
-        "enter_currentPassword": "Enter your Current Password"
+        "enter_currentPassword": "Enter your Current Password",
+        "categoryNameEn": "Category Name (English)",
+        "categoryNameAr": "Category Name (Arabic)",
+        "enter_categoryNameEn": "Enter category name in English",
+        "enter_categoryNameAr": "Enter category name in Arabic"
     },
     "register": {
         "title": "Welcome to ARABOON",
@@ -237,5 +240,15 @@
         "error_code": "Error Code: 404",
         "title": "Page Not Found",
         "description": "The page you're looking for doesn't exist or has been moved."
-    }
+    },
+    "add_category": "Add Category",
+    "edit_category": "Edit Category",
+    "manage_categories":"Manage your product categories",
+    "total_categories": "Total Categories",
+  "active_categories": "Active Categories",
+  "inactive_categories": "Inactive Categories",
+    "search_categories_placeholder": "Search categories by name (English or Arabic)..."
+
+  
+
 }

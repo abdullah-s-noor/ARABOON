@@ -55,7 +55,11 @@
         "bio": "السيرة الذاتية",
         "enter_bio": "ادخل السيرة الذاتية",
         "currentPassword": "كلمة السر الحالية",
-        "enter_currentPassword": "أدخل كلمة السر الحالية"
+        "enter_currentPassword": "أدخل كلمة السر الحالية",
+        "categoryNameEn": "اسم الفئة (بالإنجليزية)",
+        "categoryNameAr": "اسم الفئة (بالعربية)",
+        "enter_categoryNameEn": "أدخل اسم الفئة بالإنجليزية",
+        "enter_categoryNameAr": "أدخل اسم الفئة بالعربية"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -123,7 +127,7 @@
         "addNewProfileImage": "تحميل صورة ملف شخصي جديدة",
         "choose_image": "اختر صورة",
         "uplaod_profile_picture": "تحميل صورة الملف الشخصي",
-        "favorites_categories": "التصنيفات المفضلة",
+        "favorites_categories": "الفئات المفضلة",
         "change_password": "تغيير كلمة السر"
     },
     "commentAndReply": {
@@ -235,5 +239,13 @@
         "error_code": "رمز الخطأ: 404",
         "title": "الصفحة غير موجودة",
         "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
-    }
+    },
+    "add_category": "إضافة فئة ",
+    "edit_category": "تعديل الفئة",
+    "manage_categories": "إدارة فئات منتجاتك",
+    "total_categories": "إجمالي الفئات",
+    "active_categories": "الفئات النشطة",
+    "inactive_categories": "الفئات غير النشطة",
+      "search_categories_placeholder": "ابحث عن الفئات بالإنجليزية أو العربية..."
+
 }

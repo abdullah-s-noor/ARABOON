@@ -9,6 +9,7 @@ import ViewAll from './user/ViewAll';
 import NotFound from '../components/common/NotFound';
 import Search from './user/Search';
 import Chapter from './user/Chapter';
+import CategoryManagement from './admin/CategoryManagement'
 
 export {
   UserHomePage,
@@ -22,4 +23,5 @@ export {
   NotFound,
   Search,
   Chapter,
+  CategoryManagement,
 };
