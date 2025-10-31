@@ -1,6 +1,5 @@
-# Araboon Project
+# Araboon
 
-<<<<<<< HEAD
 ## Table of Contents
 
 - [Overview](#overview)  
@@ -9,8 +8,6 @@
 - [Scripts](#scripts)  
 - [Getting Started](#getting-started)  
 - [Author](#author)  
-
-
 
 ---
 ## Overview
@@ -220,5 +217,3 @@ email: abdullah.s.noor04@gmail.com
 
 <p align="center">© 2025 ARABOON. All rights reserved.</p>
 <p align="center">Built with ☯︎ by Abdullah Noor & Mahmoud Darawsheh</p>
-=======
->>>>>>> 5b54a9d47394a30ebd0583bb8ab81d35126e29c2
