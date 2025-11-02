@@ -10,6 +10,7 @@ import NotFound from '../components/common/NotFound';
 import Search from './user/Search';
 import Chapter from './user/Chapter';
 import CategoryManagement from './admin/CategoryManagement'
+import MangaManagement from './admin/MangaManagement';
 
 export {
   UserHomePage,
@@ -24,4 +25,5 @@ export {
   Search,
   Chapter,
   CategoryManagement,
+  MangaManagement
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { api } from '../services/api.js';
 export default function useReplies() {
     const deleteReply = async (replyId) => {
@@ -12,7 +12,6 @@ export default function useReplies() {
             console.log(error);
         }
     };
-
 
     const likeReply = async (tempReply, setTempReply, setLoading) => {
         setLoading(true);

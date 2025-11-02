@@ -12,6 +12,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
     const handleClickShowPassword = () => setShowPassword(prev => !prev);
     const { i18n, t } = useTranslation()
     const { userToken } = useContext(UserContext)
+    const isMangaDashboard = useLocation().pathname.startsWith("/dashboard/manga-management")
     const theme = useTheme()
     //to change the color of icons in dark&light in disable
     const getIconColor = () => {
@@ -23,7 +24,8 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
 
     const getStartIcon = () => {
         const color = getIconColor();
-        if (name === "categoryNameEn" || name === "categoryNameAr")return  <Category sx={{color:color ,fontSize:"16px"}}/>;
+        if (isMangaDashboard) return
+        if (name === "categoryNameEn" || name === "categoryNameAr") return <Category sx={{ color: color, fontSize: "16px" }} />;
         if (type === "email") return <Mail size="16px" color={color} />;
         if (type === "password") return <Lock size="16px" color={color} />;
         if (type === "text") return <User size="16px" color={color} />;
@@ -45,7 +47,6 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
                                     ? "userName"
                                     : undefined
                     }
-
                     type={type === 'password' && showPassword ? 'text' : type}
                     id={id}
                     name={name}

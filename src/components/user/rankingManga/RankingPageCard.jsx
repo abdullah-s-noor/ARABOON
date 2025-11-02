@@ -74,6 +74,7 @@ function RankingPageCard({ mangaData,rate }) {
             fontSize: { xs: 10, sm: 13 }
         },
     }
+    console.log(233333333333333333333333333333)
     const navigate=useNavigate()
     return (
         <Card
@@ -137,4 +138,8 @@ function RankingPageCard({ mangaData,rate }) {
     )
 }
 
-export default RankingPageCard
+export default React.memo(RankingPageCard, (prevProps, nextProps) => {
+    return (
+        prevProps.mangaData === nextProps.mangaData 
+    );
+});

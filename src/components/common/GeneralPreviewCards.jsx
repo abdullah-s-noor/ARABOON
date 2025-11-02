@@ -7,13 +7,13 @@ import { useTranslation } from 'react-i18next';
 import usePhone from '../../hooks/usePhone';
 import NoDataBox from './NoDataBox';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DashboardMangaCard from '../admin/mangaManagment/DashboardMangaCard';
+import useDashboardManga from '../../hooks/useDashboardManga';
 
-function GeneralPreviewCards({ mangas, loading, pageNumber, count, setPageNumber, hasNextPage, pageSize, setSelectedForDeletion = null }) {
+function GeneralPreviewCards({ mangas, loading, pageNumber, count, setPageNumber, hasNextPage, pageSize, setSelectedForDeletion = null,onEditManga=null ,onDelete=null}) {
     const { t } = useTranslation();
     const { isMobile, isTablet } = usePhone();
-
-
-    const navigate = useNavigate();
+    const isAdmin=useLocation().pathname.endsWith("manga-management")
     const skeletonStyle = {
         h: { xs: "150px", sm: "225px", md: "345px" },
         w: { xs: "100px", sm: "150px", md: "230px" },
@@ -49,13 +49,16 @@ function GeneralPreviewCards({ mangas, loading, pageNumber, count, setPageNumber
                         >
                             {
                                 mangas?.map((manga, index) => (
-                                    <GeneralMangaCard key={index} mangaData={manga} setSelectedForDeletion={setSelectedForDeletion} />
+                                    !isAdmin?
+                                    <GeneralMangaCard key={index} mangaData={manga} setSelectedForDeletion={setSelectedForDeletion} />:
+                                    <DashboardMangaCard  key={manga.mangaID} mangaData={manga} onEditManga={onEditManga} onDelete={onDelete}/>
                                 ))
+                                // const elem = document.querySelector(`[data-id='${comment.id}']`);
                             }
                         </InfiniteScroll>
                         ) :
                         (
-                            <NoDataBox/>
+                            <NoDataBox />
                         )
             }
         </>
