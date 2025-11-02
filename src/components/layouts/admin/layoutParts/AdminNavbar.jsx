@@ -44,11 +44,10 @@ const AppBar = styled(MuiAppBar, {
 
 export default function AdminNavbar({ open = false, handleDrawerOpen, handleDrawerClose, language, setLanguage, isMobile = false }) {
     const { toggleDarkMode, darkMode } = React.useContext(ThemeModeContext);
-    const theme = useTheme();
     const { i18n } = useTranslation();
     const {userToken,userData}=React.useContext(UserContext)
     // Use theme.direction for layout logic, with fallback to i18n.language
-    const isRtl = theme.direction === 'rtl' || i18n.language === 'ar';
+    const isRtl = i18n.language === 'ar';
 
     return (
         <AppBar

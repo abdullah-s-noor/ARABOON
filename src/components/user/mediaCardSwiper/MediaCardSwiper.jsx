@@ -101,10 +101,10 @@ export default function MediaCardSwiper({ mangas }) {
                                 }}>
                                     <Typography sx={{
                                         fontSize: { xs: 8, sm: 12, md: 16 }
-                                    }}>{t("last_chapter")}:{manga.lastChapter.chapterNo} </Typography>
+                                    }}>{t("last_chapter")}:{manga.lastChapter?.chapterNo} </Typography>
 
                                     <Typography sx={{ display: 'flex', alignItems: 'center', gap: 0.3, pr: 1, fontSize: { xs: 10, sm: 12, md: 16 } }}>
-                                        <Visibility sx={{ fontSize: '1rem' }} />  {manga.lastChapter.views}
+                                        <Visibility sx={{ fontSize: '1rem' }} />  {manga.lastChapter?.views}
                                     </Typography>
 
                                 </Box>

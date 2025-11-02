@@ -14,6 +14,7 @@ const NoDataBox = () => {
     const page = {
         isSearchPage: location.pathname === '/search',
         isMangaListPage: location.pathname.includes('/manga-list'),
+        isDashboardManga:location.pathname.startsWith("/dashboard/manga-management"),
         library: location.pathname.includes('/library')
             ? {
                 isFavoritesPage: location.pathname.includes('/favorites'),
@@ -41,7 +42,14 @@ const NoDataBox = () => {
                 actionText: t('no_data.error.action'),
                 onActionClick: () => navigate(`/manga-list?status=${searchParams.get('status')}&genre=all&sort=${searchParams.get('sort')}`),
             };
-        } else if (page.library && typeof page.library === 'object') {
+        }else if(page.isDashboardManga){
+            return {
+                variant: 'search',
+                title: t('no_data.search.title'),
+                subtitle: t('no_data.dashboardManga.subtitle'),
+            };
+        } 
+        else if (page.library && typeof page.library === 'object') {
             if (page.library.isFavoritesPage) {
                 return {
                     variant: 'favorites',
@@ -153,7 +161,7 @@ const NoDataBox = () => {
                     {subtitle}
                 </Typography>
 
-                <Button
+               {!page.isDashboardManga&& <Button
                     variant="contained"
                     onClick={onActionClick}
                     sx={{
@@ -169,7 +177,7 @@ const NoDataBox = () => {
                     }}
                 >
                     {actionText}
-                </Button>
+                </Button>}
             </Paper>
         </Box>
     );

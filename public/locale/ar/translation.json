@@ -59,7 +59,19 @@
         "categoryNameEn": "اسم الفئة (بالإنجليزية)",
         "categoryNameAr": "اسم الفئة (بالعربية)",
         "enter_categoryNameEn": "أدخل اسم الفئة بالإنجليزية",
-        "enter_categoryNameAr": "أدخل اسم الفئة بالعربية"
+        "enter_categoryNameAr": "أدخل اسم الفئة بالعربية",
+        "mangaNameEn": "اسم المانجا (بالإنجليزية)",
+        "enter_mangaNameEn": "أدخل اسم المانجا بالإنجليزية",
+        "mangaNameAr": "اسم المانجا (بالعربية)",
+        "enter_mangaNameAr": "أدخل اسم المانجا بالعربية",
+        "authorEn": "اسم المؤلف (بالإنجليزية)",
+        "enter_authorEn": "أدخل اسم المؤلف بالإنجليزية",
+        "authorAr": "اسم المؤلف (بالعربية)",
+        "enter_authorAr": "أدخل اسم المؤلف بالعربية",
+        "descriptionEn": "الوصف (بالإنجليزية)",
+        "enter_descriptionEn": "أدخل الوصف بالإنجليزية",
+        "descriptionAr": "الوصف (بالعربية)",
+        "enter_descriptionAr": "أدخل الوصف بالعربية"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -199,6 +211,10 @@
         }
     },
     "no_data": {
+        "dashboardManga":{
+            "title": "لا توجد مانجا",
+            "subtitle": "جرّب كلمات مفتاحية مختلفة"
+        },
         "search": {
             "title": "لا توجد مانجا",
             "subtitle": "جرّب كلمات مفتاحية مختلفة أو تصفح الصفحة الرئيسية",
@@ -246,6 +262,12 @@
     "total_categories": "إجمالي الفئات",
     "active_categories": "الفئات النشطة",
     "inactive_categories": "الفئات غير النشطة",
-      "search_categories_placeholder": "ابحث عن الفئات بالإنجليزية أو العربية..."
-
+    "search_categories_placeholder": "ابحث عن الفئات بالإنجليزية أو العربية...",
+    "manga": "مانجا",
+    "add_manga": "أضافة مانجا",
+    "edit_manga": "تعديل المانجا",
+    "manage_manga": "إدارة المانجا ",
+    "statusTitle": "الحالة (إنجليزي / عربي)",
+    "typeTitle": "النوع (إنجليزي / عربي)",
+    "categoriesTitle": "الفئات (إنجليزي // عربي)"
 }

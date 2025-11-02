@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react"
 import { Box, Button, Slider, Typography, CircularProgress } from "@mui/material"
 import Cropper from "react-easy-crop"
 import { useTranslation } from "react-i18next"
+import { useLocation } from "react-router-dom"
 
 // Helper function to convert a Blob/File to a Base64 string
 const blobToBase64 = (blob) => {
@@ -22,6 +23,7 @@ export default function ImageCropper({
     existingImage,
     loading
 }) {
+    const isManga = useLocation().pathname.startsWith("/dashboard/manga-management")
     const [imageSrc, setImageSrc] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
@@ -80,25 +82,54 @@ export default function ImageCropper({
         })
 
     const getCroppedImg = async (imageSrc, pixelCrop) => {
-        if (!imageSrc || !pixelCrop) return null
-        const image = await createImage(imageSrc)
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-        canvas.width = pixelCrop.width
-        canvas.height = pixelCrop.height
-        ctx.drawImage(
-            image,
-            pixelCrop.x,
-            pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
-            0,
-            0,
-            pixelCrop.width,
-            pixelCrop.height,
-        )
-        return canvas.toDataURL("image/jpeg")
-    }
+  if (!imageSrc || !pixelCrop) return null;
+
+  // options can contain: { targetWidth, targetHeight }
+  const targetWidth =isManga?352: null ;
+  const  targetHeight =isManga?528:null;
+
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const { width: cropW, height: cropH, x, y } = pixelCrop;
+
+  let finalWidth = cropW;
+  let finalHeight = cropH;
+
+  if (targetWidth && targetHeight) {
+    // Both provided: stretch to fit exactly
+    finalWidth = targetWidth;
+    finalHeight = targetHeight;
+  } else if (targetWidth) {
+    // Only width: scale height proportionally
+    finalWidth = targetWidth;
+    finalHeight = (cropH / cropW) * finalWidth;
+  } else if (targetHeight) {
+    // Only height: scale width proportionally
+    finalHeight = targetHeight;
+    finalWidth = (cropW / cropH) * finalHeight;
+  }
+
+  canvas.width = finalWidth;
+  canvas.height = finalHeight;
+
+  ctx.drawImage(
+    image,
+    x,
+    y,
+    cropW,
+    cropH,
+    0,
+    0,
+    finalWidth,
+    finalHeight
+  );
+
+  return canvas.toDataURL("image/jpeg", 0.9);
+};
+
+
 
     const handleSave = async () => {
         if (croppedAreaPixels && imageSrc) {

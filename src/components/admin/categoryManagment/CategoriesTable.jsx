@@ -105,7 +105,7 @@ function CategoriesTable({
                                 {i18n.language === "ar" ? "الاسم (إنجليزي / عربي)" : "Name (EN / AR)"}
                             </TableCell>
                             <TableCell sx={style.textAlign}>
-                                {i18n.language === "ar" ? "عدد المانغا" : "Manga Count"}
+                                {i18n.language === "ar" ? "عدد المانجا" : "Manga Count"}
                             </TableCell>
                             <TableCell sx={style.textAlign}>
                                 {i18n.language === "ar" ? "الحالة" : "Status"}

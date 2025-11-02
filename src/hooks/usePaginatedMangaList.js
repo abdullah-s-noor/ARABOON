@@ -16,8 +16,9 @@ const usePaginatedMangaList = ({ baseUrl }) => {
   const pageSize = isMobile ? 15 : isTablet ? 18 : 20;
 
   useEffect(() => {
-    setPageNumber(1);
+            window.scrollTo({ top: 0, behavior: "instant" });
     setMangas([]);
+    setPageNumber(1);
   }, [baseUrl, i18n.language]);
 
   const fetchMangas = async (url=baseUrl,page = pageNumber) => {
@@ -47,9 +48,12 @@ const usePaginatedMangaList = ({ baseUrl }) => {
     }
   };
 
-  useEffect(() => {
-  fetchMangas(baseUrl, pageNumber);
-}, [ pageNumber]);
+useEffect(() => {
+  if (pageNumber > 1) {
+    fetchMangas(baseUrl, pageNumber);
+  }
+}, [pageNumber]);
+
 
   return {
     mangas,

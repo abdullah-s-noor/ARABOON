@@ -60,7 +60,19 @@
         "categoryNameEn": "Category Name (English)",
         "categoryNameAr": "Category Name (Arabic)",
         "enter_categoryNameEn": "Enter category name in English",
-        "enter_categoryNameAr": "Enter category name in Arabic"
+        "enter_categoryNameAr": "Enter category name in Arabic",
+        "mangaNameEn": "Manga Name (English)",
+        "enter_mangaNameEn": "Enter the manga name in English",
+        "mangaNameAr": "Manga Name (Arabic)",
+        "enter_mangaNameAr": "Enter the manga name in Arabic",
+        "authorEn": "Author (English)",
+        "enter_authorEn": "Enter the author's name in English",
+        "authorAr": "Author (Arabic)",
+        "enter_authorAr": "Enter the author's name in Arabic",
+        "descriptionEn": "Description (English)",
+        "enter_descriptionEn": "Enter the description in English",
+        "descriptionAr": "Description (Arabic)",
+        "enter_descriptionAr": "Enter the description in Arabic"
     },
     "register": {
         "title": "Welcome to ARABOON",
@@ -200,6 +212,10 @@
         }
     },
     "no_data": {
+        "dashboardManga":{
+            "title": "No Manga Found",
+            "subtitle": "Try different keywords"
+        },
         "search": {
             "title": "No Manga Found",
             "subtitle": "Try different keywords or browse HomePage",
@@ -243,12 +259,16 @@
     },
     "add_category": "Add Category",
     "edit_category": "Edit Category",
-    "manage_categories":"Manage your product categories",
+    "manage_categories": "Manage your categories",
     "total_categories": "Total Categories",
-  "active_categories": "Active Categories",
-  "inactive_categories": "Inactive Categories",
-    "search_categories_placeholder": "Search categories by name (English or Arabic)..."
-
-  
-
+    "active_categories": "Active Categories",
+    "inactive_categories": "Inactive Categories",
+    "search_categories_placeholder": "Search categories by name (English or Arabic)...",
+    "manga": "Manga",
+    "add_manga": "add manga",
+    "edit_manga": "Edit Manga",
+    "manage_manga": "Manage your manga",
+    "statusTitle": "Status (English / Arabic)",
+    "typeTitle": "Type (English / Arabic)",
+    "categoriesTitle": "Categories (EN // AR)"
 }

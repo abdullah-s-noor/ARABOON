@@ -10,32 +10,32 @@ import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const dialogText = {
-    en: {
-        removeTitle: "Remove Bookmark",
-        removeContent: (title) => `Are you sure you want to remove "${title}" from your library? This action cannot be undone.`,
-        cancel: "Cancel",
-        remove: "Remove",
-        removing: "Removing...",
-    },
-    ar: {
-        removeTitle: "حذف المرجع",
-        removeContent: (title) => `هل أنت متأكد أنك تريد حذف "${title}" من مكتبتك؟ هذا الإجراء لا يمكن التراجع عنه.`,
-        cancel: "إلغاء",
-        remove: "حذف",
-        removing: "جارٍ الحذف...",
-    }
-}
 
 export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
     const location = useLocation()
+    const isAdmin=location.pathname.startsWith("/dashboard")
+    const dialogText = {
+        en: {
+            removeTitle: "Remove Bookmark",
+            removeContent: (title) => `Are you sure you want to remove "${title}" ${isAdmin?"":"from your library"}? This action cannot be undone.`,
+            cancel: "Cancel",
+            remove: "Remove",
+            removing: "Removing...",
+        },
+        ar: {
+            removeTitle: "حذف المرجع",
+            removeContent: (title) => `هل أنت متأكد أنك تريد حذف "${title}" ${isAdmin?"":"من مكتبتك"}؟ هذا الإجراء لا يمكن التراجع عنه.`,
+            cancel: "إلغاء",
+            remove: "حذف",
+            removing: "جارٍ الحذف...",
+        }
+    }
     const pathname = (location.pathname?.split('/')[2])?.split('-')?.join('')
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
-        console.log(22222222222222)
         setOpen(selectedForDeletion ? true : false)
     }, [selectedForDeletion])
 
@@ -46,7 +46,7 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
     const handleDelete = async () => {
         try {
             setLoading(true)
-            const {data} = await api.delete(`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
+            const {data} = await api.delete(isAdmin?`/Manga/${selectedForDeletion.mangaID}`:`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
             setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
             console.log(data)
             toast.success(data.message)
@@ -82,4 +82,5 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
             </Dialog>
         </Fragment>
     );
+
 }

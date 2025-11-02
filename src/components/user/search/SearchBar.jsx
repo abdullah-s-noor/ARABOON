@@ -8,12 +8,12 @@ import { useSearchParams } from 'react-router-dom';
 
 function SearchBarMUI() {
   const { i18n, t } = useTranslation()
-  const [focused, setFocused] = useState(false);
-  const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl: '/Manga?search=' });
   const theme = useTheme()
   const [searchParams, setSearchParams] = useSearchParams()
   const [value, setValue] = useState(searchParams.get("q") || "")
-
+  const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl: `/Manga?search=${value}` });
+  const [focused, setFocused] = useState(false);
+  
   const handleChange = (value) => {
     setValue(value)
     if (value === "") {

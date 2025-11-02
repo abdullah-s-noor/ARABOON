@@ -2,7 +2,6 @@ import { createTheme } from "@mui/material";
 
 const theme = (darkMode, direction) =>
   createTheme({
-    direction,
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
