@@ -72,7 +72,13 @@
         "descriptionEn": "Description (English)",
         "enter_descriptionEn": "Enter the description in English",
         "descriptionAr": "Description (Arabic)",
-        "enter_descriptionAr": "Enter the description in Arabic"
+        "enter_descriptionAr": "Enter the description in Arabic",
+        "chapterTitleEn": "Chapter Title (English)",
+        "chapterTitleAr": "Chapter Title (Arabic)",
+        "chapterNo": "Chapter Number",
+        "enter_chapterTitleEn": "Enter Chapter Title in English",
+        "enter_chapterTitleAr": "Enter Chapter Title in Arabic",
+        "enter_chapterNo": "Enter Chapter Number"
     },
     "register": {
         "title": "Welcome to ARABOON",
@@ -212,7 +218,7 @@
         }
     },
     "no_data": {
-        "dashboardManga":{
+        "dashboardManga": {
             "title": "No Manga Found",
             "subtitle": "Try different keywords"
         },
@@ -270,5 +276,13 @@
     "manage_manga": "Manage your manga",
     "statusTitle": "Status (English / Arabic)",
     "typeTitle": "Type (English / Arabic)",
-    "categoriesTitle": "Categories (EN // AR)"
+    "categoriesTitle": "Categories (EN // AR)",
+    "add_chapter": "Add Chapter",
+    "edit_chapter": "Edit Chapter",
+    "uploadChaptersImage": {
+        "photos_selected": "{{count}} photos selected",
+        "delete_all": "Delete All",
+        "add_chapter_photos": "Choose or update chapter Photos",
+        "max_photos_reached": "Maximum number of photos reached"
+    }
 }

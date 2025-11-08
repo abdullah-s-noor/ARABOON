@@ -11,20 +11,17 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
-export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, mangas, setMangas }) {
+export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, items, setItems, removeTitle, removeContent, setLangAvailable = null,selectedLanguage=null}) {
     const location = useLocation()
-    const isAdmin=location.pathname.startsWith("/dashboard")
+    const isMangaDashboard = location.pathname.startsWith("dashboard/manga-management")
+    const isChapterDashboard = location.pathname.startsWith("/dashboard/manga/")
     const dialogText = {
         en: {
-            removeTitle: "Remove Bookmark",
-            removeContent: (title) => `Are you sure you want to remove "${title}" ${isAdmin?"":"from your library"}? This action cannot be undone.`,
             cancel: "Cancel",
             remove: "Remove",
             removing: "Removing...",
         },
         ar: {
-            removeTitle: "حذف المرجع",
-            removeContent: (title) => `هل أنت متأكد أنك تريد حذف "${title}" ${isAdmin?"":"من مكتبتك"}؟ هذا الإجراء لا يمكن التراجع عنه.`,
             cancel: "إلغاء",
             remove: "حذف",
             removing: "جارٍ الحذف...",
@@ -46,10 +43,16 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
     const handleDelete = async () => {
         try {
             setLoading(true)
-            const {data} = await api.delete(isAdmin?`/Manga/${selectedForDeletion.mangaID}`:`/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
-            setMangas(mangas.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
-            console.log(data)
-            toast.success(data.message)
+            if (isChapterDashboard) {
+                const { data } = await api.delete(`/Chapters/${selectedForDeletion?.chapterID}`)
+                setLangAvailable(prev => ({ ...prev, [selectedLanguage]: data.meta[selectedLanguage === "en" ? "isEnglishAvailable" : "isArabicAvailable"] }))
+                setItems(prev => prev.filter(ch => ch.chapterID !== selectedForDeletion.chapterID));
+                toast.success(data.message)
+            } else {
+                const { data } = await api.delete(isMangaDashboard ? `/Manga/${selectedForDeletion.mangaID}` : `/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
+                setItems(items.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
+                toast.success(data.message)
+            }
             handleClose()
         } catch (err) {
             console.log(err)
@@ -66,11 +69,11 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {dialogText[lang].removeTitle}
+                    {removeTitle}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {dialogText[lang].removeContent(selectedForDeletion?.mangaName)}
+                        {removeContent}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

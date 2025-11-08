@@ -1,10 +1,12 @@
 import { Box, Chip, Stack } from '@mui/material';
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function LanguageSelector({selectedLanguage,setSelectedLanguage ,isArabicAvailable, isEnglishAvailable }) {
+    const isAdmin=useLocation().pathname.startsWith("/dashboard")
     return (
         <Stack direction="row" gap={1} alignItems="center">
-            {isEnglishAvailable && <Chip
+            {(isAdmin||isEnglishAvailable) && <Chip
                 label="English"
                 clickable
                 variant={selectedLanguage === 'en' ? 'filled' : 'outlined'}

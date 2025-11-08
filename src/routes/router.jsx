@@ -79,7 +79,12 @@ export const router = createBrowserRouter([
             {
                 path:"manga-management",
                 element:<MangaManagement/>
-            }
+            },
+            {
+                path: 'manga/:mangaID',
+                element: <MangaInformation />
+            },
+            
         ]
     },
 ]);

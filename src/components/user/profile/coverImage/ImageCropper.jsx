@@ -24,6 +24,7 @@ export default function ImageCropper({
     loading
 }) {
     const isManga = useLocation().pathname.startsWith("/dashboard/manga-management")
+    const isChapter = useLocation().pathname.startsWith("/dashboard/manga/")
     const [imageSrc, setImageSrc] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
@@ -85,8 +86,8 @@ export default function ImageCropper({
   if (!imageSrc || !pixelCrop) return null;
 
   // options can contain: { targetWidth, targetHeight }
-  const targetWidth =isManga?352: null ;
-  const  targetHeight =isManga?528:null;
+  const targetWidth =isManga?352:isChapter?450: null ;
+  const  targetHeight =isManga?528:isChapter?250:null;
 
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");

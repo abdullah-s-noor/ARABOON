@@ -19,7 +19,7 @@ import ImageCropper from "../../../user/profile/coverImage/ImageCropper"
 import { base64ToBlob, handleImageBeforeSave } from "../../../user/profile/handleImageBeforeSave"
 import { useTranslation } from "react-i18next"
 
-export default function UploadMangaImage({ pastMangaImage, formik }) {
+export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fieldKey="mangaImageUrl" }) {
     const { t, i18n } = useTranslation()
     const [mangaImage, setMangaImage] = useState(null)//cropped image 
     const [tempImageForCrop, setTempImageForCrop] = useState(null)
@@ -56,7 +56,7 @@ export default function UploadMangaImage({ pastMangaImage, formik }) {
         setMangaImage(croppedImage)
         setIsEditingCover(false)
         setTempImageForCrop(null)
-        formik.setFieldValue("mangaImageUrl", base64ToBlob(croppedImage))
+        formik.setFieldValue(fieldKey, base64ToBlob(croppedImage))
     }, [])
 
     const handleCancelCrop = () => {
@@ -66,7 +66,7 @@ export default function UploadMangaImage({ pastMangaImage, formik }) {
     const handleDeleteImage = () => {
         setMangaImage(null)
         setTempImageForCrop(null)
-        formik.setFieldValue("mangaImageUrl", pastMangaImage)
+        formik.setFieldValue(fieldKey, pastMangaImage)
     }
     return (
 
@@ -124,7 +124,7 @@ export default function UploadMangaImage({ pastMangaImage, formik }) {
                         color="text.secondary"
                         sx={{ display: { xs: "none", md: "block" } }}
                     >
-                        {i18n.language==="en"?"Choose or update the manga image.":"اختر أو قم بتحديث صورة المانجا."}
+                        {i18n.language==="en"?`Choose or update the ${fieldKey==="mangaImageUrl"?"manga":"chapter"} image.`:`اختر أو قم بتحديث صورة ${fieldKey==="mangaImageUrl"?"مانجا":"الفصل"}.`}
                         
                     </Typography>
                 </Box>
@@ -151,7 +151,7 @@ export default function UploadMangaImage({ pastMangaImage, formik }) {
                         <Typography
                             variant="body2"
                             sx={{
-                                maxWidth: 100,
+                                maxWidth: {xs:50,sm:100},
                                 textOverflow: "ellipsis",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
@@ -185,7 +185,7 @@ export default function UploadMangaImage({ pastMangaImage, formik }) {
                 <DialogContent>
                     <ImageCropper
                         onCropComplete={handleCropComplete}
-                        aspectRatio={1 / 1.5}
+                        aspectRatio={aspectRatio}
                         onCancel={handleCancelCrop}
                         existingImage={tempImageForCrop}
                         loading={false}

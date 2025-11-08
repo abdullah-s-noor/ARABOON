@@ -64,15 +64,23 @@ function MangaDialog({ open, onClose, onSave, manga, allCategories }) {
                     formData.append("Image", values.mangaImageUrl)
                 }
                 const [updateMangaInfo, englishToggle, arabicToggle, uploadImage] = await Promise.all([
-                    (api.put("/Manga", payload)),
-                    (!(manga.isArabicAvailable === values.isArabicAvailable) ? api.patch(`/Manga/${payload.mangaId}/arabic-toggle`) : null),
-                    (!(manga.isEnglishAvailable === values.isEnglishAvailable) ? api.patch(`/Manga/${payload.mangaId}/english-toggle`) : null),
+                    (await api.put("/Manga", payload)),
+                    (!(manga.isEnglishAvailable === values.isEnglishAvailable) ?await api.patch(`/Manga/${payload.mangaId}/english-toggle`) : null),
+                    (!(manga.isArabicAvailable === values.isArabicAvailable) ?await  api.patch(`/Manga/${payload.mangaId}/arabic-toggle`) : null),
                     ((values.mangaImageUrl instanceof Blob) ? api.patch("/Manga/upload-image", formData) : null)
                 ]);
-                if (updateMangaInfo?.data?.data) payload = { ...updateMangaInfo.data.data };
-                if (arabicToggle) payload.isArabicAvailable = values.isArabicAvailable
-                if (englishToggle) payload.isEnglishAvailable = values.isEnglishAvailable
-                if (uploadImage) payload.mangaImageUrl = uploadImage.data.data.imageUrl
+                if (updateMangaInfo?.data?.data) {
+                    payload = { ...updateMangaInfo.data.data }
+                };
+                if (arabicToggle) {
+                    console.log("iam in arabic",arabicToggle)
+                    payload.isArabicAvailable = values.isArabicAvailable
+                };
+                if (englishToggle) {
+                    console.log("iam in arabic",englishToggle)
+                    payload.isEnglishAvailable = values.isEnglishAvailable
+                };
+                if (uploadImage) payload.mangaImageUrl = uploadImage.data.data.imageUrl;
                 else payload.mangaImageUrl = manga.mangaImageUrl
                 onSave(payload)
                 onClose()
@@ -131,10 +139,10 @@ function MangaDialog({ open, onClose, onSave, manga, allCategories }) {
         if (open) setTab(0);
     }, [open]);
     return (
-        <Dialog open={open} onClose={() => { onClose(); formik.resetForm() }} maxWidth="md" fullWidth>
+        <Dialog open={open} onClose={() => { onClose(); formik.resetForm() }} maxWidth="md" fullWidth PaperProps={{sx: {width: "100%",m: "0px",},}}>
             <DialogTitle>{manga ? t("edit_manga") : t("add_manga")}</DialogTitle>
             <form onSubmit={formik.handleSubmit}>
-                <DialogContent sx={{ pt: 2 }}>
+                <DialogContent sx={{ pt: 2, width:"100%" }}>
                     <Tabs value={tab} onChange={(e, t) => setTab(t)} sx={{ mb: 2 }}>
                         <Tab label={i18n.language === "en" ? "English" : "الانجليزية"} />
                         <Tab label={i18n.language === "en" ? "Arabic" : "العربية"} />
@@ -170,7 +178,7 @@ function MangaDialog({ open, onClose, onSave, manga, allCategories }) {
 
                     <MangaSharedFields formik={formik} allCategories={allCategories} />
                     {manga && <ChapterLanguageAvailable formik={formik} />}
-                    <UploadMangaImage pastMangaImage={manga?.mangaImageUrl} formik={formik} />
+                    <UploadMangaImage pastMangaImage={manga?.mangaImageUrl} formik={formik} aspectRatio={1 / 1.5} />
 
 
                 </DialogContent>

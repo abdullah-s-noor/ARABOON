@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, InputAdornment, IconButton, Box, useTheme, useMediaQuery, Typography, Button, Stack } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import usePaginatedMangaList from '../../hooks/usePaginatedMangaList';
 import GeneralPreviewCards from "../../components/common/GeneralPreviewCards";
 import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Add, KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { api } from '../../services/api';
 import LogoLoader from '../../components/common/LogoLoader';
 import SearchBar from '../../components/admin/mangaManagment/SearchBar';
@@ -31,7 +30,7 @@ function SearchBarMUI() {
     } else {
       setSearchParams({ q: value });
     }
-    fetchMangas(`/Manga?search=${value}`, 1)
+    fetchMangas(`/Manga/dashboard?search=${value}`, 1)
   }
   useEffect(() => {
     const fetchAllCategories = async () => {
@@ -61,8 +60,6 @@ function SearchBarMUI() {
       setMangas(prev => [{ ...form }, ...prev]);
     }
   }
-  useEffect(() => {
-  }, [mangas])
   const handleDeleteManga = (manga) => {
     setSelectedForDeletion(manga)
   }
@@ -101,12 +98,13 @@ function SearchBarMUI() {
         allCategories={allCategories}
       />
       <AlertDialog
-        mangas={mangas} setMangas={setMangas}
+        items={mangas} setItems={setMangas}
         selectedForDeletion={selectedForDeletion} setSelectedForDeletion={setSelectedForDeletion}
+        removeTitle={i18n.language === "en" ? "Remove Manga" : "حذف المانجا"}
+        removeContent={i18n.language === "en" ? `Are you sure you want to remove ${selectedForDeletion?.mangaName}? This action cannot be undone.` :
+          `هل أنت متأكد أنك تريد حذف ${selectedForDeletion?.mangaName}? ؟ هذا الإجراء لا يمكن التراجع عنه.`}
       />
     </>
-
-
   );
 }
 
