@@ -43,9 +43,12 @@ const useChapterImages = ({ baseUrl }) => {
     }, [loading]);
     useEffect(() => {
         setSearchParams({ lang: selectedLanguage })
-        const elem = document.querySelector('[navbar-name="main-nav"]');
+        const elemNav = document.querySelector('[navbar-name="main-nav"]');
+        const elemFooter = document.querySelector('[footer-name="main-footer"]');
         // @ts-ignore
-        if (elem) elem.style.display = "none";
+        if (elemNav) elemNav.style.display = "none";
+        // @ts-ignore
+        if (elemFooter) elemFooter.style.display = "none";
         const fetchData = async () => {
             try {
                 setLoading(true)
@@ -66,7 +69,10 @@ const useChapterImages = ({ baseUrl }) => {
         fetchData();
         return () => {
             // @ts-ignore
-            if (elem) elem.style.display = "flex";
+            if (elemNav) elemNav.style.display = "flex";
+            // @ts-ignore
+            if (elemFooter) elemFooter.style.display = "block";
+            
         }
     }, [searchParams,useParams().chapterID]);
     return { currentPage, chapterInfo, loading, containerRef, selectedLanguage,view,setView };

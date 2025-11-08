@@ -8,10 +8,13 @@ import MangaCommentIcon from './MangaCommentIcon';
 import { toast } from 'react-toastify';
 import { api } from '../../../services/api';
 import { UserContext } from '../../../context/UserContext';
+import { useLocation } from 'react-router-dom';
 function MangaInfoHeader({ mangaInfo }) {
     const { t, i18n } = useTranslation();
     const theme = useTheme()
     const style = styles(theme, i18n)
+    const isAdmin=useLocation().pathname.startsWith("/dashboard")
+    console.log(isAdmin)
     const [rating, setRating] = useState({ avgRate: mangaInfo.rate, myRate: mangaInfo.myRate, myRateID: mangaInfo.myRateID })
     const { userToken } = useContext(UserContext)
     console.log(rating)
@@ -103,7 +106,7 @@ function MangaInfoHeader({ mangaInfo }) {
 
                     </Box>
                     {/* my rate */}
-                    {userToken &&
+                    {userToken &&!isAdmin&&
                         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                             <Typography sx={style.descriptionText}>
                                 {t("tap_to_rate")}

@@ -5,17 +5,20 @@ import { BookmarkRemove, Cancel, CheckCircle, Delete, Edit } from '@mui/icons-ma
 import { useTranslation } from 'react-i18next'
 import { styles } from './styles'
 import { api } from '../../../services/api'
+import { useNavigate } from 'react-router-dom'
 
 function DashboardMangaCard({ mangaData, onEditManga, onDelete }) {
+    console.log(mangaData)
     const { i18n } = useTranslation()
     const { isPhone } = useIsPhone()
     const [isActive, setIsActive] = useState(mangaData.isActive)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const handleActivate = async () => {
         try {
             setLoading(true)
             const { data } = await api.patch(`/Manga/${mangaData.mangaID}/active-toggle`)
-            setIsActive(prev=>!prev);
+            setIsActive(prev => !prev);
         } catch (error) {
             console.log(error)
         } finally {
@@ -35,11 +38,10 @@ function DashboardMangaCard({ mangaData, onEditManga, onDelete }) {
                     </IconButton>
                 </Box>
 
-                <CardActionArea sx={style.cardAction}>
+                <CardActionArea sx={style.cardAction} onClick={() => { navigate(`/dashboard/manga/${mangaData.mangaID}`) }}>
                     <CardMedia component="img" image={mangaData.mangaImageUrl} alt="green iguana" sx={style.img} />
                 </CardActionArea>
-                <CardContent sx={{ bgcolor: 'background.default' }}
-                >
+                <CardContent sx={{ bgcolor: 'background.default' }} onClick={() => { navigate(`/dashboard/manga/${mangaData.mangaID}`) }}>
                     <Typography gutterBottom variant="body1" component="div" sx={style.title} className='title'>
                         {mangaData.mangaName}
                     </Typography>
@@ -54,7 +56,8 @@ function DashboardMangaCard({ mangaData, onEditManga, onDelete }) {
                     {/* Activate / Deactivate Button */}
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 1.5 }}>
                         <Button disabled={loading} startIcon={isActive ? <Cancel /> : <CheckCircle />} variant={isActive ? "outlined" : "contained"} color={isActive ? "error" : "success"} size="small" sx={style.activateButton}
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 handleActivate()
                             }}>
                             {isActive ? "InActivate" : "Activate"}

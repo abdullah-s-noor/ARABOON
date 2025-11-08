@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {Link as MUILink }from '@mui/material';
+import { Link as MUILink } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material';
@@ -11,13 +11,14 @@ import FooterFields from './FooterFields';
 const AraboonFooter = ({
     layout = 'comprehensive',
 }) => {
-    const { i18n,t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const theme = useTheme();
     const isLight = theme.palette.mode === 'light';
     const direction = i18n.dir();
     const { navigationSections, navSectionOrder, navSectionTitles, brandInfo, socialLinks, socialIconMap } = FooterFields()
     return (
         <Box
+            footer-name="main-footer"
             zIndex={0}
             component="footer"
             className="araboon-footer"
@@ -232,13 +233,13 @@ const AraboonFooter = ({
                             </Typography>
                         </Box>
                     </Grid>
-                    <Box sx={{m:{xs:"auto",md:"0"}, position: "relative", minWidth: "300px", alignItems: "flex-end", textAlign: { xs: 'center', md: i18n.language === "en" ? 'right' : "left" } }}>
-                        <Box sx={{position:{md:"absolute"},right:0,bottom:0}}>
+                    <Box sx={{ m: { xs: "auto", md: "0" }, position: "relative", minWidth: "300px", alignItems: "flex-end", textAlign: { xs: 'center', md: i18n.language === "en" ? 'right' : "left" } }}>
+                        <Box sx={{ position: { md: "absolute" }, right: 0, bottom: 0 }}>
                             <Typography variant="body2" sx={{ color: theme.palette.text.secondary, mb: 0.5 }}>
                                 &copy; {brandInfo.copyrightYear} {brandInfo.legalEntity}{" "}{t("footer.all_rights_reserved")}
                             </Typography>
                             <Typography variant="body2">
-                                {t("footer.visit_us")+' '}
+                                {t("footer.visit_us") + ' '}
                                 <MUILink
                                     href={brandInfo.websiteUrl}
                                     target="_blank"

@@ -71,7 +71,13 @@
         "descriptionEn": "الوصف (بالإنجليزية)",
         "enter_descriptionEn": "أدخل الوصف بالإنجليزية",
         "descriptionAr": "الوصف (بالعربية)",
-        "enter_descriptionAr": "أدخل الوصف بالعربية"
+        "enter_descriptionAr": "أدخل الوصف بالعربية",
+        "chapterTitleEn": "عنوان الفصل (بالإنجليزية)",
+        "chapterTitleAr": "عنوان الفصل (بالعربية)",
+        "chapterNo": "رقم الفصل",
+        "enter_chapterTitleEn": "أدخل عنوان الفصل بالإنجليزية",
+        "enter_chapterTitleAr": "أدخل عنوان الفصل بالعربية",
+        "enter_chapterNo": "أدخل رقم الفصل"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -211,7 +217,7 @@
         }
     },
     "no_data": {
-        "dashboardManga":{
+        "dashboardManga": {
             "title": "لا توجد مانجا",
             "subtitle": "جرّب كلمات مفتاحية مختلفة"
         },
@@ -269,5 +275,13 @@
     "manage_manga": "إدارة المانجا ",
     "statusTitle": "الحالة (إنجليزي / عربي)",
     "typeTitle": "النوع (إنجليزي / عربي)",
-    "categoriesTitle": "الفئات (إنجليزي // عربي)"
+    "categoriesTitle": "الفئات (إنجليزي // عربي)",
+    "add_chapter": "اضافة فصل",
+    "edit_chapter": "تعديل الفصل",
+    "uploadChaptersImage": {
+        "photos_selected": "تم اختيار {{count}} صورة",
+        "delete_all": "حذف الكل",
+        "add_chapter_photos": "اختر أو قم بتحديث صور الفصل",
+        "max_photos_reached": "تم الوصول إلى الحد الأقصى من الصور"
+    }
 }

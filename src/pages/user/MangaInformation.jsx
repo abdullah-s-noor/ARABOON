@@ -2,7 +2,7 @@ import { Box, Typography, useMediaQuery } from '@mui/material'
 import ChapterList from '../../components/user/mangaInformation/ChapterList'
 import MangaInfoHeader from '../../components/user/mangaInformation/MangaInfoHeader'
 import MangaActionSidebar from '../../components/user/mangaInformation/MangaSectionsSidebar'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { api } from '../../services/api'
 import { useTranslation } from 'react-i18next'
@@ -10,10 +10,11 @@ import LogoLoader from '../../components/common/LogoLoader'
 import { UserContext } from '../../context/UserContext'
 import LanguageList from '../../components/user/mangaInformation/LanguageList'
 function MangaInformation() {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const { i18n } = useTranslation()
     const params = useParams()
     const { userToken } = useContext(UserContext)
+    const isAdmin = useLocation().pathname.startsWith("/dashboard")
     const mangaID = params.mangaID
     const [loading, setLoading] = useState(true)
     const [mangaInfo, setMangaInfo] = useState(null)
@@ -25,7 +26,7 @@ function MangaInformation() {
                 setLoading(true)
                 const [mangaInfoData, myRate] = await Promise.all([
                     api.get(`/Manga/GetMangaByID/${mangaID}`)
-                        .catch(err => (err.response?.status === 404 ?navigate('/not-found')  : Promise.reject(err))),
+                        .catch(err => (err.response?.status === 404 ? navigate('/not-found') : Promise.reject(err))),
                     api.get(`/ratings/manga/${mangaID}`)
                         .catch(err => (err.response?.status === 404 || err.response?.status === 401 ? null : Promise.reject(err)))
                 ]);
@@ -48,7 +49,7 @@ function MangaInformation() {
             }
         }
         fetchMangaInfo()
-    }, [i18n.language,userToken])
+    }, [i18n.language, userToken])
     return (
         <>
             {
@@ -73,8 +74,8 @@ function MangaInformation() {
                                     marginTop: '40px',
                                     display: 'flex', flexDirection: 'column', gap: 2
                                 }}>
-                                {userToken && <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} mangaID={mangaID} />}
-                                <ChapterList isArabicAvailable={mangaInfo.isArabicAvailable} isEnglishAvailable={mangaInfo.isEnglishAvailable}/>
+                                {userToken &&!isAdmin&& <MangaActionSidebar libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} mangaID={mangaID} />}
+                                <ChapterList isArabicAvailable={mangaInfo.isArabicAvailable} isEnglishAvailable={mangaInfo.isEnglishAvailable} />
                             </Box>
 
                         </Box>
