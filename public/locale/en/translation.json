@@ -284,5 +284,13 @@
         "delete_all": "Delete All",
         "add_chapter_photos": "Choose or update chapter Photos",
         "max_photos_reached": "Maximum number of photos reached"
-    }
+    },
+    "users": "Users",
+    "manage_users": "Manage Users",
+    "total_users": "Total Users",
+    "active_users": "Active Users",
+    "inactive_users": "Inactive Users",
+    "search_users_placeholder": "Search users by name...",
+    "users_not_found": "Users not found",
+    "users_not_found_hint": "Check your spelling or try a different keyword."
 }

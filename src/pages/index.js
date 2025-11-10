@@ -11,7 +11,7 @@ import Search from './user/Search';
 import Chapter from './user/Chapter';
 import CategoryManagement from './admin/CategoryManagement'
 import MangaManagement from './admin/MangaManagement';
-
+import UserManagement from './admin/UserManagement';
 export {
   UserHomePage,
   Library,
@@ -25,5 +25,6 @@ export {
   Search,
   Chapter,
   CategoryManagement,
-  MangaManagement
+  MangaManagement,
+  UserManagement
 };
