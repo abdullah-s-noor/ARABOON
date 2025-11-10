@@ -283,5 +283,13 @@
         "delete_all": "حذف الكل",
         "add_chapter_photos": "اختر أو قم بتحديث صور الفصل",
         "max_photos_reached": "تم الوصول إلى الحد الأقصى من الصور"
-    }
+    },
+    "users": "المستخدمون",
+    "manage_users": "إدارة المستخدمين",
+    "total_users": "إجمالي المستخدمين",
+    "active_users": "المستخدمين النشطين",
+    "inactive_users": "المستخدمين غير النشطين",
+    "search_users_placeholder": "ابحث عن المستخدمين...",
+    "users_not_found": "لا يوجد مستخدمين",
+    "users_not_found_hint": "تحقق من الكتابة أو جرّب كلمة أخرى."
 }

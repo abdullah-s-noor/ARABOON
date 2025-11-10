@@ -12,7 +12,7 @@ function AlertSnackbar({ snackbar, setSnackbar }) {
             >
                 <Alert
                     severity={snackbar.severity}
-                     sx={{direction:"ltr"}}
+                    sx={{direction:"ltr"}}
                     onClose={() => setSnackbar({ ...snackbar, open: false })}
                 >
                     {snackbar.message}

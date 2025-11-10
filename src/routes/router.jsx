@@ -4,7 +4,7 @@ import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
 import {
     UserHomePage, MangaInformation, MangaList, Library, MangaRanking, TestPage, NotFound, Profile, ViewAll, Search, Chapter,
-    CategoryManagement,MangaManagement
+    CategoryManagement,MangaManagement,UserManagement
 } from "../pages";
 export const router = createBrowserRouter([
     {
@@ -83,6 +83,10 @@ export const router = createBrowserRouter([
             {
                 path: 'manga/:mangaID',
                 element: <MangaInformation />
+            },
+            {
+                path:"user-management",
+                element:<UserManagement/>
             },
             
         ]
