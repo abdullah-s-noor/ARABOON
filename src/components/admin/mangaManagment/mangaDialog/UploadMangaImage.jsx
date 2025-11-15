@@ -19,7 +19,7 @@ import ImageCropper from "../../../user/profile/coverImage/ImageCropper"
 import { base64ToBlob, handleImageBeforeSave } from "../../../user/profile/handleImageBeforeSave"
 import { useTranslation } from "react-i18next"
 
-export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fieldKey="mangaImageUrl" }) {
+export default function UploadMangaImage({ pastMangaImage, formik, aspectRatio, fieldKey = "mangaImageUrl" }) {
     const { t, i18n } = useTranslation()
     const [mangaImage, setMangaImage] = useState(null)//cropped image 
     const [tempImageForCrop, setTempImageForCrop] = useState(null)
@@ -117,15 +117,27 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
                         }}
                     >
                         <Upload />
-                        {i18n.language==="en"?"Upload Image":"تحميل صورة"}
+                        {i18n.language === "en" ? "Upload Image" : "تحميل صورة"}
                     </Button>
                     <Typography
                         variant="body2"
                         color="text.secondary"
                         sx={{ display: { xs: "none", md: "block" } }}
                     >
-                        {i18n.language==="en"?`Choose or update the ${fieldKey==="mangaImageUrl"?"manga":"chapter"} image.`:`اختر أو قم بتحديث صورة ${fieldKey==="mangaImageUrl"?"مانجا":"الفصل"}.`}
-                        
+                        {i18n.language === "en"
+                            ? `Choose or update the ${fieldKey === "mangaImageUrl"
+                                ? "manga"
+                                : fieldKey === "bannerImageUrl"
+                                    ? "banner"
+                                    : "chapter"
+                            } image.`
+                            : `اختر أو قم بتحديث صورة ${fieldKey === "mangaImageUrl"
+                                ? "المانجا"
+                                : fieldKey === "bannerImageUrl"
+                                    ? "اللافتة"
+                                    : "الفصل"
+                            }.`}
+
                     </Typography>
                 </Box>
 
@@ -151,7 +163,7 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
                         <Typography
                             variant="body2"
                             sx={{
-                                maxWidth: {xs:50,sm:100},
+                                maxWidth: { xs: 50, sm: 100 },
                                 textOverflow: "ellipsis",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
@@ -171,7 +183,7 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
                                 fontSize: "0.8rem",
                             }}
                         >
-                            {i18n.language==="en"?"Preview":"معاينة"}
+                            {i18n.language === "en" ? "Preview" : "معاينة"}
                         </Button>
                         <IconButton onClick={() => handleDeleteImage()}>
                             <Close />
@@ -181,7 +193,7 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
             </Box>
 
             <Dialog open={isEditingCover} onClose={handleCancelCrop} maxWidth="lg" fullWidth>
-                <DialogTitle>{i18n.language==="en"?"Edit Manga Picture":"تعديل صورة المانجا"}</DialogTitle>
+                <DialogTitle>{i18n.language === "en" ? "Edit Manga Picture" : "تعديل صورة المانجا"}</DialogTitle>
                 <DialogContent>
                     <ImageCropper
                         onCropComplete={handleCropComplete}
@@ -193,8 +205,8 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
                 </DialogContent>
             </Dialog>
 
-            <Dialog open={previewImage} onClose={() => { setPreviewImage(false) }} maxWidth="xs" fullWidth>
-                <DialogTitle>Preview Image</DialogTitle>
+            <Dialog open={previewImage} onClose={() => { setPreviewImage(false) }} maxWidth={fieldKey === "bannerImageUrl" ? "sm" : "xs"} fullWidth>
+                <DialogTitle>{t("preview image")}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 1, justifyContent: "center" }}>
                         <Box
@@ -206,7 +218,8 @@ export default function UploadMangaImage({ pastMangaImage, formik,aspectRatio,fi
                                 height: "auto",
                                 objectFit: "cover",
                                 display: 'block',
-                                maxWidth: { xs: 100, sm: 150, md: 230 },
+                                width: '100%',
+                                maxWidth: fieldKey === "bannerImageUrl" ? "100%" : { xs: 100, sm: 150, md: 230 },
                             }}
                         />
                         <Button variant="outlined" onClick={() => { setPreviewImage(false) }}>

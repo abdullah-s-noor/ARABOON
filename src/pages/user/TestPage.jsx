@@ -4,7 +4,7 @@ import { Add as AddIcon } from "@mui/icons-material";
 import AlertSnackbar from "../../components/admin/categoryManagment/AlertSnackbar ";
 import CategoryDialog from "../../components/admin/categoryManagment/CategoryDialog";
 import CategoriesTable from "../../components/admin/categoryManagment/CategoriesTable";
-import StatsCards from "../../components/admin/categoryManagment/StatsCards";
+// import StatsCards from "../../components/admin/categoryManagment/StatsCards";
 import useAllCategories from "../../hooks/useAllCategories";
 import { api } from "../../services/api";
 import { useTranslation } from "react-i18next";
@@ -153,7 +153,7 @@ export default function CategoriesPage() {
             {t("add_category")}
           </Button>
         </Box>
-        <StatsCards statsCategories={statsCategories} />
+        {/* <StatsCards statsCategories={statsCategories} /> */}
         <CategoriesTable
           serverError={serverError}
           categories={categories}

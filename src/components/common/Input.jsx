@@ -14,6 +14,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
     const { userToken } = useContext(UserContext)
     const isMangaDashboard = useLocation().pathname.startsWith("/dashboard/manga-management")
     const isChapterDashboard = useLocation().pathname.startsWith("/dashboard/manga/")
+    const isBannerDashboard = useLocation().pathname.startsWith("/dashboard/banner-management")
     const theme = useTheme()
     //to change the color of icons in dark&light in disable
     const getIconColor = () => {
@@ -25,7 +26,7 @@ function Input({ type, title, id, name, value, onChange, errors, onBlur, touched
 
     const getStartIcon = () => {
         const color = getIconColor();
-        if (isMangaDashboard||isChapterDashboard) return
+        if (isMangaDashboard || isChapterDashboard ||isBannerDashboard) return
         if (name === "categoryNameEn" || name === "categoryNameAr") return <Category sx={{ color: color, fontSize: "16px" }} />;
         if (type === "email") return <Mail size="16px" color={color} />;
         if (type === "password") return <Lock size="16px" color={color} />;

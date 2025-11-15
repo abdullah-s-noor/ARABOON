@@ -77,7 +77,13 @@
         "chapterNo": "رقم الفصل",
         "enter_chapterTitleEn": "أدخل عنوان الفصل بالإنجليزية",
         "enter_chapterTitleAr": "أدخل عنوان الفصل بالعربية",
-        "enter_chapterNo": "أدخل رقم الفصل"
+        "enter_chapterNo": "أدخل رقم الفصل",
+        "noteEn": "ملاحظة (بالإنجليزية)",
+        "noteAr": "ملاحظة (بالعربية)",
+        "enter_noteEn": "أدخل الملاحظة بالإنجليزية",
+        "enter_noteAr": "أدخل الملاحظة بالعربية",
+        "link": "الرابط",
+        "enter_link": "أدخل الرابط"
     },
     "register": {
         "title": "مرحبًا بك في ARABOON",
@@ -291,5 +297,14 @@
     "inactive_users": "المستخدمين غير النشطين",
     "search_users_placeholder": "ابحث عن المستخدمين...",
     "users_not_found": "لا يوجد مستخدمين",
-    "users_not_found_hint": "تحقق من الكتابة أو جرّب كلمة أخرى."
-}
+    "users_not_found_hint": "تحقق من الكتابة أو جرّب كلمة أخرى.",
+    "banners": "اللافتات",
+    "manage_banners": "إدارة اللافتات",
+    "add_banner": "إضافة لافتة",
+    "edit_banner": "تعديل اللافتة",
+    "total_banners": "إجمالي اللافتات",
+    "active_banners": "اللافتات النشطة",
+    "inactive_banners": "اللافتات غير النشطة",
+    "preview image": "معاينة الصورة",
+     "search_banners_placeholder": "ابحث عن اللافتات بالملاحظات الإنجليزية أو العربية..."
+    }

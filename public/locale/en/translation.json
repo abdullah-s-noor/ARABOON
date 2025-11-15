@@ -78,7 +78,13 @@
         "chapterNo": "Chapter Number",
         "enter_chapterTitleEn": "Enter Chapter Title in English",
         "enter_chapterTitleAr": "Enter Chapter Title in Arabic",
-        "enter_chapterNo": "Enter Chapter Number"
+        "enter_chapterNo": "Enter Chapter Number",
+        "noteEn": "Note (English)",
+        "noteAr": "Note (Arabic)",
+        "enter_noteEn": "Enter Note in English",
+        "enter_noteAr": "Enter Note in Arabic",
+        "link": "Link",
+        "enter_link": "Enter the Link"
     },
     "register": {
         "title": "Welcome to ARABOON",
@@ -292,5 +298,14 @@
     "inactive_users": "Inactive Users",
     "search_users_placeholder": "Search users by name...",
     "users_not_found": "Users not found",
-    "users_not_found_hint": "Check your spelling or try a different keyword."
+    "users_not_found_hint": "Check your spelling or try a different keyword.",
+    "banners": "Banners",
+    "manage_banners": "Manage Banners",
+    "add_banner": "Add Banner",
+    "edit_banner": "Edit Banner",
+    "total_banners": "Total Banners",
+    "active_banners": "Active Banners",
+    "inactive_banners": "Inactive Banners",
+    "preview image": "Preview Image",
+    "search_banners_placeholder": "Search banners by English or Arabic notes..."
 }

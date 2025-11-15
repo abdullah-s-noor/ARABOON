@@ -12,6 +12,7 @@ import Chapter from './user/Chapter';
 import CategoryManagement from './admin/CategoryManagement'
 import MangaManagement from './admin/MangaManagement';
 import UserManagement from './admin/UserManagement';
+import BannerManagement from './admin/BannerManagement';
 export {
   UserHomePage,
   Library,
@@ -26,5 +27,6 @@ export {
   Chapter,
   CategoryManagement,
   MangaManagement,
-  UserManagement
+  UserManagement,
+  BannerManagement
 };

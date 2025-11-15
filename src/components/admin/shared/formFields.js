@@ -10,6 +10,9 @@ export const fields = {
     chapterTitleEn: { type: "text", title: "Chapter Title (English)", id: "chapterTitleEn", name: "chapterTitleEn", language: "en" },
     chapterTitleAr: { type: "text", title: "Chapter Title (Arabic)", id: "chapterTitleAr", name: "chapterTitleAr", language: "ar" },
     ChapterNo: { type: "text", title: "Chapter Number", id: "chapterNo", name: "chapterNo" },
+    noteEn: { type: "text", title: "Note (English)", id: "noteEn", name: "noteEn", language: "en" },
+    noteAr: { type: "text", title: "Note (Arabic)", id: "noteAr", name: "noteAr", language: "ar" },
+    link: { type: "url", title: "Link", id: "link", name: "link" },
 };
 export const addCategoryFields = [
     fields.categoryNameEn,
@@ -31,7 +34,7 @@ export const addMangaFields = {
 }
 
 export const addChapterFields = {
-    chapterNo:fields.ChapterNo,
+    chapterNo: fields.ChapterNo,
     en: [
         fields.chapterTitleEn,
     ],
@@ -39,4 +42,14 @@ export const addChapterFields = {
         fields.chapterTitleAr,
     ]
 
+}
+
+export const addBannerFields = {
+    link: fields.link,
+    en: [
+        fields.noteEn,
+    ],
+    ar: [
+        fields.noteAr
+    ]
 }
