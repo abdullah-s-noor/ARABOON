@@ -42,17 +42,28 @@ export const getValidations = (t) => {
     .required("Chapter Title (English) is required");
 
   const chapterNo = yup
-  .number()
-  .typeError("Chapter number must be a number")
-  .integer("Chapter number must be integer")
-  .min(1, "Minimum chapter is 1")
-  .required("Chapter number is required");
+    .number()
+    .typeError("Chapter number must be a number")
+    .integer("Chapter number must be integer")
+    .min(1, "Minimum chapter is 1")
+    .required("Chapter number is required");
 
-
+  const noteEn = yup
+    .string()
+    .required("note in English req")
+  const noteAr = yup
+    .string()
+    .required("note in Arabic req")
+  const link = yup
+    .string()
+    .url("Please enter a valid URL")
+    .required("Link is required");
 
   return {
     addCategoryFields: yup.object({ categoryNameEn, categoryNameAr }),
     addMangaFields: yup.object({ mangaNameEn, authorEn, descriptionEn, mangaNameAr, authorAr, descriptionAr }),
-    addChapterFields: yup.object({ chapterTitleEn, chapterTitleAr, chapterNo })
+    addChapterFields: yup.object({ chapterTitleEn, chapterTitleAr, chapterNo }),
+    addBannerFields: yup.object({link, noteEn, noteAr }),
+
   };
 };

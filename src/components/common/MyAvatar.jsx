@@ -30,6 +30,7 @@ function CroppedAvatar({ originalImage, cropData, size = 24, borderSize = 0, ...
     x: cropData.Position.X,
     y: cropData.Position.Y,
   };
+  console.log(position)
   return (
     <AvatarEditor
       image={originalImage}
@@ -37,8 +38,8 @@ function CroppedAvatar({ originalImage, cropData, size = 24, borderSize = 0, ...
       height={size}
       border={0}
       borderRadius={size / 2}
-      scale={cropData.scale}
-      rotate={cropData.rotate}
+      scale={cropData.Scale}
+      rotate={cropData.Rotate}
       position={position}
       style={{
         border: `${borderSize}px solid ${theme.palette.primary.main}`,
@@ -74,7 +75,7 @@ export default function ProfileMenu() {
     if (!contextLoading) setAnchorEl(event.currentTarget);
   };
   const handleClose = () => setAnchorEl(null);
-
+  console.log(profileImage)
   // Accessibility: ARIA labels and keys for keyboard nav
   return (
     <>

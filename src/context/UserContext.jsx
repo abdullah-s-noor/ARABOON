@@ -39,6 +39,7 @@ export default function UserContextProvider({ children }) {
         try {
             const decoded = jwtDecode(token);
             decoded["ID"] = Number(decoded["ID"]);
+            console.log(decoded)
             setUserData(decoded);
         } catch (error) {
             console.error("Invalid token:", error);

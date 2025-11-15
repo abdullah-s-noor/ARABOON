@@ -23,8 +23,10 @@ export default function ImageCropper({
     existingImage,
     loading
 }) {
-    const isManga = useLocation().pathname.startsWith("/dashboard/manga-management")
-    const isChapter = useLocation().pathname.startsWith("/dashboard/manga/")
+    const location = useLocation()
+    const isManga = location.pathname.startsWith("/dashboard/manga-management")
+    const isChapter = location.pathname.startsWith("/dashboard/manga/")
+    const isBanner = location.pathname.startsWith("/dashboard/banner-management")
     const [imageSrc, setImageSrc] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
@@ -83,52 +85,51 @@ export default function ImageCropper({
         })
 
     const getCroppedImg = async (imageSrc, pixelCrop) => {
-  if (!imageSrc || !pixelCrop) return null;
+        if (!imageSrc || !pixelCrop) return null;
+        // options can contain: { targetWidth, targetHeight }
+        const targetWidth = isManga ? 352 : isChapter ? 450 :isBanner?1280: null;
+        const targetHeight = isManga ? 528 : isChapter ? 250 :isBanner?480: null;
 
-  // options can contain: { targetWidth, targetHeight }
-  const targetWidth =isManga?352:isChapter?450: null ;
-  const  targetHeight =isManga?528:isChapter?250:null;
+        const image = await createImage(imageSrc);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
-  const image = await createImage(imageSrc);
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+        const { width: cropW, height: cropH, x, y } = pixelCrop;
 
-  const { width: cropW, height: cropH, x, y } = pixelCrop;
+        let finalWidth = cropW;
+        let finalHeight = cropH;
 
-  let finalWidth = cropW;
-  let finalHeight = cropH;
+        if (targetWidth && targetHeight) {
+            // Both provided: stretch to fit exactly
+            finalWidth = targetWidth;
+            finalHeight = targetHeight;
+        } else if (targetWidth) {
+            // Only width: scale height proportionally
+            finalWidth = targetWidth;
+            finalHeight = (cropH / cropW) * finalWidth;
+        } else if (targetHeight) {
+            // Only height: scale width proportionally
+            finalHeight = targetHeight;
+            finalWidth = (cropW / cropH) * finalHeight;
+        }
 
-  if (targetWidth && targetHeight) {
-    // Both provided: stretch to fit exactly
-    finalWidth = targetWidth;
-    finalHeight = targetHeight;
-  } else if (targetWidth) {
-    // Only width: scale height proportionally
-    finalWidth = targetWidth;
-    finalHeight = (cropH / cropW) * finalWidth;
-  } else if (targetHeight) {
-    // Only height: scale width proportionally
-    finalHeight = targetHeight;
-    finalWidth = (cropW / cropH) * finalHeight;
-  }
+        canvas.width = finalWidth;
+        canvas.height = finalHeight;
 
-  canvas.width = finalWidth;
-  canvas.height = finalHeight;
+        ctx.drawImage(
+            image,
+            x,
+            y,
+            cropW,
+            cropH,
+            0,
+            0,
+            finalWidth,
+            finalHeight
+        );
 
-  ctx.drawImage(
-    image,
-    x,
-    y,
-    cropW,
-    cropH,
-    0,
-    0,
-    finalWidth,
-    finalHeight
-  );
-
-  return canvas.toDataURL("image/jpeg", 0.9);
-};
+        return canvas.toDataURL("image/jpeg", 0.9);
+    };
 
 
 

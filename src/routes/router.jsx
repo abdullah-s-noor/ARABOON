@@ -4,7 +4,7 @@ import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
 import {
     UserHomePage, MangaInformation, MangaList, Library, MangaRanking, TestPage, NotFound, Profile, ViewAll, Search, Chapter,
-    CategoryManagement,MangaManagement,UserManagement
+    CategoryManagement, MangaManagement, UserManagement,BannerManagement
 } from "../pages";
 export const router = createBrowserRouter([
     {
@@ -77,18 +77,21 @@ export const router = createBrowserRouter([
                 element: <CategoryManagement />
             },
             {
-                path:"manga-management",
-                element:<MangaManagement/>
+                path: "manga-management",
+                element: <MangaManagement />
             },
             {
                 path: 'manga/:mangaID',
                 element: <MangaInformation />
             },
             {
-                path:"user-management",
-                element:<UserManagement/>
+                path: "user-management",
+                element: <UserManagement />
             },
-            
+            {
+                path: "banner-management",
+                element: <BannerManagement />
+            }
         ]
     },
 ]);

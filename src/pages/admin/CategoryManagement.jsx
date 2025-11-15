@@ -4,24 +4,28 @@ import { Add as AddIcon } from "@mui/icons-material";
 import AlertSnackbar from "../../components/admin/categoryManagment/AlertSnackbar ";
 import CategoryDialog from "../../components/admin/categoryManagment/CategoryDialog";
 import CategoriesTable from "../../components/admin/categoryManagment/CategoriesTable";
-import StatsCards from "../../components/admin/categoryManagment/StatsCards";
+import StatsCards from "../../components/admin/shared/StatsCards";
 import useAllCategories from "../../hooks/useAllCategories";
 import { api } from "../../services/api";
 import { useTranslation } from "react-i18next";
+import useResource from "../../hooks/useResource";
 
 export default function CategoriesPage() {
-  const {
-    data: categories,
-    loading,
-    search,
-    statsCategories,
-    handleSearchChange,
-    handleAddCategory,
-    handleUpdateCategory,
-    handleDeleteCategory,
-    setStatsCategories,
-    serverError,
-  } = useAllCategories({ baseUrl: "/Categories" });
+const {
+  data: categories,
+  loading,
+  search,
+  stats: statsCategories,
+  handleSearchChange,
+  handleAdd: handleAddCategory,
+  handleUpdate: handleUpdateCategory,
+  handleDelete: handleDeleteCategory,
+  serverError,
+} = useResource({
+  baseUrl: "/Categories",
+  resourceName: "category",
+  searchableFields: ["en", "ar"],
+});
 
   const [openDialog, setOpenDialog] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
@@ -83,11 +87,6 @@ export default function CategoriesPage() {
           createdAt: new Date().toISOString().split("T")[0],
         };
         handleAddCategory(newCat);
-        setStatsCategories(prev => ({
-          ...prev,
-          inActiveCategories: prev.inActiveCategories + 1,
-          totalCategories: prev.totalCategories + 1,
-        }));
         setSnackbar({ open: true, message: data.message || "Added!", severity: "success" });
       }
       handleCloseDialog();
@@ -153,7 +152,7 @@ export default function CategoriesPage() {
             {t("add_category")}
           </Button>
         </Box>
-        <StatsCards statsCategories={statsCategories} />
+        <StatsCards stats={statsCategories} resource={"categories"} />
         <Box sx={{ width: "100%", overflowX: "auto" }}>
           <CategoriesTable
             serverError={serverError}
