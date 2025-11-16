@@ -20,6 +20,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true)
     const [categoriesMangas, setCategoriesMangas] = useState(null)
     const [hottestMangas, setHottestMangas] = useState([])
+    const [banners,setBanners]=useState([])
     const styles = (theme) => ({
         container: {
             backgroundColor: 'background.default',
@@ -68,14 +69,18 @@ const Home = () => {
         const fetchAllHomePageMangas = async () => {
             try {
                 setLoading(true);
-                const [categoriesData, hottestData] = await Promise.all([
+                const [categoriesData, hottestData,bannersData] = await Promise.all([
                     api.get("/Manga/GetCategoriesHomePageMangas"),
                     api.get("/Manga/GetHottestMangas"),
+                    api.get("/swipers")
+
                 ]);
+                setBanners(bannersData.data.data)
                 setHottestMangas(hottestData.data.data)
                 setCategoriesMangas((categoriesData.data.data))
                 console.log("Categories:", categoriesData.data.data);
                 console.log("Hottest Mangas:", hottestData.data.data);
+                console.log("Banners:", bannersData.data.data);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             } finally {
@@ -94,8 +99,7 @@ const Home = () => {
             {
                 loading ?  <LogoLoader />:
                     <Box sx={style.container}>
-                       
-                        <PromoBannerSwiper />
+                        <PromoBannerSwiper banners={banners} />
                         <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>
                             {/* media card */}
                             <Box component={'div'} sx={style.mediaCardWrapper}>

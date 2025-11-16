@@ -6,12 +6,13 @@ import { Box, useTheme } from '@mui/material';
 import './style.css';
 import { useTranslation } from 'react-i18next';
 import useIsPhone from '../../../hooks/usePhone';
+import { useNavigate } from 'react-router-dom';
 
-const PromoBannerSwiper = () => {
-  const {isPhone}=useIsPhone()
+const PromoBannerSwiper = ({ banners }) => {
+  const { isPhone } = useIsPhone()
+  const navigate = useNavigate()
   const { i18n } = useTranslation();
-  const theme=useTheme()
-  const banners = [1, 2, 3, 4, 5];
+  const theme = useTheme()
   const imageStyle = {
     width: '100%',
     borderRadius: '10px',
@@ -41,18 +42,26 @@ const PromoBannerSwiper = () => {
         900: { slidesPerView: 2 },
       }}
       style={{ padding: '20px 20px 30px 20px' }}
-  className={`promo-banner-swiper ${theme.palette.mode === 'dark' ? 'dark' : 'light'} lang-${i18n.language}`}
+      className={`promo-banner-swiper ${theme.palette.mode === 'dark' ? 'dark' : 'light'} lang-${i18n.language}`}
 
     >
-      {banners.map((n) => (
-        <SwiperSlide key={n}>
+      {banners.map((banner) => (
+        <SwiperSlide key={banner.id}>
           <Box
             component="img"
-            src={`/image/promoBanner/${n}.jpg`}
-            alt={`Promo ${n}`}
+            src={banner.url}
+            alt={`Promo ${banner.id}`}
             sx={imageStyle}
-            onClick={() => console.log(`Banner ${n} clicked`)}
+            onClick={() => {
+              if (banner.link.startsWith("https://araboon.vercel.app/manga/")) {
+                const mangaId = banner.link.split("/manga/")[1];
+                navigate(`/manga/${mangaId}`);
+              } else {
+                window.open(banner.link, "_blank");
+              }
+            }}
           />
+
         </SwiperSlide>
       ))}
     </Swiper>
