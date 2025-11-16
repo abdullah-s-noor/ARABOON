@@ -71,7 +71,7 @@ function ChangePassword({ open, setOpen }) {
         } catch (error) {
             console.log(error)
             if (error?.response?.data?.errors) {
-                setServerError(error?.response?.data?.errors?.CurrentPassword[0])
+                setServerError(error?.response?.data?.errors?.currentPassword[0])
             } else if (error?.response?.data?.message) {
                 setServerError(error?.response?.data?.message)
             } else {
@@ -89,6 +89,7 @@ function ChangePassword({ open, setOpen }) {
     });
     const handleClose = () => {
         setOpen(false);
+        setServerError(null)
         formik.resetForm()
     };
     return (

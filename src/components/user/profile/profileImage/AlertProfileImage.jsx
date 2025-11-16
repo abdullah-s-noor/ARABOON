@@ -12,7 +12,7 @@ function AlertProfileImage({handleDelete,type, open,setOpen,loading }) {
         },
         ar: {
             removeTitle: "حذف المرجع",
-            removeContent: `هل أنت متأكد أنك تريد حذف صورة ${type==="cover_image"?"صورة الغلاف":"الملف الشخصي"} ؟ هذا الإجراء لا يمكن التراجع عنه.`,
+            removeContent: `هل أنت متأكد أنك تريد حذف صورة ${type==="cover_image"?"الغلاف":"الملف الشخصي"} ؟ هذا الإجراء لا يمكن التراجع عنه.`,
             cancel: "إلغاء",
             remove: "حذف",
             removing: "جارٍ الحذف...",

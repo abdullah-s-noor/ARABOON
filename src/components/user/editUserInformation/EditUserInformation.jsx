@@ -13,7 +13,7 @@ import { useInfoOnSubmit } from './useInfoOnSubmit';
 import ChangePassword from './ChangePassword';
 function EditUserInformation({ userInfo, setUserInfo }) {
     const [isEdit, setIsEdit] = useState(false)
-    const { t } = useTranslation()
+    const { t ,i18n} = useTranslation()
     const validations=getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -32,7 +32,7 @@ function EditUserInformation({ userInfo, setUserInfo }) {
 
     const formik = useFormik({
         initialValues,
-        onSubmit: (values) => useInfoOnSubmit(values, getModifiedFields, setIsEdit, setUserInfo, setServerError, setLoading),
+        onSubmit: (values) => useInfoOnSubmit(values, getModifiedFields, setIsEdit, setUserInfo, setServerError, setLoading, i18n),
         validationSchema: validations.userInformation,
     });
     const getModifiedFields = () => {
@@ -69,7 +69,7 @@ function EditUserInformation({ userInfo, setUserInfo }) {
 
                     <RenderFields formik={formik} fields={userInformationFields} isEdit={isEdit} />
                 </Box>
-                {isEdit && (
+                {isEdit&&!loading && (
                     <Button onClick={()=>{setOpenChangePassword(true)}} type="button" sx={style.submitButton}>{t("profile.change_password")}</Button>
                 )}
             </Box>

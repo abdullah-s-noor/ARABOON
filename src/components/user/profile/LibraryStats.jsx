@@ -36,7 +36,7 @@ function LibraryStats({librariesCount}) {
                     {libraryList.map((library, index) => (
                         <Grid key={index} size={is750 ? 4 : 2}>
                             <Item >
-                                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', color: library.color }}>188</Typography>
+                                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', color: library.color }}>{library.value}</Typography>
                                 <Typography sx={{ ...style.subtitle }}>{library.name}</Typography>
                             </Item>
                         </Grid>
