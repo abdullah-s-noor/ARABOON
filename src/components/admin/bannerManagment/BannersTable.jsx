@@ -29,6 +29,7 @@ import { useTranslation } from 'react-i18next';
 import BannerTableSkeleton from './BannerTableSkeleton';
 import BannerRow from './BannerRow';
 import PreviewImage from './PreviewImage';
+import MyTablePagination from '../shared/MyTablePagination';
 
 function BannersTable({
     banners, // filtered array from your useAllCategories hook
@@ -92,7 +93,7 @@ function BannersTable({
             <TableContainer
                 component={Paper}
             >
-                <Table sx={{ minWidth: 630 }}>
+                <Table sx={{ minWidth: 1000 }}>
                     <TableHead>
                         <TableRow>
                             <TableCell sx={style.textAlign}>
@@ -116,7 +117,7 @@ function BannersTable({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {!loading&&(serverError || displayedCategories.length) === 0 ? (
+                        {!loading && (serverError || displayedCategories.length=== 0)  ? (
                             <TableRow>
                                 <TableCell colSpan={6} align="center" sx={{ py: 4, border: 0 }}>
                                     <Box
@@ -134,7 +135,7 @@ function BannersTable({
                                             {i18n.language === "en" ? "Banners not found" : "لا توجد لافتات"}
                                         </Typography>
 
-                                        <Typography variant="body2" color="text.secondary"sx={{ opacity: 0.7 }}>
+                                        <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
                                             {i18n.language === "en"
                                                 ? "Check your spelling or try a different keyword."
                                                 : "تحقق من الكتابة أو جرّب كلمة مفتاحية مختلفة."}
@@ -160,21 +161,7 @@ function BannersTable({
                 </Table>
 
                 {/* TablePagination at bottom */}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50]}
-                    component="div"
-                    count={banners.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    sx={{ direction: i18n.language === "ar" ? "rtl" : "ltr", minWidth: 630 }}
-                    onPageChange={(e, newPage) => setPage(newPage)}
-                    onRowsPerPageChange={e => {
-                        setRowsPerPage(parseInt(e.target.value, 10));
-                        setPage(0);
-                    }}
-                    labelRowsPerPage={i18n.language === "ar" ? "عدد العناصر في الصفحة :" : "Rows per page:"}
-                    labelDisplayedRows={({ from, to, count }) => i18n.language === "ar" ? ` ${to}-${from} من ${count}` : ` ${from}-${to} of ${count}`}
-                />
+                <MyTablePagination count={banners?.length} rowsPerPage={rowsPerPage} page={page} minWidth={1000} setPage={setPage} setRowsPerPage={setRowsPerPage}/>
             </TableContainer>
             <PreviewImage previewImage={previewImage} setPreviewImage={setPreviewImage} />
         </Card>

@@ -33,15 +33,14 @@ const usePaginatedUsers = ({ baseUrl }) => {
         const page = pageNumber===0?1: pageNumber;
         const cacheKey = buildCacheKey(page);
 
-        // ✅ Check cache first
+        //Check cache first
         if (cacheRef.current[cacheKey]) {
-            console.log("✅ Loaded from cache:", cacheKey);
+            console.log(" Loaded from cache:", cacheKey);
             const cached = cacheRef.current[cacheKey];
             setUsers(cached.users);
             setTotalPages(cached.totalPages);
             setHasNextPage(cached.hasNextPage);
             setCount(cached.count);
-            setStatsUsers(cached.statsUsers);
             setLoading(false);
             setPageNumber(page);
             return;
@@ -51,7 +50,7 @@ const usePaginatedUsers = ({ baseUrl }) => {
             setServerError(null);
             setLoading(true);
             const url = `${baseUrl}?search=${search}&PageNumber=${page}&pageSize=${pageSize}`;
-            console.log("🌍 Fetching from server:", url);
+            console.log(" Fetching from server:", url);
 
             const response = await api.get(url);
 
@@ -66,7 +65,7 @@ const usePaginatedUsers = ({ baseUrl }) => {
             const newUsers = data.data;
             setUsers(newUsers);
 
-            // ✅ Save to cache
+            //  Save to cache
             cacheRef.current[cacheKey] = {
                 users: newUsers,
                 totalPages: data.totalPages,
@@ -119,6 +118,19 @@ const usePaginatedUsers = ({ baseUrl }) => {
             setUsers(prev =>
                 prev.map(u => u.id === userId ? { ...u, ...updates } : u)
             );
+            if (type==="status"){
+            setStatsUsers(prevStats => {
+                let { activeUsers, inActiveUsers } = prevStats;
+                    if (updates.isActive) {
+                        activeUsers += 1;
+                        inActiveUsers -= 1;
+                    } else {
+                        activeUsers -= 1;
+                        inActiveUsers += 1;
+                    }
+                return { ...prevStats, activeUsers, inActiveUsers };
+            });
+        }
 
             // 2) Update ALL cache pages that contain that user
             Object.keys(cacheRef.current).forEach(key => {

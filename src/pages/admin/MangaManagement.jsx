@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, InputAdornment, IconButton, Box, useTheme, useMediaQuery, Typography, Button, Stack } from '@mui/material';
+import { TextField, InputAdornment, IconButton, Box, useTheme, useMediaQuery, Typography, Button, Stack, Container } from '@mui/material';
 import usePaginatedMangaList from '../../hooks/usePaginatedMangaList';
 import GeneralPreviewCards from "../../components/common/GeneralPreviewCards";
 import { useTranslation } from 'react-i18next';
@@ -65,26 +65,26 @@ function SearchBarMUI() {
   }
   if (categoryLoading) return <LogoLoader />
   return (
-    <>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
       <Stack spacing={3}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3} spacing={2}>
           <Box>
-            <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
+            <Typography variant="h5" component="h1" >
               {t("manga")}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" >
               {t("manage_manga")}
             </Typography>
           </Box>
           <Button
             variant="contained"
             startIcon={<Add />}
-            onClick={handleOpenAddDialog}
+            onClick={() => handleOpenAddDialog()}
             sx={{ height: "fit-content", borderRadius: 3, direction: "ltr" }}
           >
             {t("add_manga")}
           </Button>
-        </Box>
+        </Stack>
         <SearchBar fetchMangas={fetchMangas} serverError={serverError} setMangas={setMangas} value={value} handleChange={handleChange} />
         <GeneralPreviewCards mangas={mangas} loading={loading} pageNumber={pageNumber}
           count={count} setPageNumber={setPageNumber} hasNextPage={hasNextPage} pageSize={pageSize} onEditManga={handleOpenEditDialog} onDelete={handleDeleteManga}
@@ -104,7 +104,7 @@ function SearchBarMUI() {
         removeContent={i18n.language === "en" ? `Are you sure you want to remove ${selectedForDeletion?.mangaName}? This action cannot be undone.` :
           `هل أنت متأكد أنك تريد حذف ${selectedForDeletion?.mangaName}? ؟ هذا الإجراء لا يمكن التراجع عنه.`}
       />
-    </>
+    </Container>
   );
 }
 

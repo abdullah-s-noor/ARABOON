@@ -27,6 +27,8 @@ import {
 } from "@mui/icons-material";
 import { useTranslation } from 'react-i18next';
 import CategoryTableSkeleton from './CategoryTableSkeleton';
+import MyTablePagination from '../shared/MyTablePagination';
+import CategoryRow from './CategoryRow';
 
 function CategoriesTable({
     categories, // filtered array from your useAllCategories hook
@@ -37,7 +39,6 @@ function CategoriesTable({
     handleSearchChange,
     serverError,
     loading,
-    secondaryLoading
 }) {
     const { i18n, t } = useTranslation();
     const style = {
@@ -119,7 +120,7 @@ function CategoriesTable({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {serverError || displayedCategories.length === 0 ? (
+                        {!loading && (serverError || displayedCategories.length === 0) ? (
                             <TableRow>
                                 <TableCell colSpan={5} align="center" sx={{ py: 4, border: 0 }}>
                                     <Box
@@ -133,116 +134,32 @@ function CategoriesTable({
                                         }}
                                     >
                                         <SearchOff color="disabled" sx={{ fontSize: 40, mb: 1 }} />
-                                        <Typography
-                                            variant="h6"
-                                            color="text.secondary"
-                                            fontWeight={500}
-                                            sx={{ letterSpacing: 0.5 }}
-                                        >
-                                            Categories not found
+                                        <Typography variant="h6" color="text.secondary" fontWeight={500} sx={{ letterSpacing: 0.5 }}>
+                                            {i18n.language === "en" ? "Categories not found" : "لا توجد فئات"}
                                         </Typography>
+
                                         <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
-                                            Check your spelling or try a different keyword.
+                                            {i18n.language === "en"
+                                                ? "Check your spelling or try a different keyword."
+                                                : "تحقق من الكتابة أو جرّب كلمة مفتاحية مختلفة."}
                                         </Typography>
                                     </Box>
                                 </TableCell>
                             </TableRow>
                         ) : loading ? (
-                            <>
-                                <CategoryTableSkeleton />
-                                <CategoryTableSkeleton />
-                                <CategoryTableSkeleton />
-                                <CategoryTableSkeleton />
-                                <CategoryTableSkeleton />
-                            </>
+                            Array.from({ length: rowsPerPage }).map((_, index) => (
+                                <CategoryTableSkeleton key={index}/>
+                            ))
                         ) : (
                             displayedCategories.map(category => (
-                                <TableRow key={category.id} hover sx={style.textAlign} row-id={category.id}>
-                                    <TableCell sx={style.textAlign}>
-                                        <Typography fontWeight={500}>{category.en}</Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {category.ar}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell sx={style.textAlign}>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {category.availableMangaCounts}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell sx={style.textAlign}>
-                                        <Chip
-                                            sx={{ direction: "ltr" }}
-                                            label={category.isActive ? "Active" : "Inactive"}
-                                            color={category.isActive ? "success" : "default"}
-                                            size="small"
-                                            icon={category.isActive ? <ActiveIcon /> : <InactiveIcon />}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={style.textAlign}>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {category.createdAt}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Stack
-                                            direction="row"
-                                            spacing={1}
-                                            justifyContent="center"
-                                        >
-                                            <IconButton
-                                                size="small"
-                                                color={category.isActive ? "warning" : "success"}
-                                                onClick={() => handleToggleActive(category)}
-                                                title={category.isActive ? "Deactivate" : "Activate"}
-                                                row-activateIcon-id={category.id}
-                                                disabled={secondaryLoading}
-
-                                            >
-                                                {category.isActive ? <InactiveIcon sx={{}} /> : <ActiveIcon />}
-                                            </IconButton>
-                                            <IconButton
-
-                                                size="small"
-                                                color="info"
-                                                onClick={() => handleOpenDialog(category)}
-                                                title="Edit"
-                                                disabled={secondaryLoading}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                size="small"
-                                                color="error"
-                                                onClick={() => handleDeleteCategory(category)}
-                                                title="Delete"
-                                                disabled={secondaryLoading}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Stack>
-                                    </TableCell>
-                                </TableRow>
+                               <CategoryRow category={category} handleOpenDialog={handleOpenDialog} handleDeleteCategory={handleDeleteCategory} handleToggleActive={handleToggleActive}/>
                             ))
                         )}
                     </TableBody>
                 </Table>
 
                 {/* TablePagination at bottom */}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50]}
-                    component="div"
-                    count={categories.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    sx={{direction: i18n.language === "ar" ? "rtl" : "ltr", minWidth:630}}
-                    onPageChange={(e, newPage) => setPage(newPage)}
-                    onRowsPerPageChange={e => {
-                        setRowsPerPage(parseInt(e.target.value, 10));
-                        setPage(0);
-                    }}
-                    labelRowsPerPage={i18n.language === "ar" ? "عدد العناصر في الصفحة :" : "Rows per page:"}
-                    labelDisplayedRows={({ from, to, count }) => i18n.language === "ar" ? ` ${to}-${from} من ${count}` : ` ${from}-${to} of ${count}`}
-                />
+                <MyTablePagination count={categories.length} rowsPerPage={rowsPerPage} page={page} minWidth={630} setPage={setPage} setRowsPerPage={setRowsPerPage}/>
             </TableContainer>
         </Card>
     );
