@@ -36,13 +36,13 @@ export default function ActionsCell({ status, onStatusChange, role, onRoleChange
                 <Menu anchorEl={menuAnchor} open={openMenu} onClose={handleMenuClose}>
                     <MenuItem
                         selected={role === "User"}
-                        onClick={() => { onRoleChange("User"); handleMenuClose(); }}
+                        onClick={() => { role!=="User"&&onRoleChange("User"); handleMenuClose(); }}
                     >
                         <PersonIcon fontSize="small" sx={{ mr: 1 }} /> User
                     </MenuItem>
                     <MenuItem
                         selected={role === "Admin"}
-                        onClick={() => { onRoleChange("Admin"); handleMenuClose(); }}
+                        onClick={() => {role!=="Admin"&&onRoleChange("Admin"); handleMenuClose(); }}
                     >
                         <AdminPanelSettingsIcon fontSize="small" sx={{ mr: 1 }} /> Admin
                     </MenuItem>

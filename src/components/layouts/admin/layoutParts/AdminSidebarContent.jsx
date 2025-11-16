@@ -8,6 +8,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import GroupIcon from "@mui/icons-material/Group";
+import { ViewCarouselOutlined } from '@mui/icons-material';
 
 function AdminSidebarContent() {
     const { i18n,t } = useTranslation()
@@ -34,6 +35,11 @@ function AdminSidebarContent() {
         label: isArabic ? "إدارة المستخدمين" : "User Management",
         icon: <GroupIcon />,
         path: "user-management"
+    },
+    {
+        label: isArabic ? "إدارة اللافتات" : "banner Management",
+        icon: <ViewCarouselOutlined  />,
+        path: "banner-management"
     },
 ];
 

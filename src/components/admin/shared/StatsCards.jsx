@@ -3,6 +3,7 @@ import {
   Category,
   CheckCircle as ActiveIcon,
   Cancel as InactiveIcon,
+  ViewCarouselOutlined
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import React from "react";

@@ -28,6 +28,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import UserRow from './UserRow';
 import UserTableSkeleton from './UserTableSkeleton';
+import MyTablePagination from '../shared/MyTablePagination';
 
 function UsersTable({ users, search, handleSearch, count, pageSize, pageNumber, setPageNumber, setPageSize, loading, serverError, updateUserLocally }) {
     const { t, i18n } = useTranslation()
@@ -44,11 +45,9 @@ function UsersTable({ users, search, handleSearch, count, pageSize, pageNumber, 
                     border: "1px solid",
                     borderColor: "divider",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                    maxHeight: 620, // أقصى ارتفاع للجدول
+                    maxHeight: 620,
                     overflowY: "auto",
                     willChange: "transform",
-                    // تحسين أداء التمرير
-                    // تحسين ألوان الـ scrollbar في الوضع الداكن
                     '&::-webkit-scrollbar': {
                         width: '8px',
                     },
@@ -59,7 +58,6 @@ function UsersTable({ users, search, handleSearch, count, pageSize, pageNumber, 
                         backgroundColor: (theme) => i18n.language === "ar" && theme.palette.mode === 'dark' ? '#555' : '#888',
                         borderRadius: '8px',
                     },
-                    // تجنب ظل كبير في الوضع الداكن
                     WebkitBoxShadow: (theme) => i18n.language === "ar" && theme.palette.mode === 'dark' ? 'none' : '0 2px 8px rgba(0,0,0,0.04)',
 
 
@@ -88,7 +86,7 @@ function UsersTable({ users, search, handleSearch, count, pageSize, pageNumber, 
                     />
                 </Box>
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 630 }}>
+                    <Table sx={{ minWidth: 1200 }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={style.textAlign}>{i18n.language === "ar" ? "الصورة" : "Profile"}</TableCell>
@@ -144,52 +142,7 @@ function UsersTable({ users, search, handleSearch, count, pageSize, pageNumber, 
                             ))}
                         </TableBody>
                     </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[3, 5, 10, 25, 50]}
-                        component="div"
-                        count={count} // العدد الكلي من السيرفر مو users.length
-                        rowsPerPage={pageSize}
-                        page={pageNumber - 1} // لأن MUI يبدأ من 0
-                        sx={{
-                            minWidth: 1000,
-                            width: "100%",
-                            textAlign: "center",
-
-                            // نجبر أزرار pagination فقط إنها تكون LTR
-                            "& .MuiTablePagination-actions": {
-                            },
-
-                            "& .MuiTablePagination-actions button": {
-                                borderRadius: "8px",
-                                marginInline: "4px",
-                                transition: "0.2s",
-                            },
-                            "& .MuiTablePagination-actions button:hover": {
-                                transform: "scale(1.12)"
-                            },
-                            "& .MuiTablePagination-actions svg": {
-                                fontSize: "1.4rem",
-                                transform: i18n.language === "ar" ? "scaleX(-1)" : "none", // flip only in RTL
-                            },
-                        }}
-
-                        onPageChange={(e, newPage) => {
-                            setPageNumber(newPage + 1); // نعيدها لصيغة API
-                        }}
-
-                        onRowsPerPageChange={e => {
-                            setPageSize(parseInt(e.target.value, 10));
-                            setPageNumber(1); // أي تغيير بالعدد يرجع لأول صفحة
-                        }}
-
-                        labelRowsPerPage={i18n.language === "ar" ? "عدد العناصر في الصفحة :" : "Rows per page:"}
-
-                        labelDisplayedRows={({ from, to, count }) =>
-                            i18n.language === "ar"
-                                ? `${to}-${from} من ${count}`
-                                : `${from}-${to} of ${count}`
-                        }
-                    />
+                    <MyTablePagination count={count} rowsPerPage={pageSize} page={pageNumber-1} minWidth={1200}setPage={setPageNumber} setRowsPerPage={setPageSize} type="user"/>
                 </TableContainer>
             </Card>
         </>

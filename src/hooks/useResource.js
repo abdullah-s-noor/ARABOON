@@ -67,6 +67,9 @@ export default function useResource({
     const handleSearchChange = (value) => setSearch(value);
 
     const handleAdd = (item, message) => {
+        if(data.length===0){
+            setServerError(null);
+        }
         setData((prev) => [...prev, item]);
         setStats((prev) => ({ ...prev, inactive: prev.inactive + 1, total: prev.total + 1 }));
         setSnackbar({
@@ -128,6 +131,32 @@ export default function useResource({
             });
         }
     }
+    const handleToggleActiveCat = async cat => {
+        try {
+            if (cat.isActive) {
+                const { data } = await api.delete(`/Categories/${cat.id}/deactive`)
+                console.log(data)
+                setSnackbar({ open: true, message: data.message, severity: "success" });
+            } else {
+                const { data } = await api.post(`/Categories/${cat.id}/active`)
+                console.log(data)
+                setSnackbar({ open: true, message: data.message, severity: "success" });
+            }
+            setData((prev) =>
+                prev.map((x) =>
+                    x.id === cat.id ? { ...x, isActive: !x.isActive } : x
+                )
+            );
+            setStats((prev) => ({
+                ...prev,
+                active: cat.isActive ? prev.active -1 : prev.active + 1,
+                inactive: cat.isActive ? prev.inactive + 1 : prev.inactive - 1,
+            }));
+        } catch {
+            setSnackbar({ open: true, message: "Failed to update status", severity: "error" });
+        }
+    };
+
 
     const handleDelete = (item, message = "") => {
         setData((prev) => prev.filter((x) => x.id !== item.id));
@@ -160,7 +189,7 @@ export default function useResource({
         handleToggleActive,
         snackbar,
         setSnackbar,
-
+        handleToggleActiveCat
     };
 }
 

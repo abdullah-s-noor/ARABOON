@@ -1,4 +1,4 @@
-import { Button, Chip, IconButton, Stack, TableCell, TableRow, Typography, useTheme } from '@mui/material'
+import { Button, Chip, IconButton, Stack, TableCell, TableRow, Tooltip, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import {
@@ -23,17 +23,17 @@ function UserRow({ banner, handleDeleteBanner, handleToggleActive, handleOpenEdi
     const handleStatusChange = async (newStatus) => {
         try {
             setLoading(true);
-            await handleToggleActive(`/swipers/${banner.id}/active-toggle`,banner.id, newStatus);
+            await handleToggleActive(`/swipers/${banner.id}/active-toggle`, banner.id, newStatus);
         } finally {
             setLoading(false);
         }
     }
     const handleDelete = async (banner) => {
-        try{
+        try {
             setLoading(true);
-            const {data}=await api.delete(`/swipers/${banner.id}`)
-            handleDeleteBanner(banner,data.message);
-        }catch(err){
+            const { data } = await api.delete(`/swipers/${banner.id}`)
+            handleDeleteBanner(banner, data.message);
+        } catch (err) {
             console.error(err);
         }
     }
@@ -87,36 +87,36 @@ function UserRow({ banner, handleDeleteBanner, handleToggleActive, handleOpenEdi
                         spacing={1}
                         justifyContent="center"
                     >
-                        <IconButton
-                            size="small"
-                            color={banner.isActive ? "warning" : "success"}
-                            onClick={() => handleStatusChange(!banner.isActive)}
-                            title={banner.isActive ? "Deactivate" : "Activate"}
-                            row-activateIcon-id={banner.id}
-                            disabled={loading}
-
-                        >
-                            {banner.isActive ? <InactiveIcon sx={{}} /> : <ActiveIcon />}
-                        </IconButton>
-                        <IconButton
-
-                            size="small"
-                            color="info"
-                            onClick={() => handleOpenEditDialog(banner)}
-                            title="Edit"
-                            disabled={loading}
-                        >
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton
-                            size="small"
-                            color="error"
-                            onClick={() => handleDelete(banner)}
-                            title="Delete"
-                            disabled={loading}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
+                        <Tooltip title={banner.isActive ? "Deactivate User" : "Activate User"}>
+                            <IconButton
+                                size="small"
+                                color={banner.isActive ? "warning" : "success"}
+                                onClick={() => handleStatusChange(!banner.isActive)}
+                                disabled={loading}
+                            >
+                                {banner.isActive ? <InactiveIcon sx={{}} /> : <ActiveIcon />}
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit Banner">
+                            <IconButton
+                                size="small"
+                                color="info"
+                                onClick={() => handleOpenEditDialog(banner)}
+                                disabled={loading}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete Banner">
+                            <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => handleDelete(banner)}
+                                disabled={loading}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Stack>
                 </TableCell>
             </TableRow>

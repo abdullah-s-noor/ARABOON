@@ -30,7 +30,6 @@ function CroppedAvatar({ originalImage, cropData, size = 24, borderSize = 0, ...
     x: cropData.Position.X,
     y: cropData.Position.Y,
   };
-  console.log(position)
   return (
     <AvatarEditor
       image={originalImage}
@@ -75,7 +74,6 @@ export default function ProfileMenu() {
     if (!contextLoading) setAnchorEl(event.currentTarget);
   };
   const handleClose = () => setAnchorEl(null);
-  console.log(profileImage)
   // Accessibility: ARIA labels and keys for keyboard nav
   return (
     <>

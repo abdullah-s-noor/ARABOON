@@ -9,11 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-
 export default function AlertDialog({ selectedForDeletion, setSelectedForDeletion, items, setItems, removeTitle, removeContent, setLangAvailable = null,selectedLanguage=null}) {
     const location = useLocation()
-    const isMangaDashboard = location.pathname.startsWith("dashboard/manga-management")
+    const isMangaDashboard = location.pathname.startsWith("/dashboard/manga-management")
     const isChapterDashboard = location.pathname.startsWith("/dashboard/manga/")
     const dialogText = {
         en: {
@@ -48,6 +46,10 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
                 setLangAvailable(prev => ({ ...prev, [selectedLanguage]: data.meta[selectedLanguage === "en" ? "isEnglishAvailable" : "isArabicAvailable"] }))
                 setItems(prev => prev.filter(ch => ch.chapterID !== selectedForDeletion.chapterID));
                 toast.success(data.message)
+            }else if(isMangaDashboard){
+                const { data } = await api.delete(`/Manga/${selectedForDeletion.mangaID}`)
+                setItems(items.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
+                toast.success(data.message)
             } else {
                 const { data } = await api.delete(isMangaDashboard ? `/Manga/${selectedForDeletion.mangaID}` : `/${pathname}/RemoveFrom${pathname}/${selectedForDeletion.mangaID}`)
                 setItems(items.filter((manga) => (manga.mangaID !== selectedForDeletion.mangaID)))
@@ -60,6 +62,7 @@ export default function AlertDialog({ selectedForDeletion, setSelectedForDeletio
             setLoading(false)
         }
     }
+    
     return (
         <Fragment>
             <Dialog

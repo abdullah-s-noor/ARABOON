@@ -101,7 +101,7 @@ export default function AdminNavbar({ open = false, handleDrawerOpen, handleDraw
                             color: "white"
                         }}
                     >
-                        Dashboard
+                        {i18n.language==="en"?"Dashboard":"لوحة التحكم"}
                     </Typography>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={.5}>

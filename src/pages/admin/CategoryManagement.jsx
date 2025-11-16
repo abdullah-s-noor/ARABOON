@@ -11,33 +11,30 @@ import { useTranslation } from "react-i18next";
 import useResource from "../../hooks/useResource";
 
 export default function CategoriesPage() {
-const {
-  data: categories,
-  loading,
-  search,
-  stats: statsCategories,
-  handleSearchChange,
-  handleAdd: handleAddCategory,
-  handleUpdate: handleUpdateCategory,
-  handleDelete: handleDeleteCategory,
-  serverError,
-} = useResource({
-  baseUrl: "/Categories",
-  resourceName: "category",
-  searchableFields: ["en", "ar"],
-});
+  const {
+    data: categories,
+    loading,
+    search,
+    stats: statsCategories,
+    handleSearchChange,
+    handleAdd: handleAddCategory,
+    handleUpdate: handleUpdateCategory,
+    handleDelete: handleDeleteCategory,
+    snackbar,
+    setSnackbar,
+    serverError,
+    setStats,
+    handleToggleActiveCat
+  } = useResource({
+    baseUrl: "/Categories",
+    resourceName: "category",
+    searchableFields: ["en", "ar"],
+  });
 
   const [openDialog, setOpenDialog] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({ en: "", ar: "" });
-  const [secondaryLoading, setSecondaryLoading] = useState(false)
-  const [dialogLoading, setDialogLoading] = useState(false)
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   // Dialog handlers
   const handleOpenDialog = category => {
     if (category) {
@@ -55,51 +52,16 @@ const {
     setFormData({ en: "", ar: "" });
   };
 
-  const handleSaveCategory = async values => {
-    try {
-      setDialogLoading(true)
-      if (editingCategory) {
-        console.log(editingCategory)
-        const { data } = await api.put(`/Categories`, {
-          id: editingCategory.id,
-          categoryNameEn: values.categoryNameEn,
-          categoryNameAr: values.categoryNameAr,
-        });
-        const updatedCat = {
-          ...editingCategory,
-          en: values.categoryNameEn,
-          ar: values.categoryNameAr,
-        };
-        handleUpdateCategory(updatedCat);
-        setSnackbar({ open: true, message: data.message || "Updated!", severity: "success" });
-      } else {
-        // ADD new
-        const { data } = await api.post("/Categories", {
-          categoryNameEn: values.categoryNameEn,
-          categoryNameAr: values.categoryNameAr,
-        });
-        const newCat = {
-          id: data.data?.id || String(Date.now()),
-          en: values.categoryNameEn,
-          ar: values.categoryNameAr,
-          availableMangaCounts: 0,
-          isActive: false,
-          createdAt: new Date().toISOString().split("T")[0],
-        };
-        handleAddCategory(newCat);
-        setSnackbar({ open: true, message: data.message || "Added!", severity: "success" });
-      }
-      handleCloseDialog();
-    } catch (error) {
-      setSnackbar({ open: true, message: "Failed to save", severity: "error" });
-    } finally {
-      setDialogLoading(false)
+  const handleSaveCategory = async (category, message) => {
+    if (editingCategory) {
+      handleUpdateCategory(category, message);
+    } else {
+      handleAddCategory(category, message);
     }
   };
 
   const handleDelete = async (category) => {
     try {
-      setSecondaryLoading(true)
       console.log(category)
       const { data } = await api.delete(`/Categories/${category.id}`);
       handleDeleteCategory(category);
@@ -107,39 +69,19 @@ const {
     } catch {
       setSnackbar({ open: true, message: "Delete failed", severity: "error" });
     } finally {
-      setSecondaryLoading(false)
     }
   };
 
-  const handleToggleActive = async cat => {
-    try {
-      setSecondaryLoading(true)
-      if (!cat) return;
-      if (cat.isActive) {
-        const { data } = await api.delete(`/Categories/${cat.id}/deactive`)
-        console.log(data)
-        setSnackbar({ open: true, message: data.message, severity: "success" });
-      } else {
-        const { data } = await api.post(`/Categories/${cat.id}/active`)
-        setSnackbar({ open: true, message: data.message, severity: "success" });
-      }
-      handleUpdateCategory({ ...cat, isActive: !cat.isActive });
-    } catch {
-      setSnackbar({ open: true, message: "Failed to update status", severity: "error" });
-    } finally {
-      setSecondaryLoading(false)
-    }
-  };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <Stack spacing={3}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3} spacing={2}>
           <Box>
-            <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
+            <Typography variant="h5" component="h1" >
               {t("categories")}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" >
               {t("manage_categories")}
             </Typography>
           </Box>
@@ -151,19 +93,18 @@ const {
           >
             {t("add_category")}
           </Button>
-        </Box>
+        </Stack>
         <StatsCards stats={statsCategories} resource={"categories"} />
         <Box sx={{ width: "100%", overflowX: "auto" }}>
           <CategoriesTable
             serverError={serverError}
             categories={categories}
-            handleToggleActive={handleToggleActive}
+            handleToggleActive={handleToggleActiveCat}
             handleOpenDialog={handleOpenDialog}
             handleDeleteCategory={handleDelete}
             search={search}
             handleSearchChange={handleSearchChange}
             loading={loading}
-            secondaryLoading={secondaryLoading}
           />
         </Box>
 
@@ -172,9 +113,8 @@ const {
         openDialog={openDialog}
         editingCategory={editingCategory}
         handleCloseDialog={handleCloseDialog}
-        handleSaveCategory={handleSaveCategory}
         formData={formData}
-        dialogLoading={dialogLoading}
+        onSave={handleSaveCategory}
       />
       <AlertSnackbar snackbar={snackbar} setSnackbar={setSnackbar} />
     </Container>
