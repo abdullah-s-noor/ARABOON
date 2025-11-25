@@ -59,7 +59,8 @@ export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const { isPhone } = usePhone();
   const { contextLoading, logout, userData } = useContext(UserContext);
-  const isAdmin = useLocation().pathname.startsWith('/dashboard')
+  const location = useLocation()
+  const isAdmin = location.pathname.startsWith('/dashboard')
   // Defensive checks in case userData is missing
   if (!userData) return null;
   let profileImage = {};
@@ -81,7 +82,7 @@ export default function ProfileMenu() {
         sx={{
           display: "flex",
           alignItems: "center",
-          backgroundColor: (isAdmin && isMobile) ?  "primary.main" : "#222",
+          backgroundColor: (isAdmin && isMobile) ? "primary.main" : "#222",
           color: "#ccc",
           borderRadius: "20px",
           padding: "4px 8px",
@@ -90,7 +91,7 @@ export default function ProfileMenu() {
           opacity: contextLoading ? 0.6 : 1,
           ...(isPhone
             ? { "&:active": { backgroundColor: (isAdmin && isMobile) ? "thirdly.main" : "#333" } }
-            : { "&:hover": { backgroundColor:(isAdmin && isMobile) ? "thirdly.main": "#333" } }),
+            : { "&:hover": { backgroundColor: (isAdmin && isMobile) ? "thirdly.main" : "#333" } }),
         }}
         onClick={handleClick}
         aria-haspopup="true"
@@ -184,7 +185,11 @@ export default function ProfileMenu() {
         <MenuItem
           onClick={() => {
             handleClose();
-            logout();
+            logout(() => {
+              if (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/library')) {
+                navigate("/")
+              }
+            });
           }}
           aria-label={t('logout')}
         >

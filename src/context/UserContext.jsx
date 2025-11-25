@@ -4,6 +4,7 @@ import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { api, setApiAccessToken, clearApiAccessToken } from "../services/api";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 // @ts-ignore
 export const UserContext = createContext();
@@ -12,6 +13,9 @@ export default function UserContextProvider({ children }) {
     const [userToken, setUserToken] = useState(null);
     const [userData, setUserData] = useState(null);
     const [contextLoading, setContextLoading] = useState(true);
+    const [authDialog, setAuthDialog] = useState({ open: false, mode: null });
+    const [nextPath, setNextPath] = useState(null);
+
     // Function to check for a valid session on page load
     const checkUserSession = async () => {
         setContextLoading(true);
@@ -51,13 +55,21 @@ export default function UserContextProvider({ children }) {
         setUserToken(token);
         setApiAccessToken(token);
         decodeUserData(token);
+        //this for admin only because when login  will  delete the navbar from the userLayout and the dialog doesnot  called closeAuthDialog so 
+        //the data stay in authDialog and when logout and return  to guest will happend a problem because render the navbar where the authDialog have  a past value  not false
+        setAuthDialog({ open: false, mode: null })
+        setTimeout(() => {
+            setContextLoading(false);
+        }, 400);
+
     };
 
-    const logout = async () => {
+    const logout = async (handleAuthorizeLogout) => {
         try {
             setContextLoading(true)
             const { data } = await api.post('/Authentication/LogOut')
             toast.success(data.message)
+            handleAuthorizeLogout()
             setUserToken(null);
             setUserData(null);
             clearApiAccessToken();
@@ -69,17 +81,21 @@ export default function UserContextProvider({ children }) {
         }
     };
 
+    const openAuthDialog = (mode, next = null) => {
+        if (next) setNextPath(next);
+        setAuthDialog({ open: true, mode });
+    };
+    const closeAuthDialog = () => {
+        setAuthDialog({ open: false, mode: null });
+        if (nextPath) setNextPath(null);
+    };
+
     useEffect(() => {
         checkUserSession();
     }, []);
-
     useEffect(() => {
-        if (userToken) {
-            decodeUserData(userToken);
-            setApiAccessToken(userToken);
-        }
-    }, [userToken]);
-
+        console.log("Next Path changed:", nextPath);
+    }, [nextPath]);
     const value = {
         userToken,
         userData,
@@ -89,6 +105,13 @@ export default function UserContextProvider({ children }) {
         login,
         logout,
         checkUserSession,
+        authDialog,
+        openAuthDialog,
+        closeAuthDialog,
+        setAuthDialog,
+        nextPath,
+        setNextPath,
+
     };
 
 

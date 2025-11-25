@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import AdminNavbar from './layoutParts/AdminNavbar';
 import AdminSidebar from './layoutParts/AdminSidebar';
 import { useTheme } from '@mui/material/styles';
@@ -15,7 +15,10 @@ export default function AdminLayout() {
   const [language, setLanguage] = React.useState(i18n.language?.toUpperCase() || "EN");
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
-
+  const pathname = useLocation().pathname
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname])
   return (
     <>
       {/* Navbar always at top */}
@@ -41,7 +44,7 @@ export default function AdminLayout() {
           component="main"
           sx={{
             flexGrow: 1,
-            p: {xs:0,sm:3},
+            p: { xs: 0, sm: 3 },
             overflowX: "auto",
           }}
         >

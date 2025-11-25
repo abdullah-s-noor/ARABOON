@@ -4,8 +4,9 @@ import UserLayout from "../components/layouts/user/UserLayout.jsx";
 import AdminHomePage from "../pages/admin/Home.jsx";
 import {
     UserHomePage, MangaInformation, MangaList, Library, MangaRanking, TestPage, NotFound, Profile, ViewAll, Search, Chapter,
-    CategoryManagement, MangaManagement, UserManagement,BannerManagement
+    CategoryManagement, MangaManagement, UserManagement, BannerManagement
 } from "../pages";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -13,43 +14,39 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <UserHomePage />,
+                element:  <ProtectedRoute allowedRoles={["user","guest"]}><UserHomePage /></ProtectedRoute>,
             },
             {
                 path: '/manga/:mangaID',
-                element: <MangaInformation />
+                element: <ProtectedRoute allowedRoles={["user","guest"]}><MangaInformation /></ProtectedRoute>
             },
             {
                 path: '/manga-list',
-                element: <MangaList />
+                element: <ProtectedRoute allowedRoles={["user","guest"]}> <MangaList /></ProtectedRoute>
             },
             {
                 path: '/library',
-                element: <Library />
+                element: <ProtectedRoute allowedRoles={["user"]}> <Library /></ProtectedRoute>
             },
             {
                 path: '/library/:section',
-                element: <Library />
+                element: <ProtectedRoute allowedRoles={["user"]}><Library /></ProtectedRoute>
             },
             {
                 path: '/manga-ranking',
-                element: <MangaRanking />
+                element: <ProtectedRoute allowedRoles={["user","guest"]}><MangaRanking /></ProtectedRoute>
             },
             {
                 path: '/test-page',
                 element: <TestPage />
             },
             {
-                path: "/:username",
-                element: <Profile />
-            },
-            {
                 path: "/viewall",
-                element: <ViewAll />
+                element: <ProtectedRoute allowedRoles={["user","guest"]}><ViewAll /></ProtectedRoute>
             },
             {
                 path: "/search",
-                element: <Search />
+                element: <ProtectedRoute allowedRoles={["user","guest"]}> <Search /></ProtectedRoute>
             },
             {
                 path: "/manga/:mangaID/chapter/:chapterID",
@@ -60,12 +57,19 @@ export const router = createBrowserRouter([
                 path: '/not-found',
                 element: <NotFound />
             },
-
+            {
+                path: '*',
+                element: <NotFound />
+            },
+            {
+                path: "/:username",
+                element: <Profile />
+            },
         ],
     },
     {
         path: "/dashboard",
-        element: <AdminLayout />,
+        element: <ProtectedRoute allowedRoles={["admin"]}><AdminLayout /></ProtectedRoute>,
         errorElement: <h1>page not found</h1>,
         children: [
             {
@@ -91,7 +95,13 @@ export const router = createBrowserRouter([
             {
                 path: "banner-management",
                 element: <BannerManagement />
-            }
+            },
+            
+            {
+                path: 'not-found',
+                element: <NotFound />
+            },
+
         ]
     },
 ]);

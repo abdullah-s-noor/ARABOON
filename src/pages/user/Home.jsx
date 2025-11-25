@@ -4,15 +4,16 @@ import PromoBannerSwiper from "../../components/user/promoBannerSwiper/PromoBann
 import MediaCardSwiper from "../../components/user/mediaCardSwiper/MediaCardSwiper";
 import useIsPhone from "../../hooks/usePhone";
 import HottestHomePage from "../../components/user/hottestHomePage/HottestHomePage";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LogoLoader from "../../components/common/LogoLoader";
+import { UserContext } from "../../context/UserContext";
 
 const Home = () => {
-    const count = [1, 2, 3];
+    const { userToken, openAuthDialog } = useContext(UserContext)
     const navigate = useNavigate()
     const theme = useTheme()
     const { i18n, t } = useTranslation()
@@ -20,7 +21,8 @@ const Home = () => {
     const [loading, setLoading] = useState(true)
     const [categoriesMangas, setCategoriesMangas] = useState(null)
     const [hottestMangas, setHottestMangas] = useState([])
-    const [banners,setBanners]=useState([])
+    const [banners, setBanners] = useState([])
+    const nextPath = useLocation()?.state?.next
     const styles = (theme) => ({
         container: {
             backgroundColor: 'background.default',
@@ -69,7 +71,7 @@ const Home = () => {
         const fetchAllHomePageMangas = async () => {
             try {
                 setLoading(true);
-                const [categoriesData, hottestData,bannersData] = await Promise.all([
+                const [categoriesData, hottestData, bannersData] = await Promise.all([
                     api.get("/Manga/GetCategoriesHomePageMangas"),
                     api.get("/Manga/GetHottestMangas"),
                     api.get("/swipers")
@@ -93,11 +95,16 @@ const Home = () => {
         if (!str) return "";
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
+    useEffect(() => {
+        if (nextPath) {
+            openAuthDialog("login", nextPath)
+        }
+    }, [])
 
     return (
         <>
             {
-                loading ?  <LogoLoader />:
+                loading ? <LogoLoader /> :
                     <Box sx={style.container}>
                         <PromoBannerSwiper banners={banners} />
                         <Box component={'div'} display={'flex'} sx={{ marginTop: ' 50px', justifyContent: 'space-between' }}>

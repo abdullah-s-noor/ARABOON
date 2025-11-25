@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import {
     Typography,
     Box,
@@ -10,10 +10,12 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import styles from "./style";
 import usePhone from "../../../../../hooks/usePhone";
+import { UserContext } from "../../../../../context/UserContext";
 function NavbarMenu() {
 
     const theme = useTheme()
     const { t } = useTranslation();
+    const { userToken, openAuthDialog } = useContext(UserContext)
     const { isPhone } = usePhone()
     const style = styles(theme, isPhone)
     const mdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -52,7 +54,7 @@ function NavbarMenu() {
             />
             {/* Menu Items */}
             {mdUp ?
-                (<Box sx={{ display: "flex", gap: {md:1,lg:2} }}>
+                (<Box sx={{ display: "flex", gap: { md: 1, lg: 2 } }}>
                     {menuItems.map((item, idx) => (
                         <Typography
                             key={item}
@@ -63,9 +65,18 @@ function NavbarMenu() {
                             onMouseLeave={() => setHoveredIdx(null)}
                             sx={style.menuItems}
                         >
-                            <Link to={idx === 1 ? "manga-ranking" : idx === 2 ? "/manga-list" : (idx === 3 ? "library" : "/")} style={{ textDecoration: "none", color: 'inherit' }}>
-                                {item}
-                            </Link>
+                            {(idx === 3 && !userToken) ? (
+                                <Box component="span" onClick={() =>{
+                                    openAuthDialog("login", "/library")
+                                }} sx={{ cursor: "pointer" }}>
+                                    {item}
+                                </Box>
+                            )
+                                : (
+                                    <Link to={idx === 1 ? "manga-ranking" : idx === 2 ? "/manga-list" : (idx === 3 ? "library" : "/")} style={{ textDecoration: "none", color: 'inherit' }}>
+                                        {item}
+                                    </Link>
+                                )}
                         </Typography>
                     ))}
                 </Box>)

@@ -15,7 +15,7 @@ import styles from "./style";
 import SelectLanguage from "../../../../common/SelectLanguage";
 import { ThemeModeContext } from "../../../../../context/darkMode";
 import useIsPhone from "../../../../../hooks/usePhone";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthDialog } from "../../../../../pages/auth/AuthDialog";
 import { UserContext } from "../../../../../context/UserContext";
 import MyAvatar from "../../../../common/MyAvatar";
@@ -25,12 +25,9 @@ function NavbarActions({language,setLanguage}) {
     const { isPhone } = useIsPhone()
     const style = styles(theme, isPhone)
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
-    const [openAuthDialog, setOpenAuthDialog] = useState({
-        open: false,
-        mode: null,
-    })
-    const { userToken,userData } = useContext(UserContext)
+    const { userToken,userData ,closeAuthDialog,authDialog,openAuthDialog,} = useContext(UserContext)
     const mdUp = useMediaQuery(theme.breakpoints.up("md"));
+    
     const Search = () => (
         <Box sx={style.menuIcons} onClick={() => { navigate('/search') }}>
             <SearchIcon sx={{ color: "#ccc" }} fontSize="medium" />
@@ -38,7 +35,7 @@ function NavbarActions({language,setLanguage}) {
     )
     return (
         <>
-            <AuthDialog openAuthDialog={openAuthDialog} onOpenChange={setOpenAuthDialog} />
+            <AuthDialog openAuthDialog={authDialog} closeAuthDialog={closeAuthDialog} />
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {mdUp ?
                     <>
@@ -64,7 +61,7 @@ function NavbarActions({language,setLanguage}) {
                         {userToken ?
                             (userData && <MyAvatar />) :
                             // login
-                            <Box sx={style.menuIcons} onClick={() => { setOpenAuthDialog({ open: true, mode: "register" }) }}>
+                            <Box sx={style.menuIcons} onClick={() => { openAuthDialog( "register" ) }}>
                                 <AccountCircle sx={{ color: "#ccc" }} fontSize="medium" />
                             </Box>
                         }
