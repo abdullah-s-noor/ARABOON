@@ -15,9 +15,6 @@ function ViewAll() {
     const categoryName = location?.state?.categoryName
     const baseUrl = `/Manga/GetMangaByCategoryName?category=${categoryName.en}`
     const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl });
-    useEffect(()=>{
-        window.scrollTo({ top: 0, behavior: "instant" });
-    },[])
     useEffect(() => {
         if (!categoryName) {
             navigate('/not-found')

@@ -17,8 +17,8 @@ function Profile() {
     const {i18n}=useTranslation()
     const theme=useTheme() 
     const {userData,checkUserSession}=useContext(UserContext)
-    const currentUsername=useParams().username
-    const isMyAccount=userData?.UserName===currentUsername
+    const {username}=useParams()
+    const isMyAccount=userData?.UserName===username
     const style = {
         container: { bgcolor:theme.palette.mode==='dark'?"#000 !important":"#fff !important", borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px', pb: 4, background: 'linear-gradient(rgba(255, 255, 255, 0.051), rgba(255, 255, 255, 0.051))' },
 
@@ -44,7 +44,7 @@ function Profile() {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const { data } = await api.get(`/users/profile/${currentUsername}`)
+                const { data } = await api.get(`/users/profile/${username}`)
                 console.log(data.data)
                 setProfileData(data.data)
                 setUserInfo({
@@ -66,7 +66,7 @@ function Profile() {
             }
         }
         fetchData()
-    }, [i18n.language,useParams().username])
+    }, [i18n.language,username])
     return (
         <>
             {
@@ -74,9 +74,9 @@ function Profile() {
                     <>
                         <Box sx={style.container}>
                             <Box sx={{ maxWidth: '1200px', mx: 'auto' }}>
-                                <CoverImage isMyAccount={isMyAccount} originalImage={profileData.coverImage.originalImage} croppedImage={profileData.coverImage.croppedImage} />
+                                <CoverImage isMyAccount={isMyAccount} originalImage={profileData?.coverImage.originalImage} croppedImage={profileData?.coverImage.croppedImage} />
                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '600px', mx: "auto", mt:{xs:-7,md: -12} }}>
-                                    <ProfileImage isMyAccount={isMyAccount} originalImage={profileData.profileImage.originalImage} cropInfo={profileData.profileImage.cropData} />
+                                    <ProfileImage isMyAccount={isMyAccount} originalImage={profileData?.profileImage.originalImage} cropInfo={profileData?.profileImage.cropData} />
                                     {/* full name & usename & Bio */}
                                     <Box sx={{ textAlign: 'center' }} >
                                         <Typography sx={style.title}>

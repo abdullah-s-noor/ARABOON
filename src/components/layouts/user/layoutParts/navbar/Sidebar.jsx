@@ -8,36 +8,37 @@ import SelectLanguage from '../../../../common/SelectLanguage';
 import { ThemeModeContext } from '../../../../../context/darkMode';
 import useIsPhone from '../../../../../hooks/usePhone';
 import { useNavigate } from 'react-router-dom';
-import { AuthDialog } from '../../../../../pages/auth/AuthDialog';
 import { UserContext } from '../../../../../context/UserContext';
 function Sidebar({ language, setLanguage }) {
     const theme = useTheme()
     const navigate = useNavigate()
-    const { logout, userToken, userData } = useContext(UserContext)
+    const { logout, userToken, userData, openAuthDialog, } = useContext(UserContext)
+
     const { i18n, t } = useTranslation();
     const style = styles(theme)
     const { toggleDarkMode, darkMode } = useContext(ThemeModeContext)
     const { isPhone } = useIsPhone()
     const [open, setOpen] = useState(false);
-    const [openAuthDialog, setOpenAuthDialog] = useState({
-        open: false,
-        mode: null,
-    })
+
     const menuItems = [
         { text: t("home"), icon: <Home />, onActionClick: () => navigate('/') },
         { text: t("ranking"), icon: <Leaderboard />, onActionClick: () => navigate('/manga-ranking') },
         { text: t("manga list"), icon: <MenuBook />, onActionClick: () => navigate('/manga-list') },
         { text: t("library"), icon: <Favorite />, onActionClick: () => navigate('/library') },
         userToken && { text: t("profile.profile"), icon: <Person2 />, onActionClick: () => navigate(`/${userData.UserName}`) },
-        !userToken && { text: t("login"), icon: <Login />, onActionClick: () => setOpenAuthDialog({ open: true, mode: "login" }) },
-        !userToken && { text: t("sign up"), icon: <PersonAdd />, onActionClick: () => setOpenAuthDialog({ open: true, mode: "register" }) },
-        userToken && { text: t("logout"), icon: <Logout />, onActionClick: () => logout() },
+        !userToken && { text: t("login"), icon: <Login />, onActionClick: () => openAuthDialog("login") },
+        !userToken && { text: t("sign up"), icon: <PersonAdd />, onActionClick: () => openAuthDialog("register") },
+        userToken && {
+            text: t("logout"), icon: <Logout />, onActionClick: () => logout(() => {
+                if (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/library')) {
+                    navigate("/")
+                }
+            })
+        },
         { text: t("about us"), icon: <Info />, onActionClick: () => navigate('/') },
     ].filter(Boolean)
     return (
         <>
-            <AuthDialog openAuthDialog={openAuthDialog} onOpenChange={setOpenAuthDialog} />
-
             {/* menu icon */}
             <IconButton onClick={() => { setOpen(true) }}
                 sx={style.menuIcons}

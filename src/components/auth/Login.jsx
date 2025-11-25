@@ -8,9 +8,11 @@ import { loginFields } from './shared/formFields';
 import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
 import { UserContext } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 function Login({ setMode }) {
-    const { userToken, login, userData,contextLoading } = useContext(UserContext)
+    const { userToken, login, userData,contextLoading,setContextLoading,nextPath,setNextPath } = useContext(UserContext)
     const { t } = useTranslation()
+    const navigate=useNavigate()
     const validations=getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
@@ -27,11 +29,9 @@ function Login({ setMode }) {
             setServerError,
             setSubmitting,
             successMessage: 'Signin successful!.',
-            setMode, nextMode: 'close', login:login,t:t
+            setMode, nextMode: 'close', login:login,t:t,
+            setNextPath,nextPath,navigate,setContextLoading
         });
-        console.log("userToken",userToken)
-        console.log("userData",userData)
-
     };
 
     const formik = useFormik({

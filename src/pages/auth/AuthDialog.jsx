@@ -16,7 +16,7 @@ import ResetPasswordWithOTP from "../../components/auth/ResetPasswordWithOTP"
 import { useTranslation } from "react-i18next"
 import { Close } from "@mui/icons-material"
 import usePhone from "../../hooks/usePhone"
-export function AuthDialog({ openAuthDialog, onOpenChange }) {
+export function AuthDialog({ openAuthDialog, closeAuthDialog }) {
     const { i18n, t } = useTranslation()
     const {isPhone}=usePhone()
     const theme = useTheme()
@@ -24,7 +24,7 @@ export function AuthDialog({ openAuthDialog, onOpenChange }) {
     const [mode, setMode] = useState(null)
     const [emailForReset, setEmailForReset] = useState(null)
     const handleClose = () => {
-        onOpenChange({ open: false, mode: null });
+        closeAuthDialog();
     }
     useEffect(() => {
         setMode(openAuthDialog.mode);
@@ -39,7 +39,7 @@ export function AuthDialog({ openAuthDialog, onOpenChange }) {
     return (
         <Dialog
             open={openAuthDialog.open}
-            onClose={() => { onOpenChange({ open: false, mode: null });}}
+            onClose={() => { closeAuthDialog();}}
             PaperProps={{ sx: style.dialogPaper }}
         >
             <DialogContent sx={style.dialogContent}>

@@ -22,7 +22,7 @@ export default function Navbar() {
         <Toolbar sx={style.toolbar}>
           {/* Logo */}
           {mdUp ? (<Logo />) : <Sidebar language={language} setLanguage={setLanguage} />}
-          <NavbarMenu/>
+          <NavbarMenu />
         <NavbarActions language={language} setLanguage={setLanguage}/>
         </Toolbar>
       </AppBar >
