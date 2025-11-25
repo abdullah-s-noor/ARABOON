@@ -22,7 +22,6 @@ const useChapterImages = ({ baseUrl }) => {
                 const visible = entries
                     .filter(entry => entry.isIntersecting)
                     .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
                 if (visible) {
                     const index = Number(visible.target.getAttribute('data-index'));
                     setCurrentPage(index + 1);
@@ -53,8 +52,6 @@ const useChapterImages = ({ baseUrl }) => {
             try {
                 setLoading(true)
                 const { data } = await api.get(`${baseUrl}&Language=${selectedLanguage}`);
-                console.log(data)
-                
                 setChapterData({ pages: data.data.images, totalPages: data.meta.imagesCount, chaptersCount: data.meta.chaptersCount, mangaName: data.meta.mangaName,chapterId:data.data.chapterId,languageAvailable:{isArabic:data.data.isArabic,isEnglish:data.data.isEnglish} });
                 setView({markAsRead:data.data.isView,isView:false})
             } catch (error) {
@@ -69,9 +66,9 @@ const useChapterImages = ({ baseUrl }) => {
         fetchData();
         return () => {
             // @ts-ignore
-            if (elemNav) elemNav.style.display = "flex";
-            // @ts-ignore
             if (elemFooter) elemFooter.style.display = "block";
+            // @ts-ignore
+            if (elemNav) elemNav.style.display = "flex";
             
         }
     }, [searchParams,useParams().chapterID]);
