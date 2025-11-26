@@ -51,13 +51,58 @@ function FooterFields() {
     };
 
     const socialLinks = [
-        { name: "Discord", url: "https://discord.gg/fGQT4JwS", color: "#5865F2" },
-        { name: "Twitter", url: "https://x.com/REDX62409212", color: "#1DA1F2" },
-        { name: "Facebook", url: "https://www.facebook.com/abdullah.noor.397301", color: "#1877F2" },
-        { name: "Instagram", url: "https://www.instagram.com/darxx03eh", color: "#E4405F" },
-        { name: "LinkedIn", url: "https://www.linkedin.com/in/abdullah-s-noor", color: "#0A66C2" },
-        { name: "YouTube", url: "https://www.youtube.com/@abdullahnoor8836", color: "#FF0000" }
-    ];
+    {
+        name: "Discord",
+        color: "#5865F2",
+        width:120,
+        accounts: [
+            { label: "Our Server", url: "https://discord.gg/YuVh3avQGA" },
+        ]
+    },
+    {
+        name: "Twitter",
+        color: "#1DA1F2",
+        accounts: [
+            // { label: "Abdullah", url: "https://x.com/REDX62409212" },
+            // { label: "Project", url: "https://x.com/project_account" }
+        ]
+    },
+    {
+        width:210,
+        name: "Facebook",
+        color: "#1877F2",
+        accounts: [
+            { label: "Abdullah Noor", url: "https://www.facebook.com/abdullah.noor.397301" },
+            { label: "Mahmoud A Darawsheh", url: "https://www.facebook.com/darxx03eh" },
+        ]
+    },
+    {
+        name: "Instagram",
+        color: "#E4405F",
+        accounts: [
+            // { label: "Abdullah", url: "https://www.instagram.com/darxx03eh" },
+            // { label: "Project", url: "https://instagram.com/project" }
+        ]
+    },
+    {
+        width:200,
+        name: "LinkedIn",
+        color: "#0A66C2",
+        accounts: [
+            { label: "Abdullah Noor", url: "https://www.linkedin.com/in/abdullah-s-noor" },
+            { label: "Mahmoud Darawsheh", url: "https://www.linkedin.com/in/mahmoud-darawsheh" }
+        ]
+    },
+    {
+        name: "YouTube",
+        color: "#FF0000",
+        accounts: [
+            // { label: "Channel", url: "https://www.youtube.com/@abdullahnoor8836" },
+            // { label: "Project", url: "https://youtube.com/@example" }
+        ]
+    }
+];
+
 
     const socialIconMap = {
         Discord: <FaDiscord />,

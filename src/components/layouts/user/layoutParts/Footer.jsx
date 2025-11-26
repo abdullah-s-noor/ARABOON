@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Link as MUILink } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,20 @@ const AraboonFooter = ({
     const isLight = theme.palette.mode === 'light';
     const direction = i18n.dir();
     const { navigationSections, navSectionOrder, navSectionTitles, brandInfo, socialLinks, socialIconMap } = FooterFields()
+
+      const [openMenu, setOpenMenu] = useState(null); // name of social platform
+    const menuRef = useRef(null);
+
+    // close dropdown when clicking outside
+    useEffect(() => {
+        const handler = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setOpenMenu(null);
+            }
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, []);
     return (
         <Box
             footer-name="main-footer"
@@ -52,52 +66,90 @@ const AraboonFooter = ({
                         flexWrap: 'wrap'
                     }}>
                         {socialLinks.map(sl => (
-                            <MUILink
-                                key={sl.name}
-                                href={sl.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={sl.name}
-                                sx={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: { xs: 45, sm: 48 },
-                                    height: { xs: 45, sm: 48 },
-                                    background: isLight
-                                        ? 'rgba(0,0,0,0.04)'
-                                        : 'rgba(255,255,255,0.07)',
-                                    border: `1px solid ${isLight ? theme.palette.primary.main : theme.palette.primary.main
-                                        }`,
-                                    borderRadius: 3,
-                                    color: theme.palette.text.secondary,
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease',
-                                    position: 'relative',
-                                    backdropFilter: 'blur(10px)',
-                                    '&:hover': {
-                                        transform: 'translateY(-3px)',
-                                        boxShadow: '0 8px 25px rgba(0,0,0,0.22)',
-                                        background: sl.color,
-                                        borderColor: sl.color,
-                                        color: '#FFF',
-                                        '& .social-icon': {
-                                            transform: 'scale(1.12)',
-                                            transition: 'transform 0.19s cubic-bezier(0.3,0.65,0.45,1.08)'
+                            <Box key={sl.name} sx={{ position: "relative" }} ref={openMenu === sl.name ? menuRef : null}>
+                                {/* ICON BUTTON */}
+                                <Box
+                                    onClick={() => setOpenMenu(openMenu === sl.name ? null : sl.name)}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: { xs: 45, sm: 48 },
+                                        height: { xs: 45, sm: 48 },
+                                        background: isLight
+                                            ? 'rgba(0,0,0,0.04)'
+                                            : 'rgba(255,255,255,0.07)',
+                                        border: `1px solid ${theme.palette.primary.main}`,
+                                        borderRadius: 3,
+                                        color: theme.palette.text.secondary,
+                                        transition: 'all 0.3s ease',
+                                        position: 'relative',
+                                        backdropFilter: 'blur(10px)',
+                                        '&:hover': {
+                                            transform: 'translateY(-3px)',
+                                            boxShadow: '0 8px 25px rgba(0,0,0,0.22)',
+                                            background: sl.color,
+                                            borderColor: sl.color,
+                                            color: '#FFF',
+                                            '& .social-icon': {
+                                                transform: 'scale(1.12)',
+                                            }
                                         }
-                                    }
-                                }}
-                                data-social={sl.name.toLowerCase()}
-                            >
-                                <span className="social-icon" style={{
-                                    fontSize: "25px",
-                                    lineHeight: 0,
-                                    transition: "transform 0.2s",
-                                    display: "inline-block"
-                                }}>
-                                    {socialIconMap[sl.name]}
-                                </span>
-                            </MUILink>
+                                    }}
+                                >
+                                    <span className="social-icon" style={{
+                                        fontSize: "25px",
+                                        lineHeight: 0,
+                                        transition: "transform 0.2s",
+                                        display: "inline-block"
+                                    }}>
+                                        {socialIconMap[sl.name]}
+                                    </span>
+                                </Box>
+
+                                {/* DROPDOWN MENU */}
+                                {openMenu === sl.name &&sl.accounts.length>0&& (
+                                    <Box sx={{
+                                        position: "absolute",
+                                        top: 60,
+                                        left: "50%",
+                                        transform: "translateX(-50%)",
+                                        background: theme.palette.background.paper,
+                                        borderRadius: 2,
+                                        boxShadow: "0px 6px 20px rgba(0,0,0,0.25)",
+                                        border: `1px solid ${sl.color}`,
+                                        minWidth: sl.width,
+                                        overflow: "hidden",
+                                        zIndex: 9
+                                    }}>
+                                        {sl.accounts.map(acc => (
+                                            <MUILink
+                                                key={acc.label}
+                                                href={acc.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                sx={{
+                                                    display: "block",
+                                                    px: 2,
+                                                    py: 1.2,
+                                                    fontWeight: 600,
+                                                    fontSize: 15,
+                                                    color: theme.palette.text.primary,
+                                                    textDecoration: "none",
+                                                    transition: "0.2s",
+                                                    '&:hover': {
+                                                        background: sl.color,
+                                                        color: "#FFF",
+                                                    }
+                                                }}
+                                            >
+                                                {acc.label}
+                                            </MUILink>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Box>
                         ))}
                     </Box>
                 </Box>
