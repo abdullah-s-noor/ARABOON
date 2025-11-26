@@ -23,7 +23,7 @@ function UserLayout() {
         >
           <Outlet />
         </Box>
-        {userData && !(userData.Role === "Admin") && <Footer />}
+        {!(userData?.Role === "Admin") && <Footer />}
       </Box>
 
     </>
