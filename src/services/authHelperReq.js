@@ -2,17 +2,19 @@ import { toast } from 'react-toastify';
 import { api } from './api';
 import { jwtDecode } from 'jwt-decode';
 
-export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode, login, t = null, nextPath = null, setNextPath=null, navigate = null ,setContextLoading=null}) => {
+export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setSubmitting, successMessage, setMode, nextMode, login, t = null, nextPath = null, setNextPath = null, navigate = null, setContextLoading = null }) => {
     setServerError(null);
     try {
-        const { data } = await api.post(endpoint, payload);
+        const { data } = await api.post(endpoint, payload,
+            nextMode === 'close'&&{ headers: { "Rate-Limiting-Key": payload.userName } }
+        );
         console.log(data)
         toast.success(data.message);
         setMode(nextMode)
         if (nextMode === 'close') {
-            const isAdmin = jwtDecode(data.data.access)["Role"]==="Admin";
+            const isAdmin = jwtDecode(data.data.access)["Role"] === "Admin";
             if (nextPath) {
-                navigate(nextPath,{replace:true});
+                navigate(nextPath, { replace: true });
                 if (isAdmin) {
                     setContextLoading(true);
                 }
@@ -52,7 +54,9 @@ export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setS
 
 const resendEmailConfirmation = async (userName, t) => {
     try {
-        const { data } = await api.post('/Authentication/SendConfirmationEmail', { userName: userName })
+        const { data } = await api.post('/Authentication/SendConfirmationEmail', { userName: userName },
+            { headers: { "Rate-Limiting-Key": userName } }
+        )
         console.log(data)
         toast.warn(t("account_not_confirmed"));
     } catch (error) {

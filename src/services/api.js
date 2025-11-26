@@ -45,6 +45,7 @@ api.interceptors.request.use(
   config => {
     const language = Cookies.get('i18next') || 'en';
     config.headers['Accept-Language'] = language
+    
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

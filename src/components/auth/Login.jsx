@@ -61,7 +61,13 @@ function Login({ setMode }) {
                         <Button onClick={() => { setMode('forgetpassword') }} sx={style.signInForgetButton}>{t('signin.forgot_password')}</Button>
                     </Typography>
                     {/* Submit Button */}
-                    <Button type="submit" sx={style.submitButton}>{t('signin.sign_in')}</Button>
+                    <Button type="submit"variant="contained" sx={style.submitButton} 
+                    disabled={
+                            !formik.isValid ||
+                            formik.isSubmitting ||
+                            !formik.dirty 
+                    }>
+                        {t('signin.sign_in')}</Button>
 
                 </Box>
             </Box>

@@ -10,6 +10,7 @@ function RankingPageCard({ mangaData,rate }) {
     const style = {
         card: {
             maxWidth: { xs: 120, sm: 170, md: 200, lg: 230 },
+            cursor:"pointer",
             p: { xs: '5px', sm: '10px' },
             bgcolor: 'secondary.main',
             background: (theme.palette.mode === 'dark' ? 'linear-gradient(180deg, rgba(0,0,0,0.5), rgba(220,9,20,0))'
@@ -74,7 +75,6 @@ function RankingPageCard({ mangaData,rate }) {
             fontSize: { xs: 10, sm: 13 }
         },
     }
-    console.log(233333333333333333333333333333)
     const navigate=useNavigate()
     return (
         <Card

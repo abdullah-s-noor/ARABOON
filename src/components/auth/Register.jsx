@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { handleAuthSubmit } from '../../services/authHelperReq';
 function Register({ setMode }) {
   const { t } = useTranslation()
-  const validations=getValidations(t)
+  const validations = getValidations(t)
   const theme = useTheme()
   const [serverError, setServerError] = useState(null);
   const style = styles(theme)
@@ -26,11 +26,11 @@ function Register({ setMode }) {
   const onSubmit = async (values, { setSubmitting }) => {
     await handleAuthSubmit({
       endpoint: '/Authentication/RegistrationUser',
-      payload:values,
+      payload: values,
       setServerError,
       setSubmitting,
       successMessage: 'Registration successful! Please log in.',
-      setMode,nextMode:'login',login:null
+      setMode, nextMode: 'login', login: null
     });
   };
 
@@ -54,7 +54,14 @@ function Register({ setMode }) {
         )}
         <RenderFields formik={formik} fields={registerFields} />
         {/* Submit Button */}
-        <Button type="submit" sx={style.submitButton}>{t('register.create_account')}</Button>
+        <Button sx={style.submitButton}
+          disabled={
+            !formik.isValid ||
+            formik.isSubmitting ||
+            !formik.dirty
+          }
+          variant="contained" type="submit">
+          {t('register.create_account')}</Button>
       </Box>
 
       {/* Bottom text */}

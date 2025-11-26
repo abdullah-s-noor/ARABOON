@@ -16,6 +16,7 @@ const PromoBannerSwiper = ({ banners }) => {
   const imageStyle = {
     width: '100%',
     borderRadius: '10px',
+    cursor:"pointer",
     ...(isPhone ? {
       ':active': {
         transform: 'scale(1.05)',

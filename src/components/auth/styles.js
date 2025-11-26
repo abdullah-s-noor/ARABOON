@@ -64,6 +64,7 @@ export const styles = (theme) => ({
     },
 
     signInBack: {
+        width:"fit-content",
         display: 'flex',
         textAlign: 'center',
         justifyContent: 'center',

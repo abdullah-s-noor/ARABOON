@@ -10,9 +10,9 @@ import { forgetPasswordFields } from './shared/formFields';
 import { ArrowBackIos, ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
-    const {t,i18n}=useTranslation()
-    const validations=getValidations(t)
+function SendForgetPasswordEmail({ setMode, setEmailForReset }) {
+    const { t, i18n } = useTranslation()
+    const validations = getValidations(t)
     const theme = useTheme()
     const [serverError, setServerError] = useState(null);
     const style = styles(theme)
@@ -23,8 +23,10 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
     const onSubmit = async (values, { setSubmitting }) => {
         setServerError(null);
         try {
-            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values);
-            console.log("sendEmail",data)
+            const { data } = await api.post('/Authentication/SendForgetPasswordEmail', values,
+                { headers: { "Rate-Limiting-Key": values.email } }
+            );
+            console.log("sendEmail", data)
             setEmailForReset(values.email)
             toast.success(data.message);
             setMode('sendcode')
@@ -67,11 +69,18 @@ function SendForgetPasswordEmail({ setMode,setEmailForReset }) {
                 )}
                 <RenderFields formik={formik} fields={forgetPasswordFields} />
                 {/* Submit Button */}
-                <Button type="submit" sx={style.submitButton}>{t('forgot.send_request')}</Button>
+                <Button disabled={
+                    !formik.isValid ||
+                    formik.isSubmitting ||
+                    !formik.dirty
+                }
+                    variant="contained" type="submit" sx={style.submitButton}>
+                    {t('forgot.send_request')}
+                </Button>
             </Box>
 
             <MuiLink variant="body2" component={RouterLink} to="" sx={{ ...style.signInBack, mt: 1 }} onClick={() => { setMode('login') }}>
-                {i18n.language==='en'?<ArrowBackIos fontSize="small" sx={{ fontSize: '10px' }} />:<ArrowForwardIos fontSize="small" sx={{ fontSize: '10px' }} />}
+                {i18n.language === 'en' ? <ArrowBackIos fontSize="small" sx={{ fontSize: '10px' }} /> : <ArrowForwardIos fontSize="small" sx={{ fontSize: '10px' }} />}
                 {t('forgot.return_to_signin')}
             </MuiLink>
 
