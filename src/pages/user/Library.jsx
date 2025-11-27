@@ -3,30 +3,36 @@ import LibraryHeader from '../../components/user/library/LibraryHeader'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import LibraryCardsPreview from '../../components/user/library/LibraryCardsPreview';
-import { toast } from 'react-toastify';
 
 function Library() {
   const navigate = useNavigate();
   const params = useParams();
-  const sections = ['favorites', 'notifications', 'completed-reads', 'currently-reading', 'reading-later',]
-  const [librarySection, setLibrarySection] = useState(() => {
+  const sections = ['favorites', 'notifications', 'completed-reads', 'currently-reading', 'reading-later'];
+  
+  const getInitialSection = () => {
+    const urlSection = params.section?.toLowerCase();
     const storedSection = localStorage.getItem('librarySection')?.toLowerCase();
-    return sections.includes(storedSection) ? storedSection : 'favorites';
-  });
 
+    if (urlSection && sections.includes(urlSection)) {
+      localStorage.setItem('librarySection', urlSection);
+      return urlSection;
+    }
+
+    if (storedSection && sections.includes(storedSection)) {
+      return storedSection;
+    }
+
+    return 'favorites';
+  };
+
+  const [librarySection, setLibrarySection] = useState(getInitialSection);
 
   useEffect(() => {
-    const s = params?.section?.toLowerCase();
-    if (!params.section) {
-      navigate(`/library/${librarySection}`);
+    const urlSection = params.section?.toLowerCase();
+    if (!urlSection || urlSection !== librarySection) {
+      navigate(`/library/${librarySection}`, { replace: true });
     }
-    else if (params.section && sections.includes(s)) {
-      setLibrarySection(s);
-      localStorage.setItem("librarySection", s);
-    } else {
-      navigate("/not-found");
-    }
-  }, [params.section]);
+  }, [librarySection, params.section]);
 
   return (
     <Box

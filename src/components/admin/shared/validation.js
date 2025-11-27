@@ -1,69 +1,95 @@
 // src/components/auth/validationSchemas.js
 import * as yup from "yup";
+
 export const getValidations = (t) => {
-  // common rules
+
+  // common rules (all translated)
   const categoryNameEn = yup
     .string()
-    .required("category name in English req")
+    .required(t("validationDashboard.categoryNameEnReq"));
+
   const categoryNameAr = yup
     .string()
-    .required("category name in Arabic req")
+    .required(t("validationDashboard.categoryNameArReq"));
 
   const mangaNameEn = yup
     .string()
-    .required("Manga Name (English) is required");
+    .required(t("validationDashboard.mangaNameEnReq"));
+
   const authorEn = yup
     .string()
-    .required("Author (English) is required");
+    .required(t("validationDashboard.authorEnReq"));
+
   const descriptionEn = yup
     .string()
-    .min(2, "Description (English) too short")
-    .required("Description (English) is required");
+    .min(2, t("validationDashboard.descriptionEnShort"))
+    .required(t("validationDashboard.descriptionEnReq"));
 
   const mangaNameAr = yup
     .string()
-    .required("اسم المانجا مطلوب");
+    .required(t("validationDashboard.mangaNameArReq"));
+
   const authorAr = yup
     .string()
-    .required("اسم المؤلف مطلوب");
+    .required(t("validationDashboard.authorArReq"));
+
   const descriptionAr = yup
     .string()
-    .min(2, "الوصف قصير جدا")
-    .required("الوصف مطلوب");
+    .min(2, t("validationDashboard.descriptionArShort"))
+    .required(t("validationDashboard.descriptionArReq"));
 
   const chapterTitleEn = yup
     .string()
-    .min(2, "Chapter Title (English) too short")
-    .required("Chapter Title (English) is required");
+    .min(2, t("validationDashboard.chapterTitleEnShort"))
+    .required(t("validationDashboard.chapterTitleEnReq"));
 
   const chapterTitleAr = yup
     .string()
-    .min(2, "Chapter Title (English) too short")
-    .required("Chapter Title (English) is required");
+    .min(2, t("validationDashboard.chapterTitleArShort"))
+    .required(t("validationDashboard.chapterTitleArReq"));
 
   const chapterNo = yup
     .number()
-    .typeError("Chapter number must be a number")
-    .integer("Chapter number must be integer")
-    .min(1, "Minimum chapter is 1")
-    .required("Chapter number is required");
+    .typeError(t("validationDashboard.chapterNoType"))
+    .integer(t("validationDashboard.chapterNoInt"))
+    .min(1, t("validationDashboard.chapterNoMin"))
+    .required(t("validationDashboard.chapterNoReq"));
 
   const noteEn = yup
     .string()
-    .required("note in English req")
+    .required(t("validationDashboard.noteEnReq"));
+
   const noteAr = yup
     .string()
-    .required("note in Arabic req")
+    .required(t("validationDashboard.noteArReq"));
+
   const link = yup
     .string()
-    .url("Please enter a valid URL")
-    .required("Link is required");
+    .url(t("validationDashboard.linkValid"))
+    .required(t("validationDashboard.linkReq"));
 
   return {
     addCategoryFields: yup.object({ categoryNameEn, categoryNameAr }),
-    addMangaFields: yup.object({ mangaNameEn, authorEn, descriptionEn, mangaNameAr, authorAr, descriptionAr }),
-    addChapterFields: yup.object({ chapterTitleEn, chapterTitleAr, chapterNo }),
-    addBannerFields: yup.object({link, noteEn, noteAr }),
 
+    addMangaFields: yup.object({
+      mangaNameEn,
+      authorEn,
+      descriptionEn,
+      mangaNameAr,
+      authorAr,
+      descriptionAr
+    }),
+
+    addChapterFields: yup.object({
+      chapterTitleEn,
+      chapterTitleAr,
+      chapterNo
+    }),
+
+    addBannerFields: yup.object({
+      link,
+      noteEn,
+      noteAr
+    }),
   };
 };

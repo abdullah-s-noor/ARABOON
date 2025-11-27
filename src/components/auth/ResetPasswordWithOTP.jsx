@@ -54,6 +54,9 @@ function ResetPasswordWithOTP({ setMode, emailForReset }) {
             setTimer(30);
         } catch (error) {
             console.log(error)
+            if (error.response?.data?.message) {
+            setServerError(error.response?.data?.message)
+            }
         } finally {
             setResendLoading(false)
         }

@@ -307,5 +307,29 @@
     "active_banners": "Active Banners",
     "inactive_banners": "Inactive Banners",
     "preview image": "Preview Image",
-    "search_banners_placeholder": "Search banners by English or Arabic notes..."
+    "search_banners_placeholder": "Search banners by English or Arabic notes...",
+    "validationDashboard": {
+        "categoryNameEnReq": "Category name in English is required",
+        "categoryNameArReq": "Category name in Arabic is required",
+        "mangaNameEnReq": "Manga name (English) is required",
+        "authorEnReq": "Author name (English) is required",
+        "descriptionEnShort": "Description (English) is too short",
+        "descriptionEnReq": "Description (English) is required",
+        "mangaNameArReq": "Manga name is required",
+        "authorArReq": "Author name is required",
+        "descriptionArShort": "Description is too short",
+        "descriptionArReq": "Description is required",
+        "chapterTitleEnShort": "Chapter title (English) is too short",
+        "chapterTitleEnReq": "Chapter title (English) is required",
+        "chapterTitleArShort": "Chapter title (Arabic) is too short",
+        "chapterTitleArReq": "Chapter title (Arabic) is required",
+        "chapterNoType": "Chapter number must be a number",
+        "chapterNoInt": "Chapter number must be an integer",
+        "chapterNoMin": "Minimum chapter number is 1",
+        "chapterNoReq": "Chapter number is required",
+        "noteEnReq": "Note (English) is required",
+        "noteArReq": "Note (Arabic) is required",
+        "linkValid": "Please enter a valid URL",
+        "linkReq": "Link is required"
+    }
 }

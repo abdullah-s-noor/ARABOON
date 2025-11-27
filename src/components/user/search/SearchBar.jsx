@@ -13,17 +13,17 @@ function SearchBarMUI() {
   const [value, setValue] = useState(searchParams.get("q") || "")
   const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl: `/Manga?search=${value}` });
   const [focused, setFocused] = useState(false);
-  
-  const handleChange = (value) => {
-    setValue(value)
-    if (value === "") {
+
+  const handleChange = (val) => {
+    setValue(val);
+
+    if (val === "") {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete("q");
-      setSearchParams(newParams);
+      setSearchParams(newParams, { replace: true }); // <- replace here
     } else {
-      setSearchParams({ q: value });
+      setSearchParams({ q: val }, { replace: true }); // <- replace here
     }
-
     fetchMangas(`/Manga?search=${value}`, 1)
   }
   useEffect(() => {
