@@ -19,20 +19,22 @@ function LibraryCardsPreview({ librarySection }) {
   const { mangas, setMangas, loading, count, pageNumber, setPageNumber, hasNextPage, fetchMangas, pageSize, serverError } = usePaginatedMangaList({ baseUrl });
   const [selectedForDeletion, setSelectedForDeletion] = useState(null)
 
-  useEffect(() => {
-    console.log(serverError, mangas)
-    navigate(`/library/${librarySection}`);
-    const fetchData = async () => {
-      fetchMangas(1);
-      setPageNumber(1);
-    }
-    fetchData();
-  }, [librarySection, i18n.language])
-  const skeletonStyle = {
-    h: { xs: "150px", sm: "225px", md: "345px" },
-    w: { xs: "100px", sm: "150px", md: "230px" },
-    pd: '0px'
+useEffect(() => {
+  const currentPath = window.location.pathname;
+  const targetPath = `/library/${librarySection}`;
+
+  // Only navigate if the path is different
+  if (currentPath !== targetPath) {
+    navigate(targetPath, { replace: true }); // <- replace prevents double back issue
   }
+
+  const fetchData = async () => {
+    fetchMangas(1);
+    setPageNumber(1);
+  }
+  fetchData();
+}, [librarySection, i18n.language]);
+
   return (
     <>
       {/* dialog for confirmation delete */}

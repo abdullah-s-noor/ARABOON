@@ -306,5 +306,29 @@
     "active_banners": "اللافتات النشطة",
     "inactive_banners": "اللافتات غير النشطة",
     "preview image": "معاينة الصورة",
-     "search_banners_placeholder": "ابحث عن اللافتات بالملاحظات الإنجليزية أو العربية..."
+    "search_banners_placeholder": "ابحث عن اللافتات بالملاحظات الإنجليزية أو العربية...",
+    "validationDashboard": {
+        "categoryNameEnReq": "اسم الفئة باللغة الإنجليزية مطلوب",
+        "categoryNameArReq": "اسم الفئة باللغة العربية مطلوب",
+        "mangaNameEnReq": "اسم المانجا بالإنجليزية مطلوب",
+        "authorEnReq": "اسم المؤلف بالإنجليزية مطلوب",
+        "descriptionEnShort": "الوصف بالإنجليزية قصير جداً",
+        "descriptionEnReq": "الوصف بالإنجليزية مطلوب",
+        "mangaNameArReq": "اسم المانجا مطلوب",
+        "authorArReq": "اسم المؤلف مطلوب",
+        "descriptionArShort": "الوصف قصير جداً",
+        "descriptionArReq": "الوصف مطلوب",
+        "chapterTitleEnShort": "عنوان الفصل بالإنجليزية قصير جداً",
+        "chapterTitleEnReq": "عنوان الفصل بالإنجليزية مطلوب",
+        "chapterTitleArShort": "عنوان الفصل بالعربية قصير جداً",
+        "chapterTitleArReq": "عنوان الفصل بالعربية مطلوب",
+        "chapterNoType": "رقم الفصل يجب أن يكون رقماً",
+        "chapterNoInt": "رقم الفصل يجب أن يكون عدداً صحيحاً",
+        "chapterNoMin": "أقل رقم فصل هو 1",
+        "chapterNoReq": "رقم الفصل مطلوب",
+        "noteEnReq": "الملاحظة بالإنجليزية مطلوبة",
+        "noteArReq": "الملاحظة بالعربية مطلوبة",
+        "linkValid": "يرجى إدخال رابط صحيح",
+        "linkReq": "الرابط مطلوب"
     }
+}

@@ -41,7 +41,7 @@ const useChapterImages = ({ baseUrl }) => {
         return () => observer.disconnect();
     }, [loading]);
     useEffect(() => {
-        setSearchParams({ lang: selectedLanguage })
+    setSearchParams({ lang: selectedLanguage }, { replace: true })
         const elemNav = document.querySelector('[navbar-name="main-nav"]');
         const elemFooter = document.querySelector('[footer-name="main-footer"]');
         // @ts-ignore

@@ -41,7 +41,7 @@ export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setS
         } else if (error.response?.data?.message) {
             console.log(error.response?.data?.status)
             if (error.response?.data?.message === "Email not confirmed" || error.response?.data?.message === "البريد الإلكتروني غير مُؤكد") {
-                await resendEmailConfirmation(payload.userName, t)
+                await resendEmailConfirmation(payload.userName, t,setServerError)
             }
             setServerError(error.response.data.message);
         } else {
@@ -52,7 +52,7 @@ export const handleAuthSubmit = async ({ endpoint, payload, setServerError, setS
     }
 };
 
-const resendEmailConfirmation = async (userName, t) => {
+const resendEmailConfirmation = async (userName, t,setServerError) => {
     try {
         const { data } = await api.post('/Authentication/SendConfirmationEmail', { userName: userName },
             { headers: { "Rate-Limiting-Key": userName } }
@@ -60,6 +60,8 @@ const resendEmailConfirmation = async (userName, t) => {
         console.log(data)
         toast.warn(t("account_not_confirmed"));
     } catch (error) {
-        console.log(error)
+        if (error.response?.data?.message) {
+            setServerError(error.response?.data?.message)
+            }
     }
 }

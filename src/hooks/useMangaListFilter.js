@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 const useMangaListFilter = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    
+
     // State to hold the available genre options.
     const [genreOptions, setGenreOptions] = useState([]);
 
@@ -30,7 +30,7 @@ const useMangaListFilter = () => {
             try {
                 // Fetch available genre options from the API.
                 const { data } = await api.get('/Categories/GetCategories');
-                console.log("Categories",data)
+                console.log("Categories", data)
                 const fetchedGenres = data.data || [];
                 const allGenres = [{ en: "all", ar: "الكل" }, ...fetchedGenres];
                 const enGenres = allGenres.map(g => g.en)
@@ -80,7 +80,7 @@ const useMangaListFilter = () => {
 
     // This effect syncs the state changes back to the URL.
     useEffect(() => {
-        
+
         // Only update the URL if not in a loading state.
         if (!isLoading) {
             const params = {
@@ -88,7 +88,7 @@ const useMangaListFilter = () => {
                 genre: selectedGenre.en,
                 sort: selectedSort.key,
             };
-            setSearchParams(params);
+            setSearchParams(params, { replace: true });
         }
     }, [selectedStatus, selectedGenre, selectedSort, isLoading]);
 
