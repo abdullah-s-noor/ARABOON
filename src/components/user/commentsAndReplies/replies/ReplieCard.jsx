@@ -5,7 +5,7 @@ import { Reply } from '@mui/icons-material';
 import { UserContext } from '../../../../context/UserContext';
 import CommentAndRepliesActions from '../CommentAndRepliesActions';
 import { useTranslation } from 'react-i18next';
-function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick }) {
+function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick ,setNewReplyCount}) {
     const theme = useTheme();
     const {t}=useTranslation()
     const { userToken } = useContext(UserContext)
@@ -31,6 +31,7 @@ function ReplieCard({ reply, deleteReply, likeReply, editReply, handleReplyClick
                         onLike={likeReply}
                         onDelete={deleteReply}
                         isReply={true}
+                        setNewReplyCount={setNewReplyCount}
                     />
 
                 </Box>

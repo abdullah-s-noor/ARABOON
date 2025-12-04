@@ -15,7 +15,7 @@ import usePhone from '../../hooks/usePhone';
 function Chapter() {
     const theme = useTheme()
     const {isPhone}=usePhone()
-    const { userToken } = useContext(UserContext)
+    const { userToken,userData } = useContext(UserContext)
     const param = useParams()
     const sm = useMediaQuery('(min-width:600px)');
     const mangaID = param.mangaID;
@@ -56,7 +56,7 @@ function Chapter() {
             }
         }
         console.log(currentPage, " ", chapterInfo?.totalPages)
-        if (!loading && currentPage === chapterInfo?.totalPages) {
+        if (userData?.Role!=="Admin"&&!loading && currentPage === chapterInfo?.totalPages) {
             handleLastPage();
         }
     }, [currentPage, chapterInfo])
