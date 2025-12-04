@@ -12,7 +12,7 @@ export default function AlertDialog({ open, setOpen, selectedGenre, setSelectedG
         setOpen(false);
     };
     console.log(genreOptions)
-    const {t,i18n}=useTranslation()
+    const { t, i18n } = useTranslation()
     return (
         <Fragment>
             <Dialog
@@ -44,11 +44,13 @@ export default function AlertDialog({ open, setOpen, selectedGenre, setSelectedG
                                 }}
                                 onClick={() => {
                                     setSelectedGenre(genre);
-                                    
+
                                     localStorage.setItem("genre", genre.en)
                                     setOpen(false)
                                 }}>
-                                {i18n.language==='en'?genre.en:genre.ar}
+                                {i18n.language === 'en'
+                                    ? genre.en.charAt(0).toUpperCase() + genre.en.slice(1)
+                                    : genre.ar}
                             </Button>
                         ))}
                     </DialogContentText>

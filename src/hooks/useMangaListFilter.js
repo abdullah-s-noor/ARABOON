@@ -76,7 +76,7 @@ const useMangaListFilter = () => {
 
         fetchAndInitFilters();
 
-    }, [searchParams]);
+    }, []);
 
     // This effect syncs the state changes back to the URL.
     useEffect(() => {

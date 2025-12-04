@@ -92,6 +92,9 @@ function MangaDialog({ open, onClose, onSave, chapter, selectedLanguage, setLang
                 const { data } = await api.post(`/Chapters`, formData)
                 setLangAvailable(prev => ({ ...prev, [selectedLanguage]: data.meta[selectedLanguage === "en" ? "isEnglishAvailable" : "isArabicAvailable"] }))
                 onSave(data.data)
+                onClose()
+                setServerError(null)
+                formik.resetForm()
             } catch (err) {
                 if (err.response?.data?.errors?.chapterNo[0]) {
                     setServerError(err.response?.data?.errors?.chapterNo[0])
@@ -100,8 +103,6 @@ function MangaDialog({ open, onClose, onSave, chapter, selectedLanguage, setLang
                 }
             }
         }
-        onClose()
-        formik.resetForm()
     }
     const formik = useFormik({
         initialValues,
@@ -127,7 +128,7 @@ function MangaDialog({ open, onClose, onSave, chapter, selectedLanguage, setLang
     ), [formik.values.chapterNo, formik.errors.chapterNo, formik.touched.chapterNo]);
 
     return (
-        <Dialog open={open} onClose={() => { onClose(); formik.resetForm() }} maxWidth="md" fullWidth PaperProps={{sx: {width: "100%",m: "0px",},}}>
+        <Dialog open={open} onClose={() => {setServerError(null); onClose(); formik.resetForm() }} maxWidth="md" fullWidth PaperProps={{sx: {width: "100%",m: "0px",},}}>
             <DialogTitle>{chapter ? t("edit_chapter") : t("add_chapter")}</DialogTitle>
             <form onSubmit={formik.handleSubmit}>
                 <DialogContent sx={{ pt: 2, overflowX: "hidden" }}>
@@ -163,7 +164,7 @@ function MangaDialog({ open, onClose, onSave, chapter, selectedLanguage, setLang
                     <ChapterPhotoUploader formik={formik} />
                 </DialogContent>
                 <DialogActions sx={{ display: "flex", gap: 1 }}>
-                    <Button onClick={() => { onClose(); formik.resetForm() }}>{i18n.language === "en" ? "Cancel" : "الغاء"}</Button>
+                    <Button onClick={() => { onClose(); formik.resetForm();setServerError(null) }}>{i18n.language === "en" ? "Cancel" : "الغاء"}</Button>
                     <Button
                         disabled={
                             !formik.isValid ||

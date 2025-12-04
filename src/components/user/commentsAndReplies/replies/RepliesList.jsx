@@ -6,7 +6,7 @@ import ReplieCard from './ReplieCard.jsx';
 import useReplies from '../../../../hooks/useReplies.js';
 import Loader from '../../../common/Loader.jsx';
 
-function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPaginatedReplies, handleReplyClick,showReplies,repliesBoxRef,initFetch }) {
+function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPaginatedReplies, handleReplyClick,showReplies,repliesBoxRef,initFetch,setNewReplyCount }) {
     const { deleteReply, likeReply, editReply } = useReplies();
     const [loading,setLoading]=useState(false)
     const fetchNextPage = async () => {
@@ -51,7 +51,7 @@ function RepliesList({ commentId, replies, setReplies, paginatedReplies, setPagi
         <>
             {replies.map(r => (
                 <Box key={r.id} mb={1} data-reply-id={r.id}>
-                    <ReplieCard reply={r} deleteReply={deleteReply} likeReply={likeReply} editReply={editReply} handleReplyClick={handleReplyClick} />
+                    <ReplieCard reply={r} deleteReply={deleteReply} likeReply={likeReply} editReply={editReply} handleReplyClick={handleReplyClick} setNewReplyCount={setNewReplyCount}/>
                 </Box>
             ))}
             {paginatedReplies.hasNextPage && (

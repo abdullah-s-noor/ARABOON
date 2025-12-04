@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { api } from '../services/api.js';
 export default function useReplies() {
-    const deleteReply = async (replyId) => {
+    const deleteReply = async (replyId,setNewReplyCount) => {
         console.log("Deleting reply with ID:", replyId);
         try {
             const { data } = await api.delete(`/replies/${replyId}`);
             const elem = document.querySelector(`[data-reply-id='${replyId}']`);
+            setNewReplyCount(prev=>prev-1)
             if (elem) elem.remove();
         } catch (error) {
             console.log(error);

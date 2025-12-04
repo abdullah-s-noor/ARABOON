@@ -156,7 +156,7 @@ function MangaListHeaderPreview({ selectedStatus, setSelectedStatus, statusOptio
                         onClick={() => {
                             setOpenGenre(true)
                         }}>
-                        {selectedGenre.en === "all" ? t('filter') :(i18n.language==='en'?selectedGenre.en:selectedGenre.ar)} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
+                        {selectedGenre.en === "all" ? t('filter') :(i18n.language==='en'?selectedGenre.en.charAt(0).toUpperCase() + selectedGenre.en.slice(1):selectedGenre.ar)} <KeyboardArrowDown fontSize='small' sx={{ ml: .5 }} />
                     </Button>
                     <Button
 

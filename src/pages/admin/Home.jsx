@@ -173,7 +173,7 @@ export default function AdminHomePage() {
                         totalCounts={stats.banners.totalCounts}
                         percentage={stats.banners.percentage}
                         icon={<QueryStatsIcon />}
-                        to="/dashboard"
+                        to="/dashboard/banner-management"
                     />
                 </Box>
 
@@ -231,12 +231,14 @@ export default function AdminHomePage() {
                             <Typography variant="h6" gutterBottom sx={{ textAlign: align }}>
                                 {isArabic ? "إجراءات سريعة" : "Quick Actions"}
                             </Typography>
-                            <Box sx={{ display: "grid",
-                gap: 3,
-                gridTemplateColumns: {
-                    xs: "1fr",
-                    sm: "repeat(2, 1fr)",
-                },}} gap={2}>
+                            <Box sx={{
+                                display: "grid",
+                                gap: 3,
+                                gridTemplateColumns: {
+                                    xs: "1fr",
+                                    sm: "repeat(2, 1fr)",
+                                },
+                            }} gap={2}>
                                 <Button
                                     variant="contained"
                                     startIcon={<CategoryIcon />}

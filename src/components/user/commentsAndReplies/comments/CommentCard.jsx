@@ -84,6 +84,7 @@ function CommentCard({ comment, deleteComment, likeComment, editComment }) {
                 showReplies={showReplies}
                 repliesBoxRef={repliesBoxRef}
                 initFetch={initFetch}
+                setNewReplyCount={setNewReplyCount}
             />
         )
     }, [replies, initFetch])
