@@ -80,8 +80,8 @@ function FooterFields() {
         name: "Instagram",
         color: "#E4405F",
         accounts: [
-            // { label: "Abdullah", url: "https://www.instagram.com/darxx03eh" },
-            // { label: "Project", url: "https://instagram.com/project" }
+            { label: "Abdullah Noor", url: "https://www.instagram.com/abdullah.s.noor" },
+            { label: "Mahmoud A Darawsheh", url: "https://www.instagram.com/darxx03eh" },
         ]
     },
     {
