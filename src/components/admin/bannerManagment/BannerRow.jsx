@@ -7,8 +7,6 @@ import {
     CheckCircle as ActiveIcon,
     Cancel as InactiveIcon,
 } from "@mui/icons-material";
-import UserAvatar from '../../user/commentsAndReplies/UserAvatar';
-import ActionsCell from './ActionsCell';
 import { api } from '../../../services/api';
 function UserRow({ banner, handleDeleteBanner, handleToggleActive, handleOpenEditDialog, setPreviewImage }) {
     const theme = useTheme()
@@ -87,7 +85,7 @@ function UserRow({ banner, handleDeleteBanner, handleToggleActive, handleOpenEdi
                         spacing={1}
                         justifyContent="center"
                     >
-                        <Tooltip title={banner.isActive ? "Deactivate User" : "Activate User"}>
+                        <Tooltip title={banner.isActive ? "Deactivate Banner" : "Activate Banner"}>
                             <IconButton
                                 size="small"
                                 color={banner.isActive ? "warning" : "success"}

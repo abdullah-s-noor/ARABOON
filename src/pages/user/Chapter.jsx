@@ -2,7 +2,7 @@ import { Box, Fab, useMediaQuery, useTheme, Zoom } from '@mui/material';
 import ChapterFooter from '../../components/user/chapter/ChapterFooter';
 import ChapterNav from '../../components/user/chapter/ChapterNav';
 import React, { use, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../services/api';
 import useChapterImages from '../../hooks/useChapterImages';
 import LogoLoader from '../../components/common/LogoLoader';
@@ -11,9 +11,12 @@ import ChapterPagesPreview from '../../components/user/chapter/ChapterPagesPrevi
 import { green } from '@mui/material/colors';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import usePhone from '../../hooks/usePhone';
+import { useTranslation } from 'react-i18next';
 
 function Chapter() {
     const theme = useTheme()
+    const { i18n } = useTranslation();
+    const navigate = useNavigate();
     const {isPhone}=usePhone()
     const { userToken,userData } = useContext(UserContext)
     const param = useParams()
@@ -22,6 +25,9 @@ function Chapter() {
     const chapterNum = param.chapterID;
     const [open, setOpen] = useState(false)
     const { currentPage, loading, containerRef, chapterInfo, selectedLanguage, view, setView } = useChapterImages({ baseUrl: `/Chapters/images?MangaId=${mangaID}&ChapterNo=${chapterNum}` });
+    console.log(chapterInfo)
+    console.log(chapterNum)
+    console.log(chapterNum===chapterInfo?.chaptersCount)
     useEffect(() => {
         const navElem = document.querySelector('[navbar-name="chapter-nav"]');
         const footerElem = document.querySelector('[footer-name="chapter-footer"]');
@@ -67,7 +73,7 @@ function Chapter() {
     const fabStyle = {
         position: "absolute",
         bottom: 90,
-        right: {xs:30,sm:40},
+        ...(i18n.language==="ar"?{left: {xs:30,sm:40}}:{right: {xs:30,sm:40}}),
         color: "common.white",
         bgcolor: "primary.main",
         ...(isPhone?{
@@ -108,7 +114,10 @@ function Chapter() {
                 <ChapterNav languageAvailable={chapterInfo.languageAvailable} selectedLanguage={selectedLanguage} mangaName={chapterInfo.mangaName} chaptersCount={chapterInfo.chaptersCount} />
                 {/* Main Content Area */}
                 <ChapterPagesPreview containerRef={containerRef} setOpen={setOpen} pages={chapterInfo.pages} />
-                <ChapterFooter currentPage={currentPage} totalPages={chapterInfo.totalPages} />
+                <ChapterFooter currentPage={currentPage} totalPages={chapterInfo.totalPages} isAdmin={userData?.Role==="Admin"} 
+                onNextChapter={(chapterNum==chapterInfo.chaptersCount)?null:()=>{navigate(`/manga/${mangaID}/chapter/${parseInt(chapterNum) + 1}?lang=${selectedLanguage}`)}} 
+                onPrevChapter={(parseInt(chapterNum)===1)?null:()=>{navigate(`/manga/${mangaID}/chapter/${parseInt(chapterNum) - 1}?lang=${selectedLanguage}`)}} 
+                />
                 <Zoom
                     in={open}
                     timeout={transitionDuration}

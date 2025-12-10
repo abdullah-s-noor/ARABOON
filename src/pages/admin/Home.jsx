@@ -112,7 +112,7 @@ export default function AdminHomePage() {
             }
         }
         fetchData()
-    }, [])
+    }, [i18n.language])
     return (
         <Box dir={dir} sx={{ p: 3 }}>
             {/* Header */}

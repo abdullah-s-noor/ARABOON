@@ -63,7 +63,7 @@ function CategoryRow({ category, handleOpenDialog, handleDeleteCategory, handleT
                         spacing={1}
                         justifyContent="center"
                     >
-                        <Tooltip title={category.isActive ? "Deactivate User" : "Activate User"}>
+                        <Tooltip title={category.isActive ? "Deactivate Category" : "Activate Category"}>
                             <IconButton
                                 size="small"
                                 color={category.isActive ? "warning" : "success"}
